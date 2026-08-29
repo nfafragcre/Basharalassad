@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحة خاصة جداً</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- قسم تسجيل الدخول -->
+    <div id="login-screen" class="container">
+        <h1>🔒 صفحة خاصة جداً</h1>
+        <p>أدخلي كلمة المرور للمتابعة</p>
+        <input type="password" id="password-input" placeholder="كلمة المرور...">
+        <button id="login-btn">دخول 💖</button>
+        <p id="error-msg" class="hidden error">❌ كلمة المرور غير صحيحة</p>
+    </div>
+
+    <!-- قسم الانتظار والأسئلة (دب) -->
+    <div id="loading-screen" class="container hidden">
+        <p id="loading-text">0% ⏳ انتظري 3 ثوانٍ...</p>
+    </div>
+
+    <div id="question-screen" class="container hidden">
+        <div class="bear-icon">🐻</div>
+        <p id="question-text">شو دخلَك 😐</p>
+        <button id="next-question-btn">اضغطي لرؤية النتيجة ✨</button>
+    </div>
+
+    <!-- قسم المحتوى السري (يظهر بعد التشفير بنجاح) -->
+    <div id="secret-screen" class="container hidden">
+        <h1>🎉 مبروك الصلح 🎉</h1>
+        <p>وصولك إلى هنا يعني أنك صالحتِ بشار وأنك تحبينه جداً!</p>
+        
+        <div class="card">
+            <h3>رسالة من بشار لقلبك ❤</h3>
+            <p>حكّي الكرت بإصبعك لكشف السر 👇</p>
+            <div id="scratch-card" class="scratch-card">
+                <span id="secret-message"></span>
+            </div>
+        </div>
+
+        <div class="actions">
+            <p>أخبريه الآن أنك تحبينه 💬</p>
+            <a href="#" id="insta-btn" class="btn insta">إرسال عبر إنستغرام 📸</a>
+            <a href="#" id="insta-btn" class="btn whatsapp">إرسال عبر واتساب 💚</a>
+        </div>
+
+        <div class="audio-section">
+            <p>🎵 أغنية خاصة إهداء لكِ</p>
+            <audio id="audio-player" controls>
+                <source src="song.mp3" type="audio/mpeg">
+                متصفحك لا يدعم تشغيل الصوت.
+            </audio>
+        </div>
+
+        <footer>تم التصميم خصيصاً لننوزة بواسطة باتمان 🦇</footer>
+    </div>
+
+    <!-- قسم الحزن في حال الرفض -->
+    <div id="sad-screen" class="container hidden">
+        <div class="bear-icon">😢</div>
+        <h1>نور.. بشار حزين جداً</h1>
+        <p>ولكنه يحترم مشاعرك. إذا غيرتِ رأيك، فهو ينتظرك دوماً 🫀</p>
+        <button id="retry-btn">🔄 المحاولة مجدداً</button>
+    </div>
+
+    <script href="script.js"></script>
+</body>
+</html>
