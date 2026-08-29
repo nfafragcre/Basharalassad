@@ -1,87 +1,524 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة خاصة جداً 💖</title>
-    <!-- ربط ملف التصميم الخارجي الآمن -->
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+<meta name="robots" content="noindex, nofollow, noimageindex, noarchive, nosnippet, notranslate" />
+<meta name="googlebot" content="noindex, nofollow" />
+<meta name="referrer" content="no-referrer" />
+<meta name="theme-color" content="#0f172a" />
+<!-- منع المعاينة على وسائل التواصل: لا توجد وسوم Open Graph / Twitter عمداً -->
+<title>&#10084;</title>
+<style>
+  :root{
+    --pink:#ff477e;
+    --dark:#0f172a;
+    --purple:#2a085c;
+    --glass:rgba(255,255,255,.08);
+    --glass-border:rgba(255,255,255,.18);
+    --text:#fdf2f8;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  html,body{height:100%;background:var(--dark)}
+  body{
+    font-family:"Segoe UI",Tahoma,system-ui,sans-serif;
+    color:var(--text);
+    min-height:100dvh;
+    overflow-x:hidden;
+    background:
+      radial-gradient(1200px 800px at 80% -10%, rgba(255,71,126,.28), transparent 60%),
+      radial-gradient(1000px 700px at -10% 110%, rgba(42,8,92,.75), transparent 60%),
+      linear-gradient(160deg,#0f172a 0%,#1b0b3a 55%,#2a085c 100%);
+    -webkit-user-select:none;user-select:none;
+  }
+  /* خلفية القلوب المتحركة */
+  #hearts-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+  .fheart{position:absolute;bottom:-40px;color:rgba(255,71,126,.55);font-size:22px;
+    animation:floatUp linear infinite;filter:drop-shadow(0 0 6px rgba(255,71,126,.5))}
+  @keyframes floatUp{
+    0%{transform:translateY(0) rotate(0);opacity:0}
+    10%{opacity:1}
+    90%{opacity:.9}
+    100%{transform:translateY(-110vh) rotate(360deg);opacity:0}
+  }
+  .wrap{position:relative;z-index:2;min-height:100dvh;display:flex;align-items:center;justify-content:center;padding:20px}
+  .glass{
+    width:min(460px,100%);
+    background:var(--glass);
+    border:1px solid var(--glass-border);
+    border-radius:26px;
+    padding:28px 22px 30px;
+    backdrop-filter:blur(16px) saturate(140%);
+    -webkit-backdrop-filter:blur(16px) saturate(140%);
+    box-shadow:0 20px 60px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.15);
+    text-align:center;
+    animation:pop .5s cubic-bezier(.2,.8,.2,1.2);
+  }
+  @keyframes pop{from{transform:scale(.9) translateY(14px);opacity:0}to{transform:none;opacity:1}}
+  .bear{width:150px;height:150px;object-fit:contain;margin:2px auto 10px;display:block;
+    filter:drop-shadow(0 10px 22px rgba(0,0,0,.5))}
+  h1,h2{font-weight:800;line-height:1.5;text-wrap:balance}
+  h1{font-size:1.5rem;margin-bottom:6px}
+  h2{font-size:1.35rem;margin:6px 0 4px}
+  p.sub{opacity:.85;font-size:.95rem;line-height:1.6;margin-bottom:16px}
+  .field{position:relative;margin:14px 0 10px}
+  input[type=password]{
+    width:100%;padding:14px 16px;border-radius:16px;border:1px solid var(--glass-border);
+    background:rgba(255,255,255,.1);color:var(--text);font-size:1.05rem;text-align:center;outline:none;
+    transition:.2s;
+  }
+  input[type=password]:focus{border-color:var(--pink);box-shadow:0 0 0 4px rgba(255,71,126,.25)}
+  .btn{
+    appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:800;
+    padding:13px 22px;border-radius:16px;font-size:1.02rem;color:#fff;
+    background:linear-gradient(135deg,var(--pink),#ff7aa2);
+    box-shadow:0 10px 24px rgba(255,71,126,.4);
+    transition:transform .15s, box-shadow .15s, opacity .2s;
+    touch-action:manipulation;
+  }
+  .btn:active{transform:scale(.96)}
+  .btn:disabled{opacity:.5;cursor:not-allowed;filter:grayscale(.3)}
+  .btn.ghost{background:rgba(255,255,255,.12);box-shadow:none;border:1px solid var(--glass-border)}
+  .btn.wide{width:100%;margin-top:8px}
+  .row{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .err{color:#ffd0dd;min-height:20px;font-size:.9rem;margin-top:8px;font-weight:600}
+  .shake{animation:shake .4s}
+  @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-9px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(6px)}}
+  /* شريط التقدم */
+  .progress{height:10px;border-radius:999px;background:rgba(255,255,255,.14);overflow:hidden;margin-bottom:4px}
+  .progress > i{display:block;height:100%;width:0;border-radius:999px;
+    background:linear-gradient(90deg,var(--pink),#ffb3c9);transition:width .6s cubic-bezier(.2,.8,.2,1)}
+  .pcount{font-size:.8rem;opacity:.75;margin-bottom:12px}
+  .timer{font-size:.85rem;opacity:.8;margin-top:10px;min-height:18px}
+  .hidden{display:none!important}
+  /* صفحة القبول */
+  .secret-box{
+    margin:14px 0;padding:16px;border-radius:18px;border:1px dashed rgba(255,255,255,.3);
+    background:rgba(255,71,126,.12);font-size:1.05rem;line-height:1.9;font-weight:700
+  }
+  /* كرت الحك */
+  .scratch-wrap{position:relative;width:100%;max-width:340px;height:130px;margin:14px auto;border-radius:16px;overflow:hidden;
+    box-shadow:inset 0 0 0 1px var(--glass-border)}
+  .scratch-msg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;
+    padding:14px;font-weight:800;font-size:1.05rem;
+    background:linear-gradient(135deg,rgba(255,71,126,.25),rgba(42,8,92,.4));color:#fff}
+  #scratch-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:grab;touch-action:none}
+  .hint{font-size:.8rem;opacity:.7;margin-top:-4px}
+  .contacts{display:flex;gap:12px;justify-content:center;margin-top:14px;flex-wrap:wrap}
+  .ic{display:inline-flex;align-items:center;gap:8px;padding:11px 16px;border-radius:14px;color:#fff;text-decoration:none;font-weight:700;font-size:.95rem}
+  .ic svg{width:20px;height:20px}
+  .ig{background:linear-gradient(135deg,#f9ce34,#ee2a7b,#6228d7)}
+  .wa{background:#25d366;color:#08351b}
+  .song{margin-top:12px;display:inline-flex;align-items:center;gap:8px;color:#ffd0dd;font-weight:700;text-decoration:none;font-size:.95rem;background:none;border:0;cursor:pointer;font-family:inherit}
+  .song svg{width:18px;height:18px}
+  .player{margin-top:14px;width:100%;max-width:420px;margin-inline:auto;aspect-ratio:16/9;border-radius:16px;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.15)}
+  .player iframe{width:100%;height:100%;border:0;display:block}
+  /* انفجار الجسيمات */
+  #burst{position:fixed;inset:0;z-index:50;pointer-events:none;overflow:hidden}
+  .particle{position:absolute;font-size:26px;will-change:transform,opacity;animation:burst 1.8s ease-out forwards}
+  @keyframes burst{
+    0%{transform:translate(0,0) scale(.4) rotate(0);opacity:1}
+    100%{transform:translate(var(--dx),var(--dy)) scale(1.1) rotate(var(--rot));opacity:0}
+  }
+  .footnote{margin-top:16px;font-size:.72rem;opacity:.55}
+  @media (max-width:380px){.bear{width:120px;height:120px}h1{font-size:1.3rem}}
+</style>
 </head>
 <body>
+<div id="hearts-bg" aria-hidden="true"></div>
+<div id="burst" aria-hidden="true"></div>
 
-    <!-- الشاشة الأولى: تسجيل الدخول -->
-    <div id="login-screen" class="container card-animation">
-        <h1>🔒 صفحة خاصة جداً</h1>
-        <p>أدخلي كلمة المرور للمتابعة</p>
-        <input type="password" id="password-input" placeholder="كلمة المرور...">
-        <br>
-        <button id="login-btn" class="main-btn">دخول 💖</button>
-        <p id="error-msg" class="hidden error">❌ كلمة المرور غير صحيحة</p>
+<div class="wrap">
+
+  <!-- شاشة القفل -->
+  <section class="glass" id="lock" aria-label="شاشة القفل">
+    <img class="bear" alt="دب لطيف" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUkHTqVA8TxKPDA20lMfkkav9zzrOs-YxBh9V4U63iWrExL-wJcBTYc2N_GJmtrycxIBXqWW6v0r8isAlkkv_o0nGBV-kRCXK3CT2Q9eUpAQI6r3yYjjFxrs2zzQ2yalZ78h3BwbVq0HVfPIP87_diObm0FMxKvf8DOs9ucbIgSR2T_dtPPqbTDG1ouLc/s1600/403.gif" />
+    <h1>هذي الرسالة إلك إنتِ بس &#128274;</h1>
+    <p class="sub">اكتبي كلمة السر عشان تكملي... إنتِ تعرفينها &#128519;</p>
+    <div class="field">
+      <input id="pass" type="password" inputmode="text" autocomplete="off" placeholder="كلمة السر" aria-label="كلمة السر" />
+    </div>
+    <button class="btn wide" id="unlock">فتح &#128156;</button>
+    <div class="err" id="lock-err" role="alert"></div>
+  </section>
+
+  <!-- الأسئلة -->
+  <section class="glass hidden" id="quiz" aria-label="الأسئلة">
+    <div class="progress"><i id="bar"></i></div>
+    <div class="pcount" id="pcount">السؤال 1 من 4</div>
+    <img class="bear" id="q-bear" alt="دب" src="" />
+    <h2 id="q-title"></h2>
+    <p class="sub" id="q-sub"></p>
+    <div class="row" id="q-row">
+      <button class="btn" id="yes">نعم &#10084;</button>
+      <button class="btn ghost" id="no">لا</button>
+    </div>
+    <div class="timer" id="timer"></div>
+  </section>
+
+  <!-- صفحة الرفض -->
+  <section class="glass hidden" id="reject" aria-label="صفحة الرفض">
+    <img class="bear" alt="دب حزين" src="https://i.imgur.com/c4tA59P.gif" />
+    <h2>طيب... ما توقعت &#128546;</h2>
+    <p class="sub">بس لو غيرتي رأيك، قلبي دايم مفتوح إلك.</p>
+    <button class="btn wide" id="retry">أرجع وأعطيني فرصة &#128522;</button>
+  </section>
+
+  <!-- الصفحة النهائية -->
+  <section class="glass hidden" id="final" aria-label="الصفحة النهائية">
+    <img class="bear" alt="دب فرحان" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKO-cfTq6lf-OnD3oUsRSOsj4NdubWzqRBGPRa6itmSB3XCIF_5ah7KzXZvazrCtA_MBFZnnub0iUM01cLwftD3daQgqprVSeIehM31NfZkM1wxuzRUi2Vv_Jp1SMNvJIL2LbyzyUmZgxxZbYSA6MZL-802ap7Zagu3jsjHo7jC75BZFnuQF5Kwy9tcjY/s1600/407.gif" />
+    <h2>قلتيها &#128149;</h2>
+    <p class="sub">صار عندي أحلى إحساس بالدنيا... اقرأي رسالتي السرية:</p>
+    <div class="secret-box" id="secret">•••</div>
+
+    <p class="hint">احكّي الكرت عشان تطلع لك رسالة &#128150;</p>
+    <div class="scratch-wrap">
+      <div class="scratch-msg" id="scratch-msg"></div>
+      <canvas id="scratch-canvas"></canvas>
     </div>
 
-    <!-- الشاشة الثانية: الانتظار والعداد -->
-    <div id="loading-screen" class="container hidden card-animation">
-        <div class="spinner">⏳</div>
-        <h2 id="loading-text">0%</h2>
-        <p>انتظري جاري التحقق من الهوية...</p>
+    <div class="contacts">
+      <a class="ic ig" id="ig" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2.2c3.2 0 3.6 0 4.9.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.86s0 3.6-.07 4.86c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.86.07s-3.6 0-4.86-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.6 2.2 15.2 2.2 12s0-3.6.07-4.86c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.4 2.21 8.8 2.2 12 2.2Zm0 1.8c-3.15 0-3.52.01-4.76.07-.9.04-1.39.2-1.71.32-.43.17-.74.37-1.06.69-.32.32-.52.63-.69 1.06-.12.32-.28.81-.32 1.71C3.4 8.48 3.4 8.85 3.4 12s0 3.52.07 4.76c.04.9.2 1.39.32 1.71.17.43.37.74.69 1.06.32.32.63.52 1.06.69.32.12.81.28 1.71.32 1.24.06 1.61.07 4.76.07s3.52 0 4.76-.07c.9-.04 1.39-.2 1.71-.32.43-.17.74-.37 1.06-.69.32-.32.52-.63.69-1.06.12-.32.28-.81.32-1.71.06-1.24.07-1.61.07-4.76s0-3.52-.07-4.76c-.04-.9-.2-1.39-.32-1.71a2.85 2.85 0 0 0-.69-1.06 2.85 2.85 0 0 0-1.06-.69c-.32-.12-.81-.28-1.71-.32C15.52 4.01 15.15 4 12 4Zm0 3.06A4.94 4.94 0 1 1 7.06 12 4.94 4.94 0 0 1 12 7.06Zm0 1.8A3.14 3.14 0 1 0 15.14 12 3.14 3.14 0 0 0 12 8.86Zm5.14-3.24a1.15 1.15 0 1 1-1.15 1.15 1.15 1.15 0 0 1 1.15-1.15Z"/></svg>
+        إنستغرام
+      </a>
+      <a class="ic wa" id="wa" href="#" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.47 14.38c-.29-.15-1.7-.84-1.96-.94-.26-.1-.45-.15-.64.15-.19.29-.74.94-.9 1.13-.17.19-.33.22-.62.07-.29-.15-1.22-.45-2.33-1.44-.86-.77-1.44-1.72-1.61-2-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.15-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.55-.88-2.12-.23-.55-.47-.48-.64-.49l-.55-.01c-.19 0-.5.07-.76.36-.26.29-1 .98-1 2.38 0 1.4 1.02 2.76 1.17 2.95.15.19 2.01 3.07 4.87 4.31.68.29 1.21.47 1.62.6.68.22 1.3.19 1.79.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.55-.34Zm-5.42 7.4h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.9-9.88a9.82 9.82 0 0 1 6.99 2.9 9.82 9.82 0 0 1 2.9 6.99c0 5.45-4.44 9.88-9.9 9.88Zm8.42-18.3A11.62 11.62 0 0 0 12.05.16C5.6.16.36 5.4.36 11.85c0 2.08.54 4.11 1.58 5.9L.26 23.84l6.24-1.64a11.6 11.6 0 0 0 5.55 1.41h.01c6.45 0 11.69-5.24 11.69-11.69a11.6 11.6 0 0 0-3.28-8.14Z"/></svg>
+        واتساب
+      </a>
     </div>
 
-    <!-- الشاشة الثالثة: الحوار التفاعلي (قصة الدب) -->
-    <div id="question-screen" class="container hidden card-animation">
-        <div id="bear-emoji" class="bear-bounce">🐻</div>
-        <h2 id="dialogue-text">شو دخلَك 😐</h2>
-        <div class="btn-group">
-            <button id="next-dialogue-btn" class="main-btn">اضغطي للمتابعة ✨</button>
-            <button id="sad-choice-btn" class="sad-btn hidden">لا ما بدي 😒</button>
-        </div>
-    </div>
+    <button class="song" id="song" type="button" aria-expanded="false" aria-controls="player">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M9 17.5a2.5 2.5 0 1 1-2.5-2.5c.53 0 1.03.16 1.44.44V4l10-2v11.5A2.5 2.5 0 1 1 15.44 11H16V5.28l-6 1.2v11.02Z"/></svg>
+      اسمعي أغنيتنا &#127925;
+    </button>
+    <div class="player" id="player" hidden></div>
 
-    <!-- الشاشة الرابعة: المحتوى السري والصلح -->
-    <div id="secret-screen" class="container hidden card-animation">
-        <div class="celebrate-emoji">🎉 ✨ 🎉</div>
-        <h1>🎉 مبروك الصلح 🎉</h1>
-        <p>وصولك إلى هنا يعني أنك صالحتِ بشار وأنك تحبينه جداً!</p>
-        
-        <div class="secret-box">
-            <h3>رسالة من بشار لقلبك ❤</h3>
-            <div id="scratch-card" class="scratch-card">
-                <span id="scratch-cover">اضغطي هنا لإزالة الغطاء وكشف السر 🔍</span>
-                <span id="secret-message" class="hidden">أحبك دائماً وأبداً ♾</span>
-            </div>
-        </div>
+    <p class="footnote">صُنعت بحب خصيصاً إلك &#128156;</p>
+  </section>
 
-        <!-- تضمين مشغل اليوتيوب الآمن والمستقل -->
-        <div class="video-container">
-            <p>🎵 أغنية خاصة إهداء لكِ</p>
-            <div class="iframe-wrapper">
-                <iframe id="youtube-player" 
-                        src="https://youtube.com" 
-                        title="YouTube video player" 
-                        frameborder="0" 
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
-                        allowfullscreen>
-                </iframe>
-            </div>
-        </div>
+</div>
 
-        <div class="actions">
-            <p>أخبريه الآن أنك تحبينه 💬</p>
-            <a href="https://instagram.com" target="_blank" class="social-btn insta">إرسال عبر إنستغرام 📸</a>
-            <a href="https://wa.me" target="_blank" class="social-btn whatsapp">إرسال عبر واتساب 💚</a>
-        </div>
+<script>
+/* ==== الحماية: منع النقر الأيمن وأدوات المطور ==== */
+(function guard(){
+  const kill = e => { e.preventDefault(); buzz(); return false; };
+  document.addEventListener("contextmenu", kill);
+  document.addEventListener("dragstart", e => e.preventDefault());
+  document.addEventListener("selectstart", e => e.preventDefault());
+  document.addEventListener("copy", e => e.preventDefault());
+  document.addEventListener("keydown", function(e){
+    const k = (e.key||"").toLowerCase();
+    if(e.key === "F12") return kill(e);
+    if(e.ctrlKey && e.shiftKey && ["i","j","c"].includes(k)) return kill(e);
+    if(e.ctrlKey && ["u","s","p"].includes(k)) return kill(e);
+    if(e.metaKey && e.altKey && ["i","j","c"].includes(k)) return kill(e);
+  });
+})();
 
-        <footer>تم التصميم خصيصاً لننوزة بواسطة باتمان 🦇</footer>
-    </div>
+/* ==== مؤثر صوتي + اهتزاز ==== */
+let audioCtx;
+function beep(freq, dur){
+  try{
+    audioCtx = audioCtx || new (window.AudioContext||window.webkitAudioContext)();
+    const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+    o.type="sine"; o.frequency.value=freq;
+    g.gain.setValueAtTime(.001, audioCtx.currentTime);
+    g.gain.exponentialRampToValueAtTime(.25, audioCtx.currentTime+.02);
+    g.gain.exponentialRampToValueAtTime(.001, audioCtx.currentTime+dur);
+    o.connect(g); g.connect(audioCtx.destination);
+    o.start(); o.stop(audioCtx.currentTime+dur);
+  }catch(e){}
+}
+function buzz(){ if(navigator.vibrate) navigator.vibrate([60,40,60]); beep(180,.18); }
+function chime(){ beep(660,.12); setTimeout(()=>beep(880,.16),120); }
 
-    <!-- الشاشة الخامسة: في حال الرفض -->
-    <div id="sad-screen" class="container hidden card-animation">
-        <div class="bear-bounce">😢</div>
-        <h1>نور.. بشار حزين جداً</h1>
-        <p>ولكنه يحترم مشاعرك. إذا غيرتِ رأيك، فهو ينتظرك دوماً 🫀</p>
-        <button id="retry-btn" class="main-btn">🔄 المحاولة مجدداً</button>
-    </div>
+/* ==== خلفية القلوب ==== */
+(function heartsBG(){
+  const box = document.getElementById("hearts-bg");
+  const H = "\u2764";
+  for(let i=0;i<26;i++){
+    const s = document.createElement("span");
+    s.className="fheart"; s.textContent=H;
+    s.style.left = Math.random()*100+"vw";
+    s.style.fontSize = (12+Math.random()*26)+"px";
+    s.style.animationDuration = (7+Math.random()*9)+"s";
+    s.style.animationDelay = (-Math.random()*12)+"s";
+    s.style.opacity = .3+Math.random()*.5;
+    box.appendChild(s);
+  }
+})();
 
-    <!-- ربط ملف العمليات البرمجية الخارجي الآمن في نهاية الصفحة -->
-    <script src="script.js"></script>
+/* ==== بيانات مشفّرة (AES-256-GCM) ومفتاحها هو كلمة السر ==== */
+const PASSWORD_HASH = "b7271eb6fd280978f26c1bf8b57fb8d26262312aabf8476ee595ffc791e3e106";
+const ENC_BLOB = "cncmgApgWYnw0XE1Gcm4iSAM7PHU7el2LmB9ZDNujtth/k4/0IQL4m2P4XU4dOvOXflgSPbcj6imRLSPTbeJh3SPOmSMwPk5V17uXwD4WIwg1G10rK8+SHA30+ywfZTFBhX/l0yAvnjbrce8Fh+0E06rC+4al2fasSMabrR4avP/s6cjLUTGIHFiQa2rWkDFdMxJF4NMbi+LM2Vz51nENBx7tD3jxIlvbppMeOiyuiRfoUuFUMfMo/QGnLn/k3xhIlCv6wJjLA4h/9Mnx+Ef8uRMMg91JJ1/KOlaZGG1eXfhdOMV1U3hMbF0dep79XKVAIIr6DCeaeUAItmNadaqPkazwlpwcniehoYqFdnRGcGGa4DUMczDZrQfl3c04EsFsGGV1BqdTpl64Oa6w95ABRatvgjT3QiUciZ6icLgQaGHaF3EfPoIHi+pWbM/TsQnDhSQdNWqEOEYzbP/ctO1lOoqs74YZncnOyyifiqAnOToktY4SgDgMabZ4BAn6U61DoUPMFVZdsMHCYk1GnSy+Bq0Rt+08HTuV034DOxfTSVoBzO1KksTVTDWyeDOvPbLd86PxB+zEVUJPEBQ8+j5fTxAdofsmrQhbibAHhw=";
+
+/* روابط التواصل — عدّليها كما تريدين */
+const LINKS = {
+  instagram: "https://instagram.com/96ruk",
+  whatsapp:  "https://wa.me/963985633942",
+  songId:    "6pHiSuEuFFA"
+};
+
+let SECRET_DATA = null; // يُملأ ديناميكياً بعد التحقق
+
+function b64ToBytes(b64){
+  const bin = atob(b64); const arr = new Uint8Array(bin.length);
+  for(let i=0;i<bin.length;i++) arr[i]=bin.charCodeAt(i);
+  return arr;
+}
+async function sha256Hex(str){
+  const data = new TextEncoder().encode(str);
+  const buf = await crypto.subtle.digest("SHA-256", data);
+  return [...new Uint8Array(buf)].map(b=>b.toString(16).padStart(2,"0")).join("");
+}
+async function decryptSecret(password){
+  const keyBytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password));
+  const key = await crypto.subtle.importKey("raw", keyBytes, {name:"AES-GCM"}, false, ["decrypt"]);
+  const all = b64ToBytes(ENC_BLOB);
+  const iv = all.slice(0,12);
+  const ct = all.slice(12);
+  const ptBuf = await crypto.subtle.decrypt({name:"AES-GCM", iv}, key, ct);
+  return JSON.parse(new TextDecoder().decode(ptBuf));
+}
+
+/* ==== شاشة القفل ==== */
+const lockEl = document.getElementById("lock");
+const passEl = document.getElementById("pass");
+const lockErr = document.getElementById("lock-err");
+
+async function tryUnlock(){
+  const val = passEl.value.trim();
+  if(!val){ shakeLock("اكتبي كلمة السر أول \uD83D\uDE0A"); return; }
+  const h = await sha256Hex(val);
+  if(h !== PASSWORD_HASH){
+    shakeLock("مو صحيحة... حاولي مرة ثانية \uD83D\uDD90\uFE0F");
+    passEl.value="";
+    return;
+  }
+  try{
+    SECRET_DATA = await decryptSecret(val); // فك التشفير وحقن المحتوى الحساس ديناميكياً
+  }catch(e){
+    shakeLock("صار خطأ بفك التشفير"); return;
+  }
+  chime();
+  lockEl.classList.add("hidden");
+  startQuiz();
+}
+function shakeLock(msg){
+  lockErr.innerHTML = msg;
+  lockEl.classList.remove("shake"); void lockEl.offsetWidth; lockEl.classList.add("shake");
+  buzz();
+}
+document.getElementById("unlock").addEventListener("click", tryUnlock);
+passEl.addEventListener("keydown", e=>{
+  if(e.key==="Enter" && !e.isComposing && e.keyCode!==229) tryUnlock();
+});
+
+/* ==== الأسئلة ==== */
+const QUESTIONS = [
+  {img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUkHTqVA8TxKPDA20lMfkkav9zzrOs-YxBh9V4U63iWrExL-wJcBTYc2N_GJmtrycxIBXqWW6v0r8isAlkkv_o0nGBV-kRCXK3CT2Q9eUpAQI6r3yYjjFxrs2zzQ2yalZ78h3BwbVq0HVfPIP87_diObm0FMxKvf8DOs9ucbIgSR2T_dtPPqbTDG1ouLc/s1600/403.gif",
+    title:"هل تقبلين أن تكوني لي إلى الأبد؟", sub:"فكري زين قبل لا تجاوبين \uD83D\uDC9E"},
+  {img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhk24EUuDSPNMtl30gTDG8_c-QWbR7W7WsCN93VpUuB0W8Gv1oO_OjUBIlwuJvEjj5LvCVFwLDddPDz9HGJeVVYpS4j8x7zuT3OMaOTtXKq7h4HXMtXy5PTDu21YBgzbuoiJPmZkTT09JFo_YVLfWVQt8EPFXQGGWtt-SCytK7UdEuUgIgQegpcmppa4FU/s1600/404.gif",
+    title:"تسمحين لي أكون سبب ابتسامتك كل يوم؟", sub:"جاوبيني من قلبك \uD83E\uDD70"},
+  {img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4XyMeKZeO9MgJtFETtlxVUHaKRMtf8BiOkSJz7J3wbJgb6WERU9drVD8PmoHjTqVzE3jgrIvKGlcm1ypRsq0qJaLPzNE5tW7fWdJQ2BDQG1mDTlSuSGeXtwJjvWI3lOv1R22mQVQU6mCcQKe7RmmslLueVHdofIegYzkRxcqqkAqv0bMvFn1FSk_x2QE/s1600/405.gif",
+    title:"تعديني نبقى مع بعض مهما صار؟", sub:"وعد صغير بس معناه كبير \uD83E\uDD1E"},
+  {img:"https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6lfqInD-FNhYGjMUrAxET1_opXFZduaSDra1yNiJK7_f8EHbvJhIBKc38MLcu2f9TBYuomGy0iIO2wMWKp8ald70V8UyXnhd8kT7iyhunvWgATe0_Adsrsoc_1vh5C-aEHJwXpjKcLGxfB57T0N_8xehZIhIqaEHmmB5tGdZ3yxmVieODALwmrrnqDFk/s1600/406.gif",
+    title:"تحبيني مثل ما أنا أحبك؟", sub:"آخر سؤال... وأهمّه \uD83D\uDC98"}
+];
+let qi = 0, noMoves = 0;
+
+const quizEl = document.getElementById("quiz");
+const bar = document.getElementById("bar");
+const pcount = document.getElementById("pcount");
+const qBear = document.getElementById("q-bear");
+const qTitle = document.getElementById("q-title");
+const qSub = document.getElementById("q-sub");
+const yesBtn = document.getElementById("yes");
+const noBtn = document.getElementById("no");
+const timerEl = document.getElementById("timer");
+
+function startQuiz(){ qi=0; quizEl.classList.remove("hidden"); renderQuestion(); }
+
+function renderQuestion(){
+  const q = QUESTIONS[qi];
+  noMoves = 0;
+  qBear.src = q.img;
+  qTitle.textContent = q.title;
+  qSub.textContent = q.sub;
+  pcount.textContent = "السؤال "+(qi+1)+" من "+QUESTIONS.length;
+  bar.style.width = ((qi+1)/QUESTIONS.length*100)+"%";
+  // إعادة زر "لا" لمكانه الطبيعي
+  noBtn.style.position=""; noBtn.style.left=""; noBtn.style.top="";
+  lockButtons();
+}
+
+/* المؤقت: 3 ثوانٍ قبل تمكين الأزرار */
+function lockButtons(){
+  yesBtn.disabled = true; noBtn.disabled = true;
+  let t = 3;
+  timerEl.textContent = "الأزرار تنفتح بعد "+t+" ثوانٍ...";
+  const iv = setInterval(()=>{
+    t--;
+    if(t>0){ timerEl.textContent = "الأزرار تنفتح بعد "+t+" ثوانٍ..."; }
+    else{
+      clearInterval(iv);
+      timerEl.textContent = "";
+      yesBtn.disabled = false; noBtn.disabled = false;
+    }
+  },1000);
+}
+
+yesBtn.addEventListener("click", ()=>{
+  if(yesBtn.disabled) return;
+  chime();
+  qi++;
+  if(qi < QUESTIONS.length){ renderQuestion(); }
+  else{ quizEl.classList.add("hidden"); showFinal(); }
+});
+
+/* زر "لا" يهرب 5 مرات ثم يذهب لصفحة الرفض */
+function runAway(){
+  if(noBtn.disabled) return;
+  buzz();
+  noMoves++;
+  if(noMoves >= 5){
+    quizEl.classList.add("hidden");
+    document.getElementById("reject").classList.remove("hidden");
+    return;
+  }
+  const pad = 12;
+  const w = window.innerWidth, h = window.innerHeight;
+  const bw = noBtn.offsetWidth, bh = noBtn.offsetHeight;
+  const x = pad + Math.random()*(w - bw - pad*2);
+  const y = pad + Math.random()*(h - bh - pad*2);
+  noBtn.style.position = "fixed";
+  noBtn.style.left = x+"px";
+  noBtn.style.top = y+"px";
+}
+noBtn.addEventListener("mouseenter", runAway);
+noBtn.addEventListener("click", runAway);
+noBtn.addEventListener("touchstart", e=>{ e.preventDefault(); runAway(); }, {passive:false});
+
+document.getElementById("retry").addEventListener("click", ()=>{
+  document.getElementById("reject").classList.add("hidden");
+  qi = 0;
+  quizEl.classList.remove("hidden");
+  renderQuestion();
+});
+
+/* ==== الصفحة النهائية ==== */
+function showFinal(){
+  const f = document.getElementById("final");
+  f.classList.remove("hidden");
+  // حقن المحتوى الحساس بعد التحقق
+  document.getElementById("secret").textContent = SECRET_DATA.secret;
+  document.getElementById("ig").href = LINKS.instagram;
+  document.getElementById("wa").href = LINKS.whatsapp;
+  setupPlayer();
+  setupScratch();
+  burst();
+  chime();
+}
+
+/* مشغّل الأغنية المضمّن داخل الصفحة */
+function setupPlayer(){
+  const btn = document.getElementById("song");
+  const box = document.getElementById("player");
+  btn.addEventListener("click", function(){
+    const open = box.hasAttribute("hidden");
+    if(open){
+      if(!box.dataset.loaded){
+        const f = document.createElement("iframe");
+        f.src = "https://www.youtube-nocookie.com/embed/" + LINKS.songId + "?autoplay=1&rel=0";
+        f.title = "أغنيتنا";
+        f.allow = "autoplay; encrypted-media";
+        f.setAttribute("allowfullscreen","");
+        box.appendChild(f);
+        box.dataset.loaded = "1";
+      }
+      box.removeAttribute("hidden");
+      btn.setAttribute("aria-expanded","true");
+      box.scrollIntoView({behavior:"smooth",block:"center"});
+    }else{
+      box.setAttribute("hidden","");
+      btn.setAttribute("aria-expanded","false");
+    }
+  });
+}
+
+/* كرت الحك */
+function setupScratch(){
+  const msgs = SECRET_DATA.scratch;
+  const pick = msgs[Math.floor(Math.random()*msgs.length)];
+  document.getElementById("scratch-msg").textContent = pick;
+
+  const canvas = document.getElementById("scratch-canvas");
+  const ctx = canvas.getContext("2d");
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+  canvas.width = rect.width*dpr; canvas.height = rect.height*dpr;
+  ctx.scale(dpr,dpr);
+  const grad = ctx.createLinearGradient(0,0,rect.width,rect.height);
+  grad.addColorStop(0,"#ff477e"); grad.addColorStop(1,"#2a085c");
+  ctx.fillStyle = grad; ctx.fillRect(0,0,rect.width,rect.height);
+  ctx.fillStyle = "rgba(255,255,255,.9)";
+  ctx.font = "bold 16px 'Segoe UI',Tahoma";
+  ctx.textAlign = "center";
+  ctx.fillText("احكّيني \uD83D\uDC9D", rect.width/2, rect.height/2+6);
+  ctx.globalCompositeOperation = "destination-out";
+
+  let drawing=false, revealed=false;
+  function pos(e){
+    const r = canvas.getBoundingClientRect();
+    const p = e.touches ? e.touches[0] : e;
+    return {x:p.clientX-r.left, y:p.clientY-r.top};
+  }
+  function scratch(e){
+    if(!drawing) return;
+    const {x,y} = pos(e);
+    ctx.beginPath(); ctx.arc(x,y,20,0,Math.PI*2); ctx.fill();
+    if(!revealed) checkReveal();
+  }
+  function checkReveal(){
+    const img = ctx.getImageData(0,0,canvas.width,canvas.height).data;
+    let clear=0; for(let i=3;i<img.length;i+=40){ if(img[i]===0) clear++; }
+    if(clear/(img.length/40) > .5){
+      revealed=true;
+      canvas.style.transition="opacity .5s"; canvas.style.opacity="0";
+      chime(); if(navigator.vibrate) navigator.vibrate(30);
+    }
+  }
+  const down = e=>{ drawing=true; scratch(e); };
+  const up = ()=>{ drawing=false; };
+  canvas.addEventListener("mousedown",down);
+  canvas.addEventListener("mousemove",scratch);
+  window.addEventListener("mouseup",up);
+  canvas.addEventListener("touchstart",e=>{e.preventDefault();down(e);},{passive:false});
+  canvas.addEventListener("touchmove",e=>{e.preventDefault();scratch(e);},{passive:false});
+  canvas.addEventListener("touchend",up);
+}
+
+/* انفجار القلوب والورود */
+function burst(){
+  const box = document.getElementById("burst");
+  const glyphs = ["\u2764\uFE0F","\uD83C\uDF39","\uD83D\uDC9D","\uD83C\uDF38","\uD83D\uDC96","\uD83E\uDD40"];
+  const cx = window.innerWidth/2, cy = window.innerHeight/2;
+  for(let i=0;i<46;i++){
+    const s = document.createElement("span");
+    s.className="particle";
+    s.textContent = glyphs[Math.floor(Math.random()*glyphs.length)];
+    s.style.left = cx+"px"; s.style.top = cy+"px";
+    const ang = Math.random()*Math.PI*2, dist = 120+Math.random()*260;
+    s.style.setProperty("--dx", Math.cos(ang)*dist+"px");
+    s.style.setProperty("--dy", Math.sin(ang)*dist+"px");
+    s.style.setProperty("--rot", (Math.random()*720-360)+"deg");
+    s.style.fontSize = (18+Math.random()*22)+"px";
+    s.style.animationDelay = (Math.random()*.25)+"s";
+    box.appendChild(s);
+    setTimeout(()=>s.remove(), 2200);
+  }
+}
+</script>
 </body>
 </html>
