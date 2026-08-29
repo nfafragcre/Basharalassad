@@ -3,69 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>صفحة خاصة جداً</title>
+    <title>صفحة خاصة جداً 💖</title>
+    <!-- ربط ملف التصميم الخارجي الآمن -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- قسم تسجيل الدخول -->
-    <div id="login-screen" class="container">
+    <!-- الشاشة الأولى: تسجيل الدخول -->
+    <div id="login-screen" class="container card-animation">
         <h1>🔒 صفحة خاصة جداً</h1>
         <p>أدخلي كلمة المرور للمتابعة</p>
         <input type="password" id="password-input" placeholder="كلمة المرور...">
-        <button id="login-btn">دخول 💖</button>
+        <br>
+        <button id="login-btn" class="main-btn">دخول 💖</button>
         <p id="error-msg" class="hidden error">❌ كلمة المرور غير صحيحة</p>
     </div>
 
-    <!-- قسم الانتظار والأسئلة (دب) -->
-    <div id="loading-screen" class="container hidden">
-        <p id="loading-text">0% ⏳ انتظري 3 ثوانٍ...</p>
+    <!-- الشاشة الثانية: الانتظار والعداد -->
+    <div id="loading-screen" class="container hidden card-animation">
+        <div class="spinner">⏳</div>
+        <h2 id="loading-text">0%</h2>
+        <p>انتظري جاري التحقق من الهوية...</p>
     </div>
 
-    <div id="question-screen" class="container hidden">
-        <div class="bear-icon">🐻</div>
-        <p id="question-text">شو دخلَك 😐</p>
-        <button id="next-question-btn">اضغطي لرؤية النتيجة ✨</button>
+    <!-- الشاشة الثالثة: الحوار التفاعلي (قصة الدب) -->
+    <div id="question-screen" class="container hidden card-animation">
+        <div id="bear-emoji" class="bear-bounce">🐻</div>
+        <h2 id="dialogue-text">شو دخلَك 😐</h2>
+        <div class="btn-group">
+            <button id="next-dialogue-btn" class="main-btn">اضغطي للمتابعة ✨</button>
+            <button id="sad-choice-btn" class="sad-btn hidden">لا ما بدي 😒</button>
+        </div>
     </div>
 
-    <!-- قسم المحتوى السري (يظهر بعد التشفير بنجاح) -->
-    <div id="secret-screen" class="container hidden">
+    <!-- الشاشة الرابعة: المحتوى السري والصلح -->
+    <div id="secret-screen" class="container hidden card-animation">
+        <div class="celebrate-emoji">🎉 ✨ 🎉</div>
         <h1>🎉 مبروك الصلح 🎉</h1>
         <p>وصولك إلى هنا يعني أنك صالحتِ بشار وأنك تحبينه جداً!</p>
         
-        <div class="card">
+        <div class="secret-box">
             <h3>رسالة من بشار لقلبك ❤</h3>
-            <p>حكّي الكرت بإصبعك لكشف السر 👇</p>
             <div id="scratch-card" class="scratch-card">
-                <span id="secret-message"></span>
+                <span id="scratch-cover">اضغطي هنا لإزالة الغطاء وكشف السر 🔍</span>
+                <span id="secret-message" class="hidden">أحبك دائماً وأبداً ♾</span>
+            </div>
+        </div>
+
+        <!-- تضمين مشغل اليوتيوب الآمن والمستقل -->
+        <div class="video-container">
+            <p>🎵 أغنية خاصة إهداء لكِ</p>
+            <div class="iframe-wrapper">
+                <iframe id="youtube-player" 
+                        src="https://youtube.com" 
+                        title="YouTube video player" 
+                        frameborder="0" 
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                        allowfullscreen>
+                </iframe>
             </div>
         </div>
 
         <div class="actions">
             <p>أخبريه الآن أنك تحبينه 💬</p>
-            <a href="#" id="insta-btn" class="btn insta">إرسال عبر إنستغرام 📸</a>
-            <a href="#" id="insta-btn" class="btn whatsapp">إرسال عبر واتساب 💚</a>
-        </div>
-
-        <div class="audio-section">
-            <p>🎵 أغنية خاصة إهداء لكِ</p>
-            <audio id="audio-player" controls>
-                <source src="song.mp3" type="audio/mpeg">
-                متصفحك لا يدعم تشغيل الصوت.
-            </audio>
+            <a href="https://instagram.com" target="_blank" class="social-btn insta">إرسال عبر إنستغرام 📸</a>
+            <a href="https://wa.me" target="_blank" class="social-btn whatsapp">إرسال عبر واتساب 💚</a>
         </div>
 
         <footer>تم التصميم خصيصاً لننوزة بواسطة باتمان 🦇</footer>
     </div>
 
-    <!-- قسم الحزن في حال الرفض -->
-    <div id="sad-screen" class="container hidden">
-        <div class="bear-icon">😢</div>
+    <!-- الشاشة الخامسة: في حال الرفض -->
+    <div id="sad-screen" class="container hidden card-animation">
+        <div class="bear-bounce">😢</div>
         <h1>نور.. بشار حزين جداً</h1>
         <p>ولكنه يحترم مشاعرك. إذا غيرتِ رأيك، فهو ينتظرك دوماً 🫀</p>
-        <button id="retry-btn">🔄 المحاولة مجدداً</button>
+        <button id="retry-btn" class="main-btn">🔄 المحاولة مجدداً</button>
     </div>
 
-    <script href="script.js"></script>
+    <!-- ربط ملف العمليات البرمجية الخارجي الآمن في نهاية الصفحة -->
+    <script src="script.js"></script>
 </body>
 </html>
