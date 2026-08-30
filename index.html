@@ -1,0 +1,2578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>LOVE PAGE — Experience Builder</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+font-family:Inter,Arial,sans-serif;
+background:#07060d;
+color:#fff;
+min-height:100vh;
+overflow-x:hidden
+}
+button,input,textarea,select{font:inherit}
+button{cursor:pointer}
+button:disabled{opacity:.5;cursor:not-allowed}
+.hidden{display:none!important}
+
+:root{
+--pink:#ff477e;
+--purple:#8b5cf6;
+--cyan:#22d3ee;
+--gold:#fbbf24;
+--card:rgba(255,255,255,.065);
+--border:rgba(255,255,255,.11);
+--muted:#aaa6b7
+}
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+pointer-events:none;
+background:
+radial-gradient(circle at 10% 10%,rgba(139,92,246,.16),transparent 28%),
+radial-gradient(circle at 90% 20%,rgba(255,71,126,.13),transparent 30%);
+z-index:-1
+}
+
+/* NAV */
+.nav{
+height:72px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 5%;
+border-bottom:1px solid var(--border);
+background:rgba(7,6,13,.82);
+backdrop-filter:blur(20px);
+position:sticky;
+top:0;
+z-index:1000
+}
+.logo{
+font-size:21px;
+font-weight:1000;
+letter-spacing:-1px
+}
+.logo span{color:var(--pink)}
+.navlinks{
+display:flex;
+gap:25px;
+color:#bbb6c7;
+font-size:14px
+}
+.navlinks a:hover{color:#fff}
+.btn{
+border:0;
+border-radius:13px;
+padding:13px 20px;
+font-weight:900;
+color:#fff;
+transition:.2s
+}
+.btn:hover{transform:translateY(-2px)}
+.primary{
+background:linear-gradient(135deg,#ff477e,#ff2d6c);
+box-shadow:0 12px 35px rgba(255,71,126,.22)
+}
+.secondary{
+background:rgba(255,255,255,.07);
+border:1px solid var(--border)
+}
+.purple{
+background:linear-gradient(135deg,#8b5cf6,#ec4899)
+}
+
+/* LANDING */
+.hero{
+max-width:1200px;
+margin:auto;
+min-height:650px;
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:50px;
+align-items:center;
+padding:80px 25px
+}
+.badge{
+display:inline-block;
+padding:8px 13px;
+border:1px solid rgba(255,71,126,.25);
+background:rgba(255,71,126,.09);
+color:#ff9ab5;
+border-radius:999px;
+font-size:13px;
+font-weight:800;
+margin-bottom:20px
+}
+.hero h1{
+font-size:clamp(46px,6vw,78px);
+line-height:.98;
+letter-spacing:-4px;
+margin-bottom:24px
+}
+.gradient{
+background:linear-gradient(90deg,#fff,#ff6f99,#a78bfa);
+-webkit-background-clip:text;
+color:transparent
+}
+.hero p{
+font-size:18px;
+line-height:1.7;
+color:var(--muted);
+max-width:590px;
+margin-bottom:30px
+}
+.heroBtns{display:flex;gap:12px;flex-wrap:wrap}
+
+.heroMock{
+height:500px;
+border:1px solid var(--border);
+border-radius:30px;
+padding:15px;
+background:rgba(255,255,255,.04);
+transform:rotate(1deg);
+box-shadow:0 35px 100px rgba(0,0,0,.45)
+}
+.mock{
+height:100%;
+border-radius:22px;
+overflow:hidden;
+background:
+radial-gradient(circle at 50% 20%,#68183e,transparent 35%),
+linear-gradient(150deg,#16091f,#08070d);
+text-align:center
+}
+.mockTop{
+height:40px;
+background:rgba(0,0,0,.3);
+display:flex;
+gap:7px;
+align-items:center;
+padding:0 14px
+}
+.dot{
+width:9px;
+height:9px;
+border-radius:50%;
+background:#777
+}
+.mockBody{
+padding:65px 25px
+}
+.mockHeart{
+font-size:75px;
+animation:pulse 1.5s infinite
+}
+@keyframes pulse{50%{transform:scale(1.12)}}
+.mockBody h2{font-size:29px;margin:18px 0 10px}
+.mockBody p{color:#bbb6c7;line-height:1.7}
+
+/* SECTIONS */
+.section{
+max-width:1200px;
+margin:auto;
+padding:85px 25px
+}
+.sectionTitle{
+text-align:center;
+max-width:720px;
+margin:0 auto 45px
+}
+.sectionTitle h2{font-size:40px;margin-bottom:12px}
+.sectionTitle p{color:var(--muted);line-height:1.7}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:17px
+}
+.card{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:22px;
+padding:26px;
+transition:.25s
+}
+.card:hover{
+transform:translateY(-5px);
+border-color:rgba(255,71,126,.35)
+}
+.icon{font-size:35px;margin-bottom:16px}
+.card h3{margin-bottom:9px}
+.card p{color:var(--muted);line-height:1.65;font-size:14px}
+
+.occasionGrid{
+display:grid;
+grid-template-columns:repeat(5,1fr);
+gap:12px
+}
+.occasion{
+text-align:center;
+padding:20px 10px;
+background:var(--card);
+border:1px solid var(--border);
+border-radius:18px
+}
+.occasion b{
+display:block;
+font-size:28px;
+margin-bottom:8px
+}
+.occasion span{font-size:13px;color:#ccc7d4}
+
+/* PRICING */
+.pricing{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:18px
+}
+.price{
+font-size:40px;
+font-weight:1000;
+margin:14px 0
+}
+.price small{font-size:12px;color:#888}
+.priceList{list-style:none;margin:20px 0}
+.priceList li{
+padding:8px 0;
+color:#c8c3cf;
+font-size:14px
+}
+.priceList li:before{
+content:"✓";
+color:#ff6f96;
+margin-right:8px
+}
+
+/* BUILDER */
+#builder{
+display:none;
+min-height:100vh
+}
+.builder{
+max-width:1300px;
+margin:auto;
+padding:30px 18px 70px
+}
+.builderHead{
+display:flex;
+align-items:center;
+justify-content:space-between;
+margin-bottom:20px
+}
+.builderHead h2{font-size:28px}
+.builderHead small{color:#9993a6}
+
+.builderGrid{
+display:grid;
+grid-template-columns:430px 1fr;
+gap:18px
+}
+.editor{
+background:var(--card);
+border:1px solid var(--border);
+border-radius:24px;
+padding:22px;
+height:max-content
+}
+.preview{
+background:#030307;
+border:1px solid var(--border);
+border-radius:24px;
+padding:12px;
+min-height:780px
+}
+.field{margin-bottom:15px}
+.field label{
+display:block;
+font-size:13px;
+font-weight:800;
+margin-bottom:7px
+}
+input,textarea,select{
+width:100%;
+background:rgba(0,0,0,.3);
+border:1px solid var(--border);
+border-radius:11px;
+padding:12px;
+color:#fff;
+outline:none
+}
+input:focus,textarea:focus,select:focus{
+border-color:var(--pink)
+}
+textarea{
+min-height:100px;
+resize:vertical
+}
+.two{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px
+}
+.ai{
+padding:15px;
+border-radius:17px;
+background:rgba(139,92,246,.09);
+border:1px solid rgba(139,92,246,.35);
+margin-bottom:20px
+}
+.ai strong{display:block;margin-bottom:7px}
+.ai p{
+font-size:12px;
+line-height:1.6;
+color:#aaa6b7;
+margin-bottom:10px
+}
+.full{width:100%}
+
+.upload{
+display:block;
+padding:18px;
+border:1px dashed #494352;
+border-radius:13px;
+text-align:center;
+color:#9993a6;
+cursor:pointer
+}
+.upload:hover{border-color:var(--pink)}
+#photoInput{display:none}
+.photoGrid{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:6px;
+margin-top:8px
+}
+.photoGrid img{
+width:100%;
+aspect-ratio:1;
+object-fit:cover;
+border-radius:8px
+}
+
+.addMemory{
+display:flex;
+gap:8px;
+margin-bottom:10px
+}
+.memoryItems{display:grid;gap:7px}
+.memoryItem{
+padding:10px;
+background:rgba(255,255,255,.04);
+border:1px solid var(--border);
+border-radius:10px;
+font-size:12px
+}
+.memoryItem b{display:block;margin-bottom:3px}
+.removeMemory{
+float:right;
+background:none;
+border:0;
+color:#ff7b9f
+}
+
+/* GENERATED EXPERIENCE */
+.exp{
+height:100%;
+min-height:750px;
+border-radius:18px;
+overflow:hidden;
+position:relative;
+background:
+radial-gradient(circle at top,#5c183e,transparent 40%),
+linear-gradient(160deg,#16091e,#07060d)
+}
+.expScreen{
+min-height:750px;
+padding:35px 18px;
+display:flex;
+align-items:center;
+justify-content:center;
+text-align:center;
+position:relative
+}
+.expContent{
+width:100%;
+max-width:580px;
+position:relative;
+z-index:2
+}
+.expEmoji{
+font-size:72px;
+margin-bottom:14px;
+filter:drop-shadow(0 0 25px rgba(255,71,126,.5))
+}
+.exp h1{
+font-size:clamp(28px,5vw,45px);
+margin-bottom:14px
+}
+.expIntro{
+color:#d3ced9;
+line-height:1.75;
+margin-bottom:25px;
+white-space:pre-line
+}
+.expAction{
+display:flex;
+justify-content:center;
+gap:10px;
+flex-wrap:wrap
+}
+
+.expSection{
+display:none;
+animation:fadeIn .45s ease
+}
+.expSection.active{display:block}
+@keyframes fadeIn{
+from{opacity:0;transform:translateY(12px)}
+to{opacity:1;transform:translateY(0)}
+}
+
+/* PHOTO GALLERY */
+.gallery{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:8px;
+margin:20px 0
+}
+.gallery img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:10px
+}
+
+/* STORY */
+.storyBox{
+padding:20px;
+background:rgba(255,255,255,.05);
+border:1px solid var(--border);
+border-radius:18px;
+text-align:left;
+line-height:1.8;
+color:#ddd7e1;
+white-space:pre-line
+}
+
+/* TIMELINE */
+.timeline{text-align:left;margin-top:20px}
+.timelineItem{
+position:relative;
+padding:0 0 20px 25px;
+border-left:2px solid rgba(255,71,126,.35)
+}
+.timelineItem:before{
+content:"";
+position:absolute;
+left:-6px;
+top:0;
+width:10px;
+height:10px;
+border-radius:50%;
+background:var(--pink)
+}
+.timelineItem:last-child{border:0}
+.timelineItem h4{margin-bottom:5px}
+.timelineItem p{
+font-size:13px;
+color:#aaa6b7
+}
+
+/* GAMES */
+.gameCard{
+padding:22px;
+background:rgba(255,255,255,.055);
+border:1px solid var(--border);
+border-radius:20px;
+margin-top:15px
+}
+.quizOptions{
+display:grid;
+gap:8px;
+margin-top:15px
+}
+.quizOption{
+padding:12px;
+border:1px solid var(--border);
+background:rgba(255,255,255,.05);
+color:#fff;
+border-radius:11px
+}
+.quizOption:hover{border-color:var(--pink)}
+.quizResult{
+margin-top:15px;
+font-weight:800;
+min-height:20px
+}
+
+.catchArea{
+height:250px;
+border:1px solid var(--border);
+border-radius:16px;
+position:relative;
+overflow:hidden;
+background:rgba(0,0,0,.18);
+margin-top:15px
+}
+.catchHeart{
+position:absolute;
+font-size:30px;
+user-select:none;
+animation:heartFloat 1.8s linear forwards
+}
+@keyframes heartFloat{
+from{transform:translateY(0);opacity:1}
+to{transform:translateY(-100px);opacity:0}
+}
+
+.memoryGame{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:8px;
+margin-top:15px
+}
+.memoryCard{
+height:65px;
+border:0;
+border-radius:10px;
+background:#2b1738;
+color:#fff;
+font-size:24px
+}
+.memoryCard.open{background:#ff477e}
+.memoryCard.matched{background:#22c55e}
+
+/* SECRET */
+.secret{
+padding:25px;
+border:1px solid rgba(251,191,36,.3);
+background:rgba(251,191,36,.06);
+border-radius:20px
+}
+.secretBox{
+font-size:55px;
+margin:20px 0;
+cursor:pointer;
+transition:.3s
+}
+.secretBox:hover{transform:scale(1.08)}
+.secretMessage{
+display:none;
+font-size:18px;
+line-height:1.7;
+color:#ffe7a2
+}
+.secretMessage.show{display:block}
+
+/* VIDEO */
+.videoWrap{
+position:relative;
+padding-top:56.25%;
+border-radius:15px;
+overflow:hidden;
+background:#000;
+margin:15px 0
+}
+.videoWrap iframe{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+border:0
+}
+
+/* MUSIC */
+.musicBox{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:12px;
+padding:15px;
+border:1px solid var(--border);
+border-radius:15px;
+background:rgba(255,255,255,.05);
+margin-bottom:20px
+}
+
+/* CONFETTI */
+.confetti{
+position:fixed;
+width:8px;
+height:12px;
+z-index:9999;
+pointer-events:none;
+animation:confettiFall 2.5s linear forwards
+}
+@keyframes confettiFall{
+to{
+transform:translateY(100vh) rotate(720deg);
+opacity:0
+}
+}
+
+/* MODAL */
+.modal{
+position:fixed;
+inset:0;
+background:rgba(0,0,0,.78);
+backdrop-filter:blur(10px);
+display:none;
+align-items:center;
+justify-content:center;
+z-index:5000;
+padding:18px
+}
+.modal.show{display:flex}
+.modalBox{
+width:100%;
+max-width:600px;
+background:#15121e;
+border:1px solid var(--border);
+border-radius:24px;
+padding:25px
+}
+.modalBox h3{margin-bottom:15px}
+.codeBox{
+height:180px;
+font-size:11px;
+font-family:monospace
+}
+
+/* FOOTER */
+.footer{
+padding:40px;
+border-top:1px solid var(--border);
+text-align:center;
+color:#777181
+}
+
+/* MOBILE */
+@media(max-width:950px){
+.hero{grid-template-columns:1fr}
+.builderGrid{grid-template-columns:1fr}
+.occasionGrid{grid-template-columns:repeat(3,1fr)}
+.grid{grid-template-columns:1fr 1fr}
+.pricing{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+.navlinks{display:none}
+.hero{padding:55px 18px}
+.hero h1{font-size:48px}
+.section{padding:60px 18px}
+.grid{grid-template-columns:1fr}
+.occasionGrid{grid-template-columns:repeat(2,1fr)}
+.two{grid-template-columns:1fr}
+.builder{padding:15px 8px}
+.editor{padding:16px}
+.preview{padding:7px}
+.expScreen{padding:25px 12px}
+.gallery{grid-template-columns:repeat(2,1fr)}
+.memoryGame{grid-template-columns:repeat(4,1fr)}
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+<div class="logo">LOVE<span>PAGE</span> 💖</div>
+
+<div class="navlinks">
+<a href="#features">Features</a>
+<a href="#games">Games</a>
+<a href="#pricing">Pricing</a>
+</div>
+
+<button class="btn primary" onclick="openBuilder()">
+Create yours
+</button>
+</nav>
+
+
+<!-- ================= LANDING ================= -->
+<div id="landing">
+
+<section class="hero">
+
+<div>
+<div class="badge">✨ THE BEAST EDITION</div>
+
+<h1>
+Create moments.<br>
+<span class="gradient">Not websites.</span>
+</h1>
+
+<p>
+Build a complete interactive surprise with games,
+memories, music, video, secret messages and
+beautiful effects — all from one page.
+</p>
+
+<div class="heroBtns">
+<button class="btn primary" onclick="openBuilder()">
+🚀 Create My Experience
+</button>
+
+<button class="btn secondary" onclick="document.getElementById('features').scrollIntoView()">
+Explore
+</button>
+</div>
+</div>
+
+<div class="heroMock">
+<div class="mock">
+<div class="mockTop">
+<div class="dot"></div>
+<div class="dot"></div>
+<div class="dot"></div>
+</div>
+
+<div class="mockBody">
+<div class="mockHeart">💖</div>
+<h2>A surprise<br>made for you</h2>
+<p>
+Memories.<br>
+Games.<br>
+Secrets.<br>
+Love.
+</p>
+</div>
+</div>
+</div>
+
+</section>
+
+
+<section class="section" id="features">
+<div class="sectionTitle">
+<h2>Everything in one experience.</h2>
+<p>
+This is not just a message generator.
+It's a mini interactive world you create for someone.
+</p>
+</div>
+
+<div class="grid">
+
+<div class="card">
+<div class="icon">🎮</div>
+<h3>Interactive Games</h3>
+<p>Quiz, catch the hearts and memory matching game.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎁</div>
+<h3>Secret Surprise</h3>
+<p>Hide a special message behind an interactive gift.</p>
+</div>
+
+<div class="card">
+<div class="icon">📖</div>
+<h3>Story Journey</h3>
+<p>Turn your relationship into a beautiful story.</p>
+</div>
+
+<div class="card">
+<div class="icon">📸</div>
+<h3>Memory Gallery</h3>
+<p>Add your favorite photos and create a visual memory wall.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎵</div>
+<h3>Music</h3>
+<p>Add an audio track that plays inside the experience.</p>
+</div>
+
+<div class="card">
+<div class="icon">▶️</div>
+<h3>YouTube</h3>
+<p>Embed a YouTube video directly inside the page.</p>
+</div>
+
+<div class="card">
+<div class="icon">✨</div>
+<h3>Effects</h3>
+<p>Confetti, floating hearts, animations and surprise reveals.</p>
+</div>
+
+<div class="card">
+<div class="icon">🎨</div>
+<h3>Custom Design</h3>
+<p>Choose colors and multiple visual themes.</p>
+</div>
+
+<div class="card">
+<div class="icon">📱</div>
+<h3>Mobile First</h3>
+<p>The generated experience works beautifully on phones.</p>
+</div>
+
+</div>
+</section>
+
+
+<section class="section" id="games">
+<div class="sectionTitle">
+<h2>Make them interact.</h2>
+<p>Instead of reading one boring message, let them discover the surprise.</p>
+</div>
+
+<div class="occasionGrid">
+<div class="occasion"><b>❤️</b><span>Love</span></div>
+<div class="occasion"><b>🎂</b><span>Birthday</span></div>
+<div class="occasion"><b>💍</b><span>Proposal</span></div>
+<div class="occasion"><b>💐</b><span>Anniversary</span></div>
+<div class="occasion"><b>👯</b><span>Friendship</span></div>
+<div class="occasion"><b>🎁</b><span>Secret</span></div>
+<div class="occasion"><b>🎮</b><span>Games</span></div>
+<div class="occasion"><b>📸</b><span>Memories</span></div>
+<div class="occasion"><b>🎵</b><span>Music</span></div>
+<div class="occasion"><b>✨</b><span>Surprise</span></div>
+</div>
+</section>
+
+
+<section class="section" id="pricing">
+<div class="sectionTitle">
+<h2>Simple pricing.</h2>
+<p>Start free and upgrade when you are ready to turn it into a product.</p>
+</div>
+
+<div class="pricing">
+
+<div class="card">
+<h3>Free</h3>
+<div class="price">$0</div>
+<ul class="priceList">
+<li>Basic story</li>
+<li>Photos</li>
+<li>Quiz</li>
+<li>LOVE PAGE branding</li>
+</ul>
+<button class="btn secondary full" onclick="openBuilder()">Try free</button>
+</div>
+
+<div class="card" style="border-color:rgba(255,71,126,.45)">
+<h3>Premium</h3>
+<div class="price">$5.99 <small>one-time</small></div>
+<ul class="priceList">
+<li>All games</li>
+<li>Gallery</li>
+<li>YouTube</li>
+<li>Music</li>
+<li>Secret reveal</li>
+<li>Custom theme</li>
+</ul>
+<button class="btn primary full" onclick="openBuilder()">Create Premium</button>
+</div>
+
+<div class="card">
+<h3>Ultimate</h3>
+<div class="price">$9.99 <small>one-time</small></div>
+<ul class="priceList">
+<li>AI Story Mode</li>
+<li>Full experience</li>
+<li>QR-ready sharing</li>
+<li>No branding</li>
+<li>Advanced templates</li>
+</ul>
+<button class="btn purple full" onclick="openBuilder()">Choose Ultimate</button>
+</div>
+
+</div>
+</section>
+
+<footer class="footer">
+LOVE PAGE © 2026<br><br>
+Create moments. Not websites. ❤️
+</footer>
+
+</div>
+
+
+<!-- ================= BUILDER ================= -->
+<div id="builder">
+
+<div class="builder">
+
+<div class="builderHead">
+<div>
+<h2>Experience Builder ✨</h2>
+<small>Build your interactive surprise.</small>
+</div>
+
+<button class="btn secondary" onclick="closeBuilder()">← Back</button>
+</div>
+
+
+<div class="builderGrid">
+
+<!-- EDITOR -->
+<div class="editor">
+
+<div class="ai">
+<strong>🤖 AI Story Mode</strong>
+<p>
+Choose an occasion and let the built-in story generator
+create a beautiful starting message.
+</p>
+<button class="btn purple full" onclick="generateAI()">
+✨ Generate Story
+</button>
+</div>
+
+
+<div class="field">
+<label>Who is this for?</label>
+<select id="relationship" onchange="updatePreview()">
+<option>My Love ❤️</option>
+<option>My Girlfriend 💕</option>
+<option>My Boyfriend 💙</option>
+<option>My Best Friend 👯</option>
+<option>My Mom 👩‍👦</option>
+<option>My Dad 👨‍👦</option>
+<option>Someone Special ✨</option>
+</select>
+</div>
+
+
+<div class="field">
+<label>Occasion</label>
+<select id="occasion" onchange="updatePreview()">
+<option>Love</option>
+<option>Birthday</option>
+<option>Anniversary</option>
+<option>Proposal</option>
+<option>Apology</option>
+<option>Friendship</option>
+<option>Thank You</option>
+<option>Graduation</option>
+</select>
+</div>
+
+
+<div class="two">
+<div class="field">
+<label>Their name</label>
+<input id="theirName" placeholder="Sarah" oninput="updatePreview()">
+</div>
+
+<div class="field">
+<label>Your name</label>
+<input id="yourName" placeholder="Alex" oninput="updatePreview()">
+</div>
+</div>
+
+
+<div class="field">
+<label>Main message</label>
+<textarea id="story"
+placeholder="Write something from your heart..."
+oninput="updatePreview()"></textarea>
+</div>
+
+
+<div class="field">
+<label>Favorite memory</label>
+<textarea id="memory"
+placeholder="Tell them about a special moment..."></textarea>
+</div>
+
+
+<!-- MEMORIES -->
+<div class="field">
+<label>Memory Timeline</label>
+
+<div class="addMemory">
+<input id="memoryTitle" placeholder="Memory title">
+<input id="memoryText" placeholder="What happened?">
+<button class="btn primary" onclick="addMemory()">+</button>
+</div>
+
+<div id="memoryItems" class="memoryItems"></div>
+</div>
+
+
+<!-- PHOTOS -->
+<div class="field">
+<label>Photos</label>
+
+<label class="upload">
+📸 Add your memories
+<input id="photoInput" type="file" accept="image/*" multiple onchange="handlePhotos(event)">
+</label>
+
+<div id="photoGrid" class="photoGrid"></div>
+</div>
+
+
+<!-- COLORS -->
+<div class="two">
+
+<div class="field">
+<label>Primary color</label>
+<input type="color" id="primary" value="#ff477e" oninput="updatePreview()">
+</div>
+
+<div class="field">
+<label>Accent color</label>
+<input type="color" id="accent" value="#8b5cf6" oninput="updatePreview()">
+</div>
+
+</div>
+
+
+<div class="field">
+<label>Theme</label>
+<select id="theme" onchange="updatePreview()">
+<option value="romantic">💖 Romantic</option>
+<option value="midnight">🌌 Midnight</option>
+<option value="sunset">🌅 Sunset</option>
+<option value="dream">🔮 Dream</option>
+<option value="ocean">🌊 Ocean</option>
+</select>
+</div>
+
+
+<!-- MUSIC -->
+<div class="field">
+<label>Music URL</label>
+<input id="musicUrl" placeholder="https://example.com/music.mp3">
+</div>
+
+
+<!-- YOUTUBE -->
+<div class="field">
+<label>YouTube Video URL</label>
+<input id="youtubeUrl" placeholder="https://youtube.com/watch?v=...">
+</div>
+
+
+<!-- QUIZ -->
+<div class="field">
+<label>Quiz Question</label>
+<input id="quizQuestion" value="What is our favorite thing to do together?">
+</div>
+
+<div class="two">
+<div class="field">
+<label>Answer 1</label>
+<input id="answer1" value="Travel">
+</div>
+<div class="field">
+<label>Answer 2</label>
+<input id="answer2" value="Eat together">
+</div>
+</div>
+
+<div class="two">
+<div class="field">
+<label>Answer 3</label>
+<input id="answer3" value="Watch movies">
+</div>
+<div class="field">
+<label>Correct answer</label>
+<select id="correctAnswer">
+<option value="0">Answer 1</option>
+<option value="1" selected>Answer 2</option>
+<option value="2">Answer 3</option>
+</select>
+</div>
+</div>
+
+
+<!-- SECRET -->
+<div class="field">
+<label>Secret Message</label>
+<textarea id="secretMessage"
+placeholder="The secret message they discover..."></textarea>
+</div>
+
+
+<button class="btn primary full" style="margin-top:8px" onclick="publishExperience()">
+🚀 CREATE MY EXPERIENCE
+</button>
+
+<button class="btn secondary full" style="margin-top:8px" onclick="saveDraft()">
+💾 Save Draft
+</button>
+
+</div>
+
+
+<!-- PREVIEW -->
+<div class="preview">
+
+<div class="exp" id="experience">
+
+<div class="expScreen">
+
+<div class="expContent">
+
+<div id="expIntroSection" class="expSection active">
+
+<div class="expEmoji" id="expEmoji">❤️</div>
+
+<h1 id="expTitle">
+A little surprise for you
+</h1>
+
+<div class="expIntro" id="expText">
+Your story will appear here.
+Create something unforgettable.
+</div>
+
+<div class="expAction">
+
+<button class="btn primary" onclick="startExperience()">
+Open your surprise ✨
+</button>
+
+</div>
+
+</div>
+
+
+<!-- STORY -->
+<div id="storySection" class="expSection">
+
+<div class="expEmoji">📖</div>
+
+<h1>Our Story</h1>
+
+<div class="storyBox" id="storyBox">
+Your story...
+</div>
+
+<div class="expAction" style="margin-top:20px">
+<button class="btn primary" onclick="showSection('memorySection')">
+Continue ❤️
+</button>
+</div>
+
+</div>
+
+
+<!-- MEMORIES -->
+<div id="memorySection" class="expSection">
+
+<div class="expEmoji">📸</div>
+
+<h1>Our Memories</h1>
+
+<div id="gallery" class="gallery"></div>
+
+<div id="timeline" class="timeline"></div>
+
+<button class="btn primary" onclick="showSection('gamesSection')">
+Play with me 🎮
+</button>
+
+</div>
+
+
+<!-- GAMES -->
+<div id="gamesSection" class="expSection">
+
+<div class="expEmoji">🎮</div>
+
+<h1>Let's Play</h1>
+
+<div class="gameCard">
+
+<strong>💘 Love Quiz</strong>
+
+<p id="gameQuestion" style="margin-top:8px;color:#aaa6b7"></p>
+
+<div id="quizOptions" class="quizOptions"></div>
+
+<div id="quizResult" class="quizResult"></div>
+
+</div>
+
+
+<div class="gameCard">
+
+<strong>❤️ Catch the Hearts</strong>
+
+<p style="margin-top:7px;color:#aaa6b7">
+Catch as many hearts as you can!
+</p>
+
+<div class="catchArea" id="catchArea"></div>
+
+<div style="margin-top:10px">
+Score: <b id="heartScore">0</b>
+</div>
+
+<button class="btn secondary" style="margin-top:10px" onclick="startHeartGame()">
+Start Game
+</button>
+
+</div>
+
+
+<div class="gameCard">
+
+<strong>🧠 Memory Match</strong>
+
+<p style="margin-top:7px;color:#aaa6b7">
+Find the matching pairs.
+</p>
+
+<div id="memoryGame" class="memoryGame"></div>
+
+</div>
+
+
+<button class="btn primary" style="margin-top:20px" onclick="showSection('secretSection')">
+I have one more thing... 🎁
+</button>
+
+</div>
+
+
+<!-- SECRET -->
+<div id="secretSection" class="expSection">
+
+<div class="secret">
+
+<div class="expEmoji">🎁</div>
+
+<h1>One Last Surprise</h1>
+
+<div class="secretBox" onclick="openSecret()">
+🎁
+</div>
+
+<div id="secretMessageView" class="secretMessage">
+Your secret is waiting...
+</div>
+
+</div>
+
+<button class="btn primary" style="margin-top:20px" onclick="showSection('videoSection')">
+There is more ❤️
+</button>
+
+</div>
+
+
+<!-- VIDEO -->
+<div id="videoSection" class="expSection">
+
+<div class="expEmoji">🎵</div>
+
+<h1>Our Special Moment</h1>
+
+<div id="musicContainer"></div>
+
+<div id="videoContainer"></div>
+
+<div class="storyBox" style="margin-top:18px">
+Some moments deserve to be remembered forever.
+And this one is ours. ❤️
+</div>
+
+<button class="btn primary" style="margin-top:20px" onclick="finishExperience()">
+Finish Surprise ✨
+</button>
+
+</div>
+
+
+<!-- FINISH -->
+<div id="finishSection" class="expSection">
+
+<div class="expEmoji">💖</div>
+
+<h1 id="finishTitle">You are special.</h1>
+
+<div class="expIntro">
+Thank you for being part of this story.
+Some people become memories.
+The best ones become a reason to smile.
+</div>
+
+<div style="font-size:35px;margin:20px">
+❤️ 💖 💕 💗 💘
+</div>
+
+<button class="btn primary" onclick="celebrate()">
+Celebrate 🎉
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+</div>
+
+
+<!-- MODAL -->
+<div class="modal" id="exportModal">
+
+<div class="modalBox">
+
+<h3>🚀 Your Experience is Ready</h3>
+
+<p style="color:#aaa6b7;line-height:1.6;margin-bottom:15px">
+The experience has been created and saved on this device.
+You can also copy the generated standalone HTML.
+</p>
+
+<textarea id="exportCode" class="codeBox"></textarea>
+
+<div style="display:flex;gap:8px;margin-top:12px">
+
+<button class="btn primary" onclick="copyExportCode()">
+📋 Copy HTML
+</button>
+
+<button class="btn secondary" onclick="closeModal()">
+Close
+</button>
+
+</div>
+
+</div>
+</div>
+
+
+<script>
+
+/* =========================================================
+   LOVE PAGE BEAST ENGINE
+========================================================= */
+
+let photos=[];
+let memories=[];
+let experienceData={};
+let quizLocked=false;
+let heartInterval=null;
+let heartScore=0;
+let memoryFirst=null;
+let memoryLock=false;
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function openBuilder(){
+
+document.getElementById("landing").style.display="none";
+document.getElementById("builder").style.display="block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+updatePreview();
+}
+
+function closeBuilder(){
+
+document.getElementById("builder").style.display="none";
+document.getElementById("landing").style.display="block";
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================================================
+   PREVIEW
+========================================================= */
+
+function updatePreview(){
+
+const name=document.getElementById("theirName").value.trim();
+const occasion=document.getElementById("occasion").value;
+const story=document.getElementById("story").value.trim();
+const primary=document.getElementById("primary").value;
+const theme=document.getElementById("theme").value;
+
+let title="A little surprise for you";
+let emoji="❤️";
+
+if(name) title="A little surprise for "+name;
+
+if(occasion==="Birthday"){
+title="Happy Birthday "+(name||"❤️");
+emoji="🎂";
+}
+
+if(occasion==="Anniversary"){
+title="Happy Anniversary "+(name||"❤️");
+emoji="💐";
+}
+
+if(occasion==="Proposal"){
+title="I have something to ask you...";
+emoji="💍";
+}
+
+if(occasion==="Apology"){
+title="I'm sorry "+(name||"❤️");
+emoji="🥺";
+}
+
+if(occasion==="Friendship"){
+title="For my favorite person";
+emoji="👯";
+}
+
+if(occasion==="Thank You"){
+title="Thank you "+(name||"❤️");
+emoji="💌";
+}
+
+if(occasion==="Graduation"){
+title="Congratulations "+(name||"🎓");
+emoji="🎓";
+}
+
+document.getElementById("expTitle").innerText=title;
+document.getElementById("expEmoji").innerText=emoji;
+
+document.getElementById("expText").innerText=
+story||
+"Your story will appear here.\n\nCreate something unforgettable.";
+
+applyTheme(theme,primary);
+
+}
+
+
+/* =========================================================
+   THEMES
+========================================================= */
+
+function applyTheme(theme,primary){
+
+const exp=document.getElementById("experience");
+
+let bg="";
+
+if(theme==="romantic"){
+bg=`radial-gradient(circle at top,${primary}66,transparent 40%),linear-gradient(160deg,#16091e,#07060d)`;
+}
+
+if(theme==="midnight"){
+bg=`radial-gradient(circle at top,#172554,transparent 40%),linear-gradient(160deg,#030712,#0f172a)`;
+}
+
+if(theme==="sunset"){
+bg=`radial-gradient(circle at top,#ea580c99,transparent 40%),linear-gradient(160deg,#431407,#1c0710)`;
+}
+
+if(theme==="dream"){
+bg=`radial-gradient(circle at top,#7c3aed99,transparent 40%),linear-gradient(160deg,#180c35,#090710)`;
+}
+
+if(theme==="ocean"){
+bg=`radial-gradient(circle at top,#0891b266,transparent 40%),linear-gradient(160deg,#062c3c,#031018)`;
+}
+
+exp.style.background=bg;
+
+document.documentElement.style.setProperty("--pink",primary);
+
+}
+
+
+/* =========================================================
+   AI STORY
+========================================================= */
+
+function generateAI(){
+
+const name=document.getElementById("theirName").value.trim();
+const occasion=document.getElementById("occasion").value;
+
+let text="";
+
+if(occasion==="Love"){
+
+text=
+`To ${name||"you"} ❤️
+
+I created this little world because some feelings are too beautiful to fit inside an ordinary message.
+
+Every laugh, every conversation, every little moment has become part of a story that I never want to forget.
+
+If I could keep one thing forever, it would be the feeling of being with you.
+
+You are one of the most beautiful chapters of my life.`;
+
+}
+
+else if(occasion==="Birthday"){
+
+text=
+`Happy Birthday ${name||"❤️"} 🎂
+
+Today is about celebrating you.
+
+I hope this new chapter brings you moments that make you laugh until your cheeks hurt, people who appreciate your heart, and dreams that finally become real.
+
+You deserve a beautiful year.
+
+And I hope I get to be part of some of its best memories.`;
+
+}
+
+else if(occasion==="Anniversary"){
+
+text=
+`Happy Anniversary ${name||"❤️"}
+
+Another chapter.
+Another collection of memories.
+Another reminder of how lucky I feel to have you in my life.
+
+Thank you for every laugh, every hug, every conversation and every ordinary moment that somehow became special simply because it happened with you.
+
+Here is to everything we have already lived — and everything still waiting for us.`;
+
+}
+
+else if(occasion==="Apology"){
+
+text=
+`I am truly sorry ${name||"❤️"}.
+
+I know a message cannot erase a moment or change what happened.
+
+But I want you to know that you matter to me more than my pride.
+
+I hope one day this becomes just another page in our story — not the ending.`;
+
+}
+
+else{
+
+text=
+`To ${name||"someone special"} ❤️
+
+I made this because ordinary words didn't feel like enough.
+
+Some people enter our lives and quietly change the way we see the world.
+
+You are one of those people.
+
+Thank you for every memory, every smile and every moment that became special simply because you were there.`;
+
+}
+
+document.getElementById("story").value=text;
+
+updatePreview();
+
+alert("✨ Your story has been created!");
+
+}
+
+
+/* =========================================================
+   PHOTOS
+========================================================= */
+
+function handlePhotos(event){
+
+const files=Array.from(event.target.files);
+
+photos=[];
+
+const grid=document.getElementById("photoGrid");
+
+grid.innerHTML="";
+
+files.slice(0,12).forEach(file=>{
+
+const reader=new FileReader();
+
+reader.onload=e=>{
+
+photos.push(e.target.result);
+
+const img=document.createElement("img");
+
+img.src=e.target.result;
+
+grid.appendChild(img);
+
+};
+
+reader.readAsDataURL(file);
+
+});
+
+}
+
+
+/* =========================================================
+   MEMORIES
+========================================================= */
+
+function addMemory(){
+
+const title=document.getElementById("memoryTitle").value.trim();
+const text=document.getElementById("memoryText").value.trim();
+
+if(!title||!text){
+alert("Add a title and memory first ❤️");
+return;
+}
+
+memories.push({
+title:title,
+text:text
+});
+
+document.getElementById("memoryTitle").value="";
+document.getElementById("memoryText").value="";
+
+renderMemoryEditor();
+
+}
+
+function removeMemory(index){
+
+memories.splice(index,1);
+renderMemoryEditor();
+
+}
+
+function renderMemoryEditor(){
+
+const box=document.getElementById("memoryItems");
+
+box.innerHTML="";
+
+memories.forEach((m,i)=>{
+
+const div=document.createElement("div");
+
+div.className="memoryItem";
+
+div.innerHTML=
+`<button class="removeMemory" onclick="removeMemory(${i})">✕</button>
+<b>${escapeHTML(m.title)}</b>
+${escapeHTML(m.text)}`;
+
+box.appendChild(div);
+
+});
+
+}
+
+
+/* =========================================================
+   EXPERIENCE START
+========================================================= */
+
+function startExperience(){
+
+showSection("storySection");
+
+const data=collectData();
+
+document.getElementById("storyBox").innerText=
+data.story||
+data.memory||
+"Every beautiful story begins with a moment.";
+
+renderExperienceMemories(data);
+
+createConfetti(25);
+
+}
+
+
+/* =========================================================
+   SHOW SECTION
+========================================================= */
+
+function showSection(id){
+
+document.querySelectorAll(".expSection")
+.forEach(el=>el.classList.remove("active"));
+
+document.getElementById(id)
+.classList.add("active");
+
+}
+
+
+/* =========================================================
+   MEMORY / GALLERY
+========================================================= */
+
+function renderExperienceMemories(data){
+
+const gallery=document.getElementById("gallery");
+
+gallery.innerHTML="";
+
+data.photos.forEach(src=>{
+
+const img=document.createElement("img");
+
+img.src=src;
+
+gallery.appendChild(img);
+
+});
+
+
+const timeline=document.getElementById("timeline");
+
+timeline.innerHTML="";
+
+data.memories.forEach(m=>{
+
+const item=document.createElement("div");
+
+item.className="timelineItem";
+
+item.innerHTML=
+`<h4>${escapeHTML(m.title)}</h4>
+<p>${escapeHTML(m.text)}</p>`;
+
+timeline.appendChild(item);
+
+});
+
+if(!data.memories.length && data.memory){
+
+timeline.innerHTML=
+`<div class="timelineItem">
+<h4>Our special memory ❤️</h4>
+<p>${escapeHTML(data.memory)}</p>
+</div>`;
+
+}
+
+}
+
+
+/* =========================================================
+   QUIZ
+========================================================= */
+
+function setupQuiz(data){
+
+quizLocked=false;
+
+document.getElementById("gameQuestion").innerText=
+data.quizQuestion;
+
+const options=document.getElementById("quizOptions");
+
+options.innerHTML="";
+
+data.answers.forEach((answer,index)=>{
+
+const btn=document.createElement("button");
+
+btn.className="quizOption";
+
+btn.innerText=answer;
+
+btn.onclick=()=>answerQuiz(index,data.correctAnswer);
+
+options.appendChild(btn);
+
+});
+
+document.getElementById("quizResult").innerText="";
+
+}
+
+function answerQuiz(index,correct){
+
+if(quizLocked)return;
+
+quizLocked=true;
+
+const result=document.getElementById("quizResult");
+
+if(index===correct){
+
+result.innerText="🎉 Correct! You really know us! ❤️";
+
+createConfetti(30);
+
+}else{
+
+result.innerText="🥺 Almost! But I still love you ❤️";
+
+}
+
+}
+
+
+/* =========================================================
+   HEART GAME
+========================================================= */
+
+function startHeartGame(){
+
+clearInterval(heartInterval);
+
+heartScore=0;
+
+document.getElementById("heartScore").innerText="0";
+
+const area=document.getElementById("catchArea");
+
+area.innerHTML="";
+
+heartInterval=setInterval(()=>{
+
+const heart=document.createElement("div");
+
+heart.className="catchHeart";
+
+heart.innerText=["❤️","💖","💕","💗"][Math.floor(Math.random()*4)];
+
+heart.style.left=
+Math.random()*(area.clientWidth-35)+"px";
+
+heart.style.top=
+Math.random()*(area.clientHeight-35)+"px";
+
+heart.onclick=()=>{
+
+heartScore++;
+
+document.getElementById("heartScore").innerText=heartScore;
+
+heart.remove();
+
+if(heartScore>=10){
+
+clearInterval(heartInterval);
+
+createConfetti(40);
+
+}
+
+};
+
+area.appendChild(heart);
+
+setTimeout(()=>heart.remove(),1800);
+
+},500);
+
+}
+
+
+/* =========================================================
+   MEMORY MATCH GAME
+========================================================= */
+
+function setupMemoryGame(){
+
+const emojis=["❤️","💖","💕","💗","💘","💝","🌹","✨"];
+
+const deck=[...emojis,...emojis]
+.sort(()=>Math.random()-.5);
+
+const box=document.getElementById("memoryGame");
+
+box.innerHTML="";
+
+memoryFirst=null;
+memoryLock=false;
+
+deck.forEach((emoji,index)=>{
+
+const btn=document.createElement("button");
+
+btn.className="memoryCard";
+
+btn.dataset.value=emoji;
+btn.dataset.index=index;
+
+btn.innerText="❓";
+
+btn.onclick=()=>flipMemory(btn);
+
+box.appendChild(btn);
+
+});
+
+}
+
+function flipMemory(card){
+
+if(memoryLock||card.classList.contains("open")||card.classList.contains("matched"))
+return;
+
+card.classList.add("open");
+card.innerText=card.dataset.value;
+
+if(!memoryFirst){
+
+memoryFirst=card;
+return;
+
+}
+
+if(memoryFirst.dataset.value===card.dataset.value){
+
+memoryFirst.classList.add("matched");
+card.classList.add("matched");
+memoryFirst=null;
+
+if(document.querySelectorAll(".memoryCard.matched").length===16){
+createConfetti(50);
+}
+
+}else{
+
+memoryLock=true;
+
+setTimeout(()=>{
+
+memoryFirst.classList.remove("open");
+memoryFirst.innerText="❓";
+
+card.classList.remove("open");
+card.innerText="❓";
+
+memoryFirst=null;
+memoryLock=false;
+
+},700);
+
+}
+
+}
+
+
+/* =========================================================
+   SECRET
+========================================================= */
+
+function openSecret(){
+
+const data=collectData();
+
+const box=document.getElementById("secretMessageView");
+
+box.innerText=
+data.secretMessage||
+"I just want you to know that you mean more to me than words can explain. ❤️";
+
+box.classList.add("show");
+
+createConfetti(35);
+
+}
+
+
+/* =========================================================
+   VIDEO + MUSIC
+========================================================= */
+
+function setupMedia(data){
+
+const video=document.getElementById("videoContainer");
+
+video.innerHTML="";
+
+if(data.youtubeUrl){
+
+const id=getYoutubeId(data.youtubeUrl);
+
+if(id){
+
+video.innerHTML=
+`<div class="videoWrap">
+<iframe
+src="https://www.youtube.com/embed/${id}"
+allow="accelerometer;autoplay;clipboard-write;encrypted-media;gyroscope;picture-in-picture"
+allowfullscreen>
+</iframe>
+</div>`;
+
+}
+
+}
+
+const music=document.getElementById("musicContainer");
+
+music.innerHTML="";
+
+if(data.musicUrl){
+
+music.innerHTML=
+`<div class="musicBox">
+🎵
+<audio controls style="max-width:100%" src="${escapeAttr(data.musicUrl)}"></audio>
+</div>`;
+
+}
+
+}
+
+function getYoutubeId(url){
+
+try{
+
+const u=new URL(url);
+
+if(u.hostname.includes("youtu.be")){
+return u.pathname.substring(1).split("/")[0];
+}
+
+if(u.hostname.includes("youtube.com")){
+return u.searchParams.get("v")||
+u.pathname.split("/").filter(Boolean).pop();
+}
+
+}catch(e){}
+
+return null;
+
+}
+
+
+/* =========================================================
+   FINISH
+========================================================= */
+
+function finishExperience(){
+
+showSection("finishSection");
+
+const name=document.getElementById("theirName").value.trim();
+
+document.getElementById("finishTitle").innerText=
+name?
+`You are special, ${name}. ❤️`:
+"You are special. ❤️";
+
+createConfetti(70);
+
+}
+
+function celebrate(){
+
+createConfetti(100);
+
+alert("🎉 Surprise completed! ❤️");
+
+}
+
+
+/* =========================================================
+   COLLECT DATA
+========================================================= */
+
+function collectData(){
+
+return{
+
+theirName:document.getElementById("theirName").value.trim(),
+
+yourName:document.getElementById("yourName").value.trim(),
+
+relationship:document.getElementById("relationship").value,
+
+occasion:document.getElementById("occasion").value,
+
+story:document.getElementById("story").value,
+
+memory:document.getElementById("memory").value,
+
+primary:document.getElementById("primary").value,
+
+accent:document.getElementById("accent").value,
+
+theme:document.getElementById("theme").value,
+
+musicUrl:document.getElementById("musicUrl").value.trim(),
+
+youtubeUrl:document.getElementById("youtubeUrl").value.trim(),
+
+photos:[...photos],
+
+memories:JSON.parse(JSON.stringify(memories)),
+
+quizQuestion:document.getElementById("quizQuestion").value,
+
+answers:[
+document.getElementById("answer1").value,
+document.getElementById("answer2").value,
+document.getElementById("answer3").value
+],
+
+correctAnswer:Number(
+document.getElementById("correctAnswer").value
+),
+
+secretMessage:
+document.getElementById("secretMessage").value
+
+};
+
+}
+
+
+/* =========================================================
+   PUBLISH
+========================================================= */
+
+function publishExperience(){
+
+const name=document.getElementById("theirName").value.trim();
+
+if(!name){
+
+alert("❤️ Please enter their name first.");
+
+document.getElementById("theirName").focus();
+
+return;
+
+}
+
+experienceData=collectData();
+
+localStorage.setItem(
+"LOVE_PAGE_EXPERIENCE",
+JSON.stringify(experienceData)
+);
+
+setupQuiz(experienceData);
+setupMemoryGame();
+setupMedia(experienceData);
+renderExperienceMemories(experienceData);
+
+showSection("expIntroSection");
+
+document.getElementById("experience").scrollIntoView({
+behavior:"smooth",
+block:"start"
+});
+
+createConfetti(40);
+
+alert(
+"🎉 Your interactive experience is ready!\n\n"+
+"Now the person can open it and discover the story, games, secret and media."
+);
+
+}
+
+
+/* =========================================================
+   SAVE DRAFT
+========================================================= */
+
+function saveDraft(){
+
+const data=collectData();
+
+localStorage.setItem(
+"LOVE_PAGE_DRAFT",
+JSON.stringify(data)
+);
+
+alert("💾 Draft saved on this device.");
+
+}
+
+
+/* =========================================================
+   LOAD DRAFT
+========================================================= */
+
+function loadDraft(){
+
+try{
+
+const raw=localStorage.getItem("LOVE_PAGE_DRAFT");
+
+if(!raw)return;
+
+const data=JSON.parse(raw);
+
+fillData(data);
+
+}catch(e){
+console.log(e);
+}
+
+}
+
+function fillData(data){
+
+if(!data)return;
+
+const ids=[
+"theirName",
+"yourName",
+"story",
+"memory",
+"musicUrl",
+"youtubeUrl",
+"quizQuestion",
+"answer1",
+"answer2",
+"answer3",
+"secretMessage"
+];
+
+ids.forEach(id=>{
+
+if(data[id]!==undefined &&
+document.getElementById(id)){
+
+document.getElementById(id).value=data[id];
+
+}
+
+});
+
+if(data.relationship)
+document.getElementById("relationship").value=data.relationship;
+
+if(data.occasion)
+document.getElementById("occasion").value=data.occasion;
+
+if(data.primary)
+document.getElementById("primary").value=data.primary;
+
+if(data.accent)
+document.getElementById("accent").value=data.accent;
+
+if(data.theme)
+document.getElementById("theme").value=data.theme;
+
+if(data.correctAnswer!==undefined)
+document.getElementById("correctAnswer").value=data.correctAnswer;
+
+photos=data.photos||[];
+memories=data.memories||[];
+
+renderMemoryEditor();
+
+const grid=document.getElementById("photoGrid");
+
+grid.innerHTML="";
+
+photos.forEach(src=>{
+
+const img=document.createElement("img");
+
+img.src=src;
+
+grid.appendChild(img);
+
+});
+
+updatePreview();
+
+}
+
+
+/* =========================================================
+   EXPORT STANDALONE HTML
+========================================================= */
+
+function exportExperience(){
+
+const data=collectData();
+
+const json=JSON.stringify(data)
+.replace(/</g,"\\u003c")
+.replace(/>/g,"\\u003e");
+
+const html=`<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>${escapeHTML(data.theirName)} — A Surprise</title>
+<style>
+*{box-sizing:border-box}
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:#080711;
+color:#fff;
+min-height:100vh
+}
+.wrap{
+min-height:100vh;
+display:flex;
+align-items:center;
+justify-content:center;
+padding:20px;
+background:
+radial-gradient(circle at top,#ff477e55,transparent 40%),
+linear-gradient(160deg,#16091e,#07060d)
+}
+.card{
+width:100%;
+max-width:650px;
+text-align:center;
+padding:35px 20px
+}
+.emoji{font-size:80px}
+h1{font-size:42px}
+p{
+color:#ccc;
+line-height:1.8;
+white-space:pre-line
+}
+button{
+border:0;
+background:${escapeAttr(data.primary)};
+color:#fff;
+padding:14px 25px;
+border-radius:13px;
+font-weight:bold;
+cursor:pointer
+}
+.gallery{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:7px;
+margin:20px 0
+}
+.gallery img{
+width:100%;
+aspect-ratio:1;
+object-fit:cover;
+border-radius:10px
+}
+.section{
+display:none;
+animation:fade .4s
+}
+.section.active{display:block}
+@keyframes fade{
+from{opacity:0;transform:translateY(10px)}
+to{opacity:1;transform:translateY(0)}
+}
+.secret{
+margin:20px 0;
+padding:25px;
+background:#ffffff09;
+border:1px solid #ffffff18;
+border-radius:18px
+}
+.secretText{display:none}
+.secretText.show{display:block}
+@media(max-width:600px){
+h1{font-size:30px}
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+<div class="card">
+
+<div id="intro" class="section active">
+<div class="emoji">❤️</div>
+<h1>A little surprise for ${escapeHTML(data.theirName)}</h1>
+<p>${escapeHTML(data.story||"Someone created this just for you.")}</p>
+<button onclick="openStory()">Open your surprise ✨</button>
+</div>
+
+<div id="story" class="section">
+<div class="emoji">📖</div>
+<h1>Our Story</h1>
+<p>${escapeHTML(data.story||data.memory||"Our story is just beginning.")}</p>
+${data.photos.length?`
+<div class="gallery">
+${data.photos.map(x=>`<img src="${x}">`).join("")}
+</div>`:""}
+<button onclick="openSecret()">There is a secret 🎁</button>
+</div>
+
+<div id="secret" class="section">
+<div class="emoji">🎁</div>
+<h1>One Last Thing</h1>
+<div class="secret">
+<div style="font-size:60px;cursor:pointer" onclick="reveal()">🎁</div>
+<p id="secretText" class="secretText">${escapeHTML(data.secretMessage||"You are loved. ❤️")}</p>
+</div>
+<button onclick="celebrate()">Celebrate 🎉</button>
+</div>
+
+</div>
+</div>
+
+<script>
+function s(id){
+document.querySelectorAll(".section").forEach(x=>x.classList.remove("active"));
+document.getElementById(id).classList.add("active");
+}
+function openStory(){s("story")}
+function openSecret(){s("secret")}
+function reveal(){
+document.getElementById("secretText").classList.add("show");
+}
+function celebrate(){
+for(let i=0;i<50;i++){
+let x=document.createElement("div");
+x.innerText=["❤️","💖","✨","💕"][Math.floor(Math.random()*4)];
+x.style.position="fixed";
+x.style.left=Math.random()*100+"vw";
+x.style.top="-20px";
+x.style.fontSize="25px";
+x.style.transition="3s";
+document.body.appendChild(x);
+setTimeout(()=>x.style.top="100vh",20);
+setTimeout(()=>x.remove(),3000);
+}
+}
+<\/script>
+
+</body>
+</html>`;
+
+return html;
+
+}
+
+
+/* =========================================================
+   EXPORT MODAL
+========================================================= */
+
+function showExport(){
+
+const html=exportExperience();
+
+document.getElementById("exportCode").value=html;
+
+document.getElementById("exportModal")
+.classList.add("show");
+
+}
+
+function copyExportCode(){
+
+const box=document.getElementById("exportCode");
+
+box.select();
+
+navigator.clipboard?
+navigator.clipboard.writeText(box.value):
+document.execCommand("copy");
+
+alert("📋 HTML copied!");
+
+}
+
+function closeModal(){
+
+document.getElementById("exportModal")
+.classList.remove("show");
+
+}
+
+
+/* =========================================================
+   CONFETTI
+========================================================= */
+
+function createConfetti(amount=30){
+
+for(let i=0;i<amount;i++){
+
+const c=document.createElement("div");
+
+c.className="confetti";
+
+c.style.left=Math.random()*100+"vw";
+
+c.style.top="-20px";
+
+c.style.background=
+["#ff477e","#8b5cf6","#22d3ee","#fbbf24","#fff"]
+[Math.floor(Math.random()*5)];
+
+c.style.transform=
+`rotate(${Math.random()*360}deg)`;
+
+c.style.animationDuration=
+(1.5+Math.random()*2)+"s";
+
+document.body.appendChild(c);
+
+setTimeout(()=>c.remove(),4000);
+
+}
+
+}
+
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function escapeHTML(value){
+
+return String(value??"")
+.replace(/&/g,"&amp;")
+.replace(/</g,"&lt;")
+.replace(/>/g,"&gt;")
+.replace(/"/g,"&quot;")
+.replace(/'/g,"&#039;");
+
+}
+
+function escapeAttr(value){
+
+return String(value??"")
+.replace(/"/g,"&quot;");
+
+}
+
+
+/* =========================================================
+   INITIALIZE
+========================================================= */
+
+loadDraft();
+
+updatePreview();
+
+</script>
+
+</body>
+</html>
