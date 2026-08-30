@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl"><head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  
+  <!-- عنوان محايد تماماً -->
+  <title>Welcome</title>
+  
+  <!-- ========================================== -->
+  <!-- [تفريغ المعاينة تماماً لحماية المحتوى]   -->
+  <!-- ========================================== -->
+  <meta name="description" content="">
+  <meta property="og:title" content="">
+  <meta property="og:description" content="">
+  <meta property="og:image" content="">
+  <meta name="robots" content="noindex, nofollow, nosnippet">
+  <!-- ========================================== -->
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&amp;display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      /* درجات الألوان الأصلية الخاصة بك */
+      --primary: #ff477e;             
+      --primary-hover: #ff2a6d;       
+      --bg-gradient: linear-gradient(135deg, #0f172a 0%, #2a085c 50%, #4c0519 100%); 
+      --card-bg: rgba(255, 255, 255, 0.07); 
+      --card-border: rgba(255, 255, 255, 0.15);
+      --text-main: #ffffff;
+      --text-sub: #f1f5f9;
+      --accent-pink: #ff7597;         
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; user-select: none; -webkit-tap-highlight-color: transparent; font-family: 'Tajawal', system-ui, sans-serif; }
+    
+    html, body {
+      background: #0f172a;
+      background-image: var(--bg-gradient);
+      width: 100vw; min-height: 100vh; overflow-x: hidden;
+      direction: rtl; position: relative; color: var(--text-main);
+    }
+
+    #heartCanvas { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none; z-index: 1; }
+    
+    .center-wrapper { position: relative; min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 20px 15px; z-index: 10; }
+    
+    .box {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 28px; padding: 35px 25px; width: 100%; max-width: 420px; text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), 0 0 30px rgba(255, 71, 126, 0.15);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .progress-wrapper { display: none; margin-bottom: 25px; }
+    .progress-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; font-size: 14px; color: var(--accent-pink); font-weight: 700; }
+    .progress-container { width: 100%; background: rgba(255, 255, 255, 0.1); border-radius: 12px; overflow: hidden; height: 10px; border: 1px solid rgba(255, 255, 255, 0.1); }
+    .progress-bar { width: 0%; height: 100%; background: linear-gradient(90deg, #ff477e, #ff7597); transition: width 0.5s ease; border-radius: 12px; box-shadow: 0 0 12px rgba(255, 71, 126, 0.6); }
+
+    .bear-gif {
+      width: 120px; height: 120px; object-fit: cover; border-radius: 50%;
+      margin: 0 auto 20px auto; display: block; background: rgba(255, 255, 255, 0.1);
+      box-shadow: 0 8px 25px rgba(255, 71, 126, 0.3); border: 2px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .shake { animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both; }
+    @keyframes shake { 10%, 90% { transform: translate3d(-1px, 0, 0); } 20%, 80% { transform: translate3d(2px, 0, 0); } 30%, 50%, 70% { transform: translate3d(-4px, 0, 0); } 40%, 60% { transform: translate3d(4px, 0, 0); } }
+    
+    .lock-icon { font-size: 45px; margin-bottom: 15px; filter: drop-shadow(0 0 10px rgba(255,71,126,0.5)); }
+    h1 { font-size: 22px; font-weight: 800; margin-bottom: 10px; color: #ffffff; }
+    p { color: var(--text-sub); font-size: 15px; margin-bottom: 20px; line-height: 1.6; }
+    
+    .input-field {
+      width: 85%; padding: 14px; border: 1.5px solid rgba(255, 255, 255, 0.2); border-radius: 16px;
+      text-align: center; font-size: 16px; outline: none; margin-bottom: 15px;
+      background: rgba(255, 255, 255, 0.08); color: #fff; transition: all 0.3s ease;
+    }
+    .input-field:focus { border-color: var(--primary); box-shadow: 0 0 15px rgba(255, 71, 126, 0.3); background: rgba(255, 255, 255, 0.12); }
+    .error { color: #ff4d4d; font-size: 14px; font-weight: 700; margin-top: 10px; display: none; }
+    
+    #mainContent { display: none; width: 100%; }
+    
+    .title-container { 
+      color: var(--accent-pink); 
+      font-size: 20px; 
+      font-weight: 700; 
+      margin-bottom: 25px; 
+      width: 100%;
+      text-align: center;
+    }
+    
+    .typewrite-line {
+      display: block !important;
+      clear: both !important;
+      float: none !important;
+      width: 100% !important;
+      margin-top: 5px !important;
+      margin-bottom: 12px !important;
+      line-height: 1.6 !important;
+      white-space: pre-wrap !important;
+      word-spacing: 3px !important;
+      min-height: 30px;
+      word-wrap: break-word;
+    }
+    
+    .btn {
+      background: var(--primary); color: white; border: none; padding: 14px 28px; margin: 8px 4px;
+      border-radius: 16px; font-size: 16px; font-weight: 700; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(255, 71, 126, 0.3); display: inline-block; text-decoration: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); position: relative;
+    }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 12px 25px rgba(255, 71, 126, 0.4); }
+    .btn:active { transform: translateY(1px); }
+    .btn:disabled { background: rgba(255, 255, 255, 0.15) !important; color: rgba(255, 255, 255, 0.4) !important; cursor: not-allowed; box-shadow: none !important; transform: none !important; }
+    
+    .btn-secondary { background: rgba(255, 255, 255, 0.12); color: #fff; border: 1px solid rgba(255, 255, 255, 0.2); box-shadow: none; }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.2); }
+    .btn-big { font-size: 18px; padding: 16px 36px; width: 100%; }
+    
+    .btn-instagram { background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%); width: 100%; margin-bottom: 10px; }
+    .btn-whatsapp { background: #25d366; width: 100%; }
+    .btn-song { background: linear-gradient(90deg, #ff0055, #ff5500); width: 100%; }
+    
+    .hidden { display: none !important; }
+    .sub-text { font-size: 13px; color: rgba(255, 255, 255, 0.6); margin-top: 15px; }
+    .action-box { margin-top: 20px; padding: 18px; background: rgba(255, 255, 255, 0.05); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 20px; }
+    .action-box p { font-size: 14px; color: var(--text-sub); margin-bottom: 12px; font-weight: 500; }
+    
+    .scratch-container { position: relative; width: 100%; height: 130px; margin: 18px 0; border-radius: 18px; overflow: hidden; border: 1px dashed var(--accent-pink); }
+    .scratch-reveal { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(255, 255, 255, 0.08); display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 10px; }
+    canvas#scratchCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 2; touch-action: none; cursor: pointer; }
+    
+    .tap-heart { position: fixed; font-size: 24px; pointer-events: none; z-index: 99999; transform: translate(-50%, -50%); animation: tapFade 0.8s forwards ease-out; }
+    @keyframes tapFade { 0% { opacity: 1; transform: translate(-50%, -50%) scale(0.6); } 100% { opacity: 0; transform: translate(-50%, -100px) scale(1.2); } }
+    
+    .confetti-item { position: fixed; pointer-events: none; z-index: 999999; animation: explode 2.2s cubic-bezier(0.25, 1, 0.5, 1) forwards; }
+    @keyframes explode { 0% { opacity: 1; transform: translate(0, 0) scale(0.3) rotate(0deg); } 100% { opacity: 0; transform: translate(var(--dx), var(--dy)) scale(var(--sc)) rotate(var(--rt)); } }
+  </style>
+</head>
+<body>
+
+  <canvas id="heartCanvas"></canvas>
+
+  <div class="center-wrapper">
+    <!-- 🔒 شاشة القفل الحقيقية -->
+    <div class="box" id="lockScreen">
+      <div class="lock-icon">🔒</div>
+      <h1>صفحة خاصة جداً</h1>
+      <p>أدخلي كلمة المرور للمتابعة</p>
+      <input class="input-field" id="passwordInput" onkeydown="if(event.key==='Enter') checkPassword()" placeholder="••••••" type="password">
+      <br>
+      <button class="btn btn-big" onclick="checkPassword()">دخول 💖</button>
+      <div class="error" id="errorMsg">❌ كلمة المرور غير صحيحة</div>
+    </div>
+
+    <!-- 📱 المحتوى الرئيسي -->
+    <div id="mainContent">
+      <div class="box" id="app">
+        
+        <div class="progress-wrapper" id="progressWrapper">
+          <div class="progress-info">
+            <span id="progressText">0%</span>
+            <span id="timerText">⏳ انتظري 3 ثوانٍ...</span>
+          </div>
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+          </div>
+        </div>
+
+        <!-- الصفحة 1 -->
+        <div id="page1">
+          <img alt="دب" class="bear-gif" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjUkHTqVA8TxKPDA20lMfkkav9zzrOs-YxBh9V4U63iWrExL-wJcBTYc2N_GJmtrycxIBXqWW6v0r8isAlkkv_o0nGBV-kRCXK3CT2Q9eUpAQI6r3yYjjFxrs2zzQ2yalZ78h3BwbVq0HVfPIP87_diObm0FMxKvf8DOs9ucbIgSR2T_dtPPqbTDG1ouLc/s1600/403.gif">
+          <div class="title-container">
+            <div class="typewrite-line" data-text="أسئلة خاصة"></div>
+            <div class="typewrite-line" data-text="حبي زعلانة مني؟"></div>
+          </div>
+          <button class="choice-btn btn" disabled="" onclick="nextPage(2, 25)">يمكن 😒</button>
+          <button class="choice-btn btn btn-secondary" id="noBtn1" disabled="" onclick="handleNoClick(1)">شو دخلَك 😐</button>
+        </div>
+
+        <!-- الصفحة 2 -->
+        <div class="hidden" id="page2">
+          <img alt="دب" class="bear-gif" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEhk24EUuDSPNMtl30gTDG8_c-QWbR7W7WsCN93VpUuB0W8Gv1oO_OjUBIlwuJvEjj5LvCVFwLDddPDz9HGJeVVYpS4j8x7zuT3OMaOTtXKq7h4HXMtXy5PTDu21YBgzbuoiJPmZkTT09JFo_YVLfWVQt8EPFXQGGWtt-SCytK7UdEuUgIgQegpcmppa4FU/s1600/404.gif">
+          <div class="title-container">
+            <div class="typewrite-line" data-text="تعرفيني بحبك.. معقول تزعلي مني؟"></div>
+          </div>
+          <button class="choice-btn btn" disabled="" onclick="nextPage(3, 50)">اي 🙄</button>
+          <button class="choice-btn btn btn-secondary" id="noBtn2" disabled="" onclick="handleNoClick(2)">لا ما بعرف 😶</button>
+        </div>
+
+        <!-- الصفحة 3 -->
+        <div class="hidden" id="page3">
+          <img alt="دب" class="bear-gif" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEh4XyMeKZeO9MgJtFETtlxVUHaKRMtf8BiOkSJz7J3wbJgb6WERU9drVD8PmoHjTqVzE3jgrIvKGlcm1ypRsq0qJaLPzNE5tW7fWdJQ2BDQG1mDTlSuSGeXtwJjvWI3lOv1R22mQVQU6mCcQKe7RmmslLueVHdofIegYzkRxcqqkAqv0bMvFn1FSk_x2QE/s1600/405.gif">
+          <div class="title-container">
+            <div class="typewrite-line" data-text="تصيري حبابة وتصالحي حبيبك🥺؟"></div>
+          </div>
+          <button class="choice-btn btn" disabled="" onclick="nextPage(4, 75)">أكيد❤️</button>
+          <button class="choice-btn btn btn-secondary" id="noBtn3" disabled="" onclick="handleNoClick(3)">مترددة.. 🤔</button>
+        </div>
+
+        <!-- الصفحة 4 -->
+        <div class="hidden" id="page4">
+          <img alt="دب" class="bear-gif" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEg6lfqInD-FNhYGjMUrAxET1_opXFZduaSDra1yNiJK7_f8EHbvJhIBKc38MLcu2f9TBYuomGy0iIO2wMWKp8ald70V8UyXnhd8kT7iyhunvWgATe0_Adsrsoc_1vh5C-aEHJwXpjKcLGxfB57T0N_8xehZIhIqaEHmmB5tGdZ3yxmVieODALwmrrnqDFk/s1600/406.gif">
+          <div class="title-container">
+            <div class="typewrite-line" data-text="هل أنتِ مستعدة للصلاح النهائي؟"></div>
+          </div>
+          <p>اضغطي لرؤية النتيجة ✨</p>
+          <button class="choice-btn btn btn-big" disabled="" onclick="nextPage(5, 100)">أجل 💖</button>
+        </div>
+
+        <!-- الصفحة 5 (تم تفريغ عنصر الرسالة ليتم حمايته وحقنه بالجافاسكريبت فقط) -->
+        <div class="hidden" id="page5">
+          <img alt="دب" class="bear-gif" src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEiKO-cfTq6lf-OnD3oUsRSOsj4NdubWzqRBGPRa6itmSB3XCIF_5ah7KzXZvazrCtA_MBFZnnub0iUM01cLwftD3daQgqprVSeIehM31NfZkM1wxuzRUi2Vv_Jp1SMNvJIL2LbyzyUmZgxxZbYSA6MZL-802ap7Zagu3jsjHo7jC75BZFnuQF5Kwy9tcjY/s1600/407.gif">
+          <h1 style="color:var(--accent-pink); font-size: 24px; margin-bottom: 12px;">🎉 مبروك الصلح 🎉</h1>
+          <p style="font-size: 15px; margin-bottom: 15px;">وصولك إلى هنا يعني أنك صالحتيني وأنك تحبيني جداً!</p>
+          
+          <div style="background: rgba(255,255,255,0.06); padding: 15px; border-radius: 16px; margin-bottom: 15px;">
+            <p style="font-size: 15px; color: var(--accent-pink); margin-bottom: 8px; font-weight: 700;">رسال لقلبك ❤️</p>
+            <!-- السطر المحمي الذي سيُحقن بالنص -->
+            <p id="dynamicSecretText" style="font-size: 18px; color: #fff; font-weight: 700; margin: 0; line-height: 1.5;"></p>
+          </div>
+
+          <!-- كرت الحك المخفي -->
+          <p style="font-size: 14px; color: var(--text-sub);">حكّي الكرت بإصبعك لكشف السر 👇</p>
+          <div class="scratch-container">
+            <div class="scratch-reveal">
+              <strong id="randomSecretMsg" style="color:var(--accent-pink); font-size: 18px; font-weight: 800;"></strong>
+              <p style="font-size: 13px; color: var(--text-sub); margin-top: 6px;" id="scratchRevealText">أحبك دائماً وأبداً ♾️</p>
+            </div>
+            <canvas id="scratchCanvas"></canvas>
+          </div>
+
+          <!-- روابط التواصل -->
+          <div class="action-box">
+            <p>أخبريه الآن أنك تحبينه 💬</p>
+            <a class="btn btn-instagram" href="https://ig.me/m/96ruk" target="_blank" rel="noopener noreferrer">إرسال عبر إنستغرام 📸</a>
+            <a class="btn btn-whatsapp" href="https://wa.me/963985633942?text=مرحبا%20خفوشي%20لقد%20قبلت%20اعتذارك%20وانا%20احبك" target="_blank" rel="noopener noreferrer">إرسال عبر واتساب 💚</a>
+          </div>
+
+          <!-- رابط الأغنية -->
+          <div class="action-box">
+            <p>🎵 أغنية خاصة إهداء لكِ</p>
+            <a class="btn btn-song" href="https://youtu.be/6pHiSuEuFFA?si=mCevG8lwL6amz1HV" target="_blank" rel="noopener noreferrer">استمعي للأغنية 🎧</a>
+          </div>
+          
+          <p class="sub-text">تم التصميم خصيصاً لك بواسطة باتمان 🦇</p>
+        </div>
+
+        <!-- الصفحة 6 -->
+        <div class="hidden" id="page6">
+          <img alt="دب حزين" class="bear-gif" src="https://i.imgur.com/c4tA59P.gif">
+          <div class="title-container">
+            <div class="typewrite-line" data-text="آه... حقاً؟😢"></div>
+          </div>
+          <p>حزين جداً ولكنني احترم مشاعرك.</p>
+          <p style="color:var(--accent-pink);">إذا غيرتِ رأيك، انا انتظرك دوماً 🫀</p>
+          <button class="btn btn-big" onclick="nextPage(1, 0); resetNoClicks();" style="margin-top:15px;">🔄 المحاولة مجدداً</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+<script>
+  // ==========================================
+  // [1. كلمة السر والرسالة السرية المحمية]
+  // ==========================================
+  const TARGET_PASS = "يحيى";
+  const SECRET_MESSAGE = "بحبك وقد ما جنيتي علي حَضل أحبك، ما إلي غيرك يا قمر لا تزعلي مني 🥺🫀";
+
+  // ==========================================
+  // [2. نصوص كرت الحك العشوائية]
+  // ==========================================
+  const secretMessages = ["أنتِ أجمل خطوة في حياتي","وجودك بجانبي يجعل كل شيء جميل","لا شيء يعوضني عن وجودك معي","أنتِ النجمة التي تضيء ليلي","مهما حدث، سأبقى أحبك دائماً","ابتسامتك هي سر سعادتي"];
+
+  let noClicks = { 1: 0, 2: 0, 3: 0 };
+  let typeTimeouts = [];
+  let questionTimer = null;
+
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  function playSound(freq, type, duration) {
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.type = type;
+    osc.frequency.setValueAtTime(freq, audioCtx.currentTime);
+    gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+    gain.gain.linearRampToValueAtTime(0, audioCtx.currentTime + duration);
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+    osc.start();
+    osc.stop(audioCtx.currentTime + duration);
+  }
+
+  // ==========================================
+  // [3. دالة فحص القفل والحقن بعد التحقق الأمني]
+  // ==========================================
+  function checkPassword() {
+    const passInput = document.getElementById('passwordInput').value.trim();
+    const error = document.getElementById('errorMsg');
+    const lockBox = document.getElementById('lockScreen');
+
+    if (passInput === TARGET_PASS) {
+      playSound(520, 'sine', 0.15);
+      
+      // حقن النص السري برمجيًا في هذه اللحظة لمنع البوتات من قراءته في المعاينة
+      document.getElementById('dynamicSecretText').innerText = SECRET_MESSAGE;
+
+      lockBox.style.display = 'none';
+      document.getElementById('mainContent').style.display = 'block';
+      nextPage(1, 0);
+    } else {
+      playSound(140, 'sawtooth', 0.25);
+      if (navigator.vibrate) navigator.vibrate([60, 30, 60]);
+      lockBox.classList.add('shake');
+      error.style.display = 'block';
+      document.getElementById('passwordInput').value = '';
+      setTimeout(() => lockBox.classList.remove('shake'), 400);
+    }
+  }
+
+  function typeWriterEffect(container) {
+    typeTimeouts.forEach(t => clearTimeout(t));
+    typeTimeouts = [];
+
+    const elements = Array.from(container.querySelectorAll('.typewrite-line'));
+    elements.forEach(el => el.textContent = '');
+
+    function typeElement(index) {
+      if (index >= elements.length) return;
+
+      const el = elements[index];
+      const fullText = el.getAttribute('data-text');
+      if (!fullText) {
+        typeElement(index + 1);
+        return;
+      }
+
+      let charIndex = 0;
+      function typeChar() {
+        if (charIndex < fullText.length) {
+          el.textContent += fullText.charAt(charIndex);
+          charIndex++;
+          typeTimeouts.push(setTimeout(typeChar, 40));
+        } else {
+          typeTimeouts.push(setTimeout(() => typeElement(index + 1), 150));
+        }
+      }
+      typeChar();
+    }
+
+    typeElement(0);
+  }
+
+  function startQuestionTimer(pageElement) {
+    if (questionTimer) clearInterval(questionTimer);
+    const buttons = pageElement.querySelectorAll('.choice-btn');
+    buttons.forEach(btn => btn.setAttribute('disabled', 'true'));
+
+    let timeLeft = 3; 
+    const timerText = document.getElementById('timerText');
+    timerText.innerText = `⏳ انتظري ${timeLeft} ثوانٍ...`;
+
+    questionTimer = setInterval(() => {
+      timeLeft--;
+      if (timeLeft > 0) {
+        timerText.innerText = `⏳ انتظري ${timeLeft} ثوانٍ...`;
+      } else {
+        clearInterval(questionTimer);
+        timerText.innerText = `✨ يمكنك الإجابة الآن!`;
+        buttons.forEach(btn => btn.removeAttribute('disabled'));
+      }
+    }, 1000);
+  }
+
+  function updateProgress(percentage) {
+    const progressBar = document.getElementById('progressBar');
+    const progressWrapper = document.getElementById('progressWrapper');
+    const progressText = document.getElementById('progressText');
+    
+    if (percentage === 0) {
+      progressWrapper.style.display = 'none';
+      progressBar.style.width = '0%';
+      progressText.innerText = '0%';
+    } else {
+      progressWrapper.style.display = 'block';
+      progressBar.style.width = percentage + '%';
+      progressText.innerText = percentage + '%';
+    }
+  }
+
+  function nextPage(pageNum, progressPercentage) {
+    if (questionTimer) clearInterval(questionTimer);
+    playSound(600, 'sine', 0.1);
+    
+    for (let i = 1; i <= 6; i++) {
+      const page = document.getElementById('page' + i);
+      if (page) page.classList.add('hidden');
+    }
+
+    const targetPage = document.getElementById('page' + pageNum);
+    if (targetPage) {
+      targetPage.classList.remove('hidden');
+      typeWriterEffect(targetPage);
+      if (pageNum >= 1 && pageNum <= 4) startQuestionTimer(targetPage);
+    }
+
+    updateProgress(progressPercentage);
+
+    if (pageNum === 5) {
+      document.getElementById('progressWrapper').style.display = 'none';
+      triggerExplosion();
+      setTimeout(initScratchCard, 100);
+    }
+    if (pageNum === 6) document.getElementById('progressWrapper').style.display = 'none';
+  }
+
+  function initScratchCard() {
+    const canvas = document.getElementById('scratchCanvas');
+    const secretMsgElem = document.getElementById('randomSecretMsg');
+    if (!canvas || !secretMsgElem) return;
+
+    const rawMsg = secretMessages[Math.floor(Math.random() * secretMessages.length)];
+    secretMsgElem.innerText = rawMsg;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = canvas.offsetWidth;
+    canvas.height = canvas.offsetHeight;
+
+    ctx.fillStyle = '#ff7597';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = '#ffffff';
+    ctx.font = '700 17px Tajawal, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('حكّي هنا بإصبعك 👈', canvas.width / 2, canvas.height / 2 + 5);
+
+    let isScratching = false;
+    function scratch(e) {
+      if (!isScratching) return;
+      const rect = canvas.getBoundingClientRect();
+      const touch = e.touches ? e.touches[0] : e;
+      const x = touch.clientX - rect.left;
+      const y = touch.clientY - rect.top;
+
+      ctx.globalCompositeOperation = 'destination-out';
+      ctx.beginPath();
+      ctx.arc(x, y, 22, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    canvas.addEventListener('touchstart', (e) => { isScratching = true; scratch(e); }, {passive: true});
+    canvas.addEventListener('touchmove', scratch, {passive: true});
+    canvas.addEventListener('touchend', () => isScratching = false);
+    canvas.addEventListener('mousedown', (e) => { isScratching = true; scratch(e); });
+    canvas.addEventListener('mousemove', scratch);
+    canvas.addEventListener('mouseup', () => isScratching = false);
+  }
+
+  const hCanvas = document.getElementById('heartCanvas');
+  const hCtx = hCanvas.getContext('2d');
+  let hearts = [];
+
+  function resizeCanvas() {
+    hCanvas.width = window.innerWidth;
+    hCanvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', resizeCanvas);
+  resizeCanvas();
+
+  class Heart {
+    constructor() {
+      this.x = Math.random() * hCanvas.width;
+      this.y = Math.random() * hCanvas.height - hCanvas.height;
+      this.size = Math.floor(Math.random() * 8 + 10); 
+      this.speed = Math.random() * 1.2 + 0.5; 
+      this.opacity = Math.random() * 0.4 + 0.2;
+    }
+    update() {
+      this.y += this.speed;
+      if (this.y > hCanvas.height) {
+        this.y = -15;
+        this.x = Math.random() * hCanvas.width;
+      }
+    }
+    draw() {
+      hCtx.globalAlpha = this.opacity;
+      hCtx.fillStyle = '#ff477e';
+      hCtx.font = `${this.size}px sans-serif`;
+      hCtx.fillText('❤️', this.x, this.y);
+    }
+  }
+
+  for (let i = 0; i < 15; i++) hearts.push(new Heart());
+
+  function animateHearts() {
+    hCtx.clearRect(0, 0, hCanvas.width, hCanvas.height);
+    for (let i = 0; i < hearts.length; i++) {
+      hearts[i].update();
+      hearts[i].draw();
+    }
+    requestAnimationFrame(animateHearts);
+  }
+  animateHearts();
+
+  function triggerExplosion() {
+    const items = ['💖', '🌹', '✨', '💕', '♥', '🌸'];
+    const totalCount = 30;
+    const startX = window.innerWidth / 2;
+    const startY = window.innerHeight / 2;
+
+    for (let i = 0; i < totalCount; i++) {
+      const elem = document.createElement('div');
+      elem.className = 'confetti-item';
+      elem.textContent = items[i % items.length];
+      elem.style.left = startX + 'px';
+      elem.style.top = startY + 'px';
+
+      const angle = Math.random() * Math.PI * 2;
+      const velocity = 100 + Math.random() * 250;
+      const dx = Math.cos(angle) * velocity + 'px';
+      const dy = (Math.sin(angle) * velocity + 50) + 'px';
+      const scale = 1 + Math.random() * 0.8;
+      const rotate = (Math.random() - 0.5) * 360 + 'deg';
+
+      elem.style.setProperty('--dx', dx);
+      elem.style.setProperty('--dy', dy);
+      elem.style.setProperty('--sc', scale);
+      elem.style.setProperty('--rt', rotate);
+      elem.style.fontSize = (20 + Math.random() * 16) + 'px';
+
+      document.body.appendChild(elem);
+      setTimeout(() => elem.remove(), 2200);
+    }
+  }
+
+  function handleNoClick(pageId) {
+    playSound(180, 'sawtooth', 0.15);
+    noClicks[pageId]++;
+    const btn = document.getElementById('noBtn' + pageId);
+    
+    if (noClicks[pageId] < 5) {
+      const x = (Math.random() - 0.5) * 160;
+      const y = (Math.random() - 0.5) * 100;
+      btn.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+    } else {
+      btn.style.transform = 'translate3d(0, 0, 0)';
+      nextPage(6, 0);
+    }
+  }
+
+  function resetNoClicks() {
+    noClicks = { 1: 0, 2: 0, 3: 0 };
+    for (let i = 1; i <= 3; i++) {
+      const btn = document.getElementById('noBtn' + i);
+      if(btn) btn.style.transform = 'translate3d(0, 0, 0)';
+    }
+  }
+
+  document.addEventListener('touchstart', function(e) {
+    const heart = document.createElement('div');
+    heart.className = 'tap-heart';
+    heart.textContent = '💋';
+    heart.style.left = e.touches[0].clientX + 'px';
+    heart.style.top = e.touches[0].clientY + 'px';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 800);
+  }, { passive: true });
+</script>
+
+
+</body></html>
