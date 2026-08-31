@@ -10,6 +10,7 @@ function createLink() {
         document.getElementById("result");
 
 
+    // التحقق من الرابط
     if (!originalUrl) {
 
         result.innerHTML =
@@ -19,18 +20,14 @@ function createLink() {
     }
 
 
-    if (!shortName) {
-
-        result.innerHTML =
-            "❌ أدخل اسم الرابط المختصر.";
-
-        return;
-    }
-
-
+    // التحقق من أن الرابط صحيح
     try {
 
-        new URL(originalUrl);
+        const url = new URL(originalUrl);
+
+        if (url.protocol !== "http:" && url.protocol !== "https:") {
+            throw new Error();
+        }
 
     } catch {
 
@@ -41,34 +38,120 @@ function createLink() {
     }
 
 
-    if (!/^[a-zA-Z0-9_-]+$/.test(shortName)) {
+    // التحقق من الاسم المختصر
+    if (!shortName) {
 
         result.innerHTML =
-            "❌ استخدم حروفًا إنجليزية أو أرقامًا أو - أو _ فقط.";
+            "❌ أدخل اسم الرابط المختصر.";
 
         return;
     }
 
 
-    const shortUrl =
+    /*
+     * السماح بـ:
+     * - الأحرف العربية
+     * - الأحرف الإنجليزية
+     * - الأرقام
+     * - الشرطة -
+     * - الشرطة السفلية _
+     */
+    const allowedName =
+        /^[\u0600-\u06FFa-zA-Z0-9_-]+$/u;
+
+
+    if (!allowedName.test(shortName)) {
+
+        result.innerHTML =
+            "❌ استخدم الأحرف العربية أو الإنجليزية أو الأرقام فقط.";
+
+        return;
+    }
+
+
+    // إنشاء الرابط المختصر
+    const baseUrl =
         window.location.origin +
-        window.location.pathname.replace(/\/$/, "") +
-        "/" +
-        shortName;
+        window.location.pathname.replace(/\/$/, "");
 
 
+    /*
+     * encodeURIComponent يحول العربية إلى
+     * ترميز URL الصحيح، وهذا طبيعي.
+     */
+    const encodedName =
+        encodeURIComponent(shortName);
+
+
+    const shortUrl =
+        baseUrl + "/" + encodedName;
+
+
+    // عرض النتيجة
     result.innerHTML = `
-        <strong>تم إنشاء الرابط:</strong><br><br>
 
-        <a href="${shortUrl}" target="_blank">
+        <div class="success">
+            ✅ تم إنشاء الرابط
+        </div>
+
+        <br>
+
+        <strong>الرابط المختصر:</strong>
+
+        <br><br>
+
+        <a
+            href="${shortUrl}"
+            target="_blank"
+            rel="noopener noreferrer"
+        >
             ${shortUrl}
         </a>
 
         <br><br>
 
+        <button
+            onclick="copyLink('${shortUrl.replace(/'/g, "\\'")}')"
+        >
+            📋 نسخ الرابط
+        </button>
+
+        <br><br>
+
         <small>
-            الرابط الأصلي:<br>
-            ${originalUrl}
+            الرابط الأصلي:
+            <br>
+            ${escapeHtml(originalUrl)}
         </small>
+
     `;
+}
+
+
+// نسخ الرابط
+function copyLink(url) {
+
+    navigator.clipboard.writeText(url)
+        .then(() => {
+
+            alert("✅ تم نسخ الرابط");
+
+        })
+        .catch(() => {
+
+            alert("❌ لم يتمكن المتصفح من نسخ الرابط");
+
+        });
+}
+
+
+// حماية النصوص التي تظهر داخل HTML
+function escapeHtml(text) {
+
+    return text
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
