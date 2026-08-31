@@ -1,0 +1,2075 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#0b0616">
+<title>LOVE UNIVERSE ✦</title>
+
+<style>
+:root{
+  --bg:#080612;
+  --card:#11101d;
+  --card2:#171426;
+  --text:#fff;
+  --muted:#aaa6bb;
+  --pink:#ff3d81;
+  --purple:#8b5cf6;
+  --cyan:#22d3ee;
+  --gold:#fbbf24;
+  --green:#34d399;
+  --danger:#fb7185;
+  --border:#ffffff14;
+  --shadow:0 25px 80px #0009;
+}
+
+*{box-sizing:border-box}
+
+html{scroll-behavior:smooth}
+
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 20% 10%,#46104f55,transparent 35%),
+    radial-gradient(circle at 80% 20%,#202b8055,transparent 35%),
+    linear-gradient(145deg,#05040b,#0b0715 50%,#08050f);
+  color:var(--text);
+  font-family:Arial,Tahoma,sans-serif;
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+button,input,textarea,select{font:inherit}
+
+button{
+  border:0;
+  cursor:pointer;
+}
+
+.app{
+  width:min(1150px,94%);
+  margin:auto;
+}
+
+.topbar{
+  position:sticky;
+  top:0;
+  z-index:50;
+  backdrop-filter:blur(20px);
+  background:#080612cc;
+  border-bottom:1px solid var(--border);
+}
+
+.nav{
+  width:min(1150px,94%);
+  margin:auto;
+  min-height:70px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:15px;
+}
+
+.logo{
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:.5px;
+}
+
+.logo span{color:var(--pink)}
+
+.navlinks{
+  display:flex;
+  gap:6px;
+  flex-wrap:wrap;
+}
+
+.navlinks button{
+  background:transparent;
+  color:#bbb7c8;
+  padding:9px 12px;
+  border-radius:12px;
+}
+
+.navlinks button:hover{
+  background:#ffffff0c;
+  color:white;
+}
+
+.hero{
+  min-height:650px;
+  display:grid;
+  place-items:center;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+
+.orb{
+  position:absolute;
+  width:250px;
+  height:250px;
+  border-radius:50%;
+  filter:blur(70px);
+  opacity:.35;
+  animation:orb 7s ease-in-out infinite alternate;
+}
+
+.orb.a{background:var(--pink);right:5%;top:15%}
+.orb.b{background:var(--purple);left:5%;bottom:10%;animation-delay:1s}
+
+@keyframes orb{
+  to{transform:translate(30px,-30px) scale(1.2)}
+}
+
+.heroContent{
+  position:relative;
+  z-index:2;
+  max-width:850px;
+}
+
+.badge{
+  display:inline-block;
+  padding:9px 15px;
+  border-radius:999px;
+  background:#ffffff0b;
+  border:1px solid var(--border);
+  color:#ddd;
+  margin-bottom:20px;
+}
+
+.hero h1{
+  font-size:clamp(48px,10vw,100px);
+  line-height:.95;
+  margin:0;
+  letter-spacing:-5px;
+}
+
+.gradient{
+  background:linear-gradient(90deg,var(--pink),#ff9ac0,var(--purple),var(--cyan));
+  -webkit-background-clip:text;
+  color:transparent;
+  background-size:300%;
+  animation:gradient 6s ease infinite;
+}
+
+@keyframes gradient{
+  50%{background-position:100%}
+}
+
+.hero p{
+  color:var(--muted);
+  font-size:20px;
+  line-height:1.8;
+  max-width:700px;
+  margin:25px auto;
+}
+
+.btn{
+  padding:14px 22px;
+  border-radius:15px;
+  color:#fff;
+  font-weight:800;
+  margin:5px;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  box-shadow:0 12px 30px #ff3d8130;
+  transition:.2s;
+}
+
+.btn:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 35px #ff3d8140;
+}
+
+.btn.secondary{
+  background:#ffffff0a;
+  border:1px solid var(--border);
+  box-shadow:none;
+}
+
+.section{
+  padding:70px 0;
+}
+
+.sectionTitle{
+  text-align:center;
+  margin-bottom:35px;
+}
+
+.sectionTitle h2{
+  font-size:38px;
+  margin:0 0 10px;
+}
+
+.sectionTitle p{
+  color:var(--muted);
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:16px;
+}
+
+.card{
+  background:linear-gradient(145deg,#ffffff09,#ffffff04);
+  border:1px solid var(--border);
+  border-radius:24px;
+  padding:25px;
+  box-shadow:var(--shadow);
+}
+
+.card h3{
+  margin-top:0;
+  font-size:23px;
+}
+
+.card p{
+  color:var(--muted);
+  line-height:1.7;
+}
+
+.icon{
+  font-size:45px;
+  margin-bottom:10px;
+}
+
+.form{
+  max-width:800px;
+  margin:auto;
+}
+
+.field{
+  margin-bottom:16px;
+}
+
+.field label{
+  display:block;
+  margin-bottom:8px;
+  font-weight:bold;
+}
+
+input,textarea,select{
+  width:100%;
+  background:#ffffff08;
+  color:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:14px;
+  outline:none;
+}
+
+input:focus,textarea:focus,select:focus{
+  border-color:var(--pink);
+  box-shadow:0 0 0 3px #ff3d8112;
+}
+
+textarea{
+  min-height:130px;
+  resize:vertical;
+}
+
+.choiceGrid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.choice{
+  padding:15px 10px;
+  background:#ffffff07;
+  color:#ccc;
+  border:1px solid var(--border);
+  border-radius:15px;
+  text-align:center;
+}
+
+.choice.active{
+  background:#ff3d8120;
+  border-color:var(--pink);
+  color:white;
+}
+
+.preview{
+  margin-top:25px;
+  padding:30px;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 50% 0,#ff3d8130,transparent 45%),
+    #0d0b17;
+  border:1px solid var(--border);
+  text-align:center;
+}
+
+.previewName{
+  font-size:42px;
+  font-weight:900;
+  margin:10px;
+}
+
+.linkBox{
+  display:none;
+  margin-top:20px;
+  padding:18px;
+  border-radius:18px;
+  background:#34d39912;
+  border:1px solid #34d39940;
+}
+
+.linkBox.show{display:block}
+
+.linkInput{
+  direction:ltr;
+  text-align:left;
+  margin:10px 0;
+}
+
+.gamesGrid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.gameCard{
+  position:relative;
+  min-height:190px;
+  overflow:hidden;
+  cursor:pointer;
+  transition:.25s;
+}
+
+.gameCard:hover{
+  transform:translateY(-6px);
+  border-color:#ff3d8150;
+}
+
+.gameCard .gameNumber{
+  position:absolute;
+  left:15px;
+  top:12px;
+  color:#ffffff40;
+  font-weight:bold;
+}
+
+.gameCard .icon{
+  font-size:50px;
+}
+
+.gameTag{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  background:#ffffff08;
+  color:#aaa;
+  font-size:12px;
+}
+
+.gameModal{
+  position:fixed;
+  inset:0;
+  background:#000b;
+  backdrop-filter:blur(12px);
+  z-index:100;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  padding:15px;
+}
+
+.gameModal.show{display:flex}
+
+.modal{
+  width:min(700px,100%);
+  max-height:90vh;
+  overflow:auto;
+  background:#100e1c;
+  border:1px solid var(--border);
+  border-radius:28px;
+  padding:25px;
+  box-shadow:0 30px 100px #000;
+}
+
+.modalHead{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+}
+
+.close{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:#ffffff0b;
+  color:white;
+  font-size:22px;
+}
+
+.playArea{
+  margin-top:20px;
+  min-height:300px;
+  border-radius:20px;
+  background:#08070e;
+  border:1px solid var(--border);
+  position:relative;
+  overflow:hidden;
+}
+
+.scoreBar{
+  display:flex;
+  justify-content:space-between;
+  padding:12px 0;
+  font-weight:bold;
+}
+
+.bigButton{
+  display:block;
+  width:100%;
+  min-height:150px;
+  border-radius:20px;
+  background:linear-gradient(135deg,#ff3d8120,#8b5cf620);
+  color:white;
+  font-size:28px;
+}
+
+.target{
+  position:absolute;
+  width:55px;
+  height:55px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,var(--pink),var(--purple));
+  box-shadow:0 0 30px #ff3d8170;
+  cursor:pointer;
+  user-select:none;
+}
+
+.runner{
+  position:absolute;
+  font-size:40px;
+  cursor:pointer;
+  transition:.08s;
+}
+
+.coin{
+  position:absolute;
+  font-size:35px;
+  cursor:pointer;
+  animation:coin 1s linear forwards;
+}
+
+@keyframes coin{
+  to{transform:translateY(-100px);opacity:0}
+}
+
+.dodgePlayer{
+  position:absolute;
+  bottom:12px;
+  font-size:42px;
+  transition:.1s;
+}
+
+.falling{
+  position:absolute;
+  top:-50px;
+  font-size:35px;
+}
+
+.maze{
+  display:grid;
+  grid-template-columns:repeat(8,1fr);
+  gap:3px;
+  width:min(400px,100%);
+  margin:auto;
+  padding:10px;
+}
+
+.cell{
+  aspect-ratio:1;
+  background:#171523;
+  border-radius:5px;
+  display:grid;
+  place-items:center;
+  font-size:20px;
+}
+
+.wall{background:#05040a}
+.player{background:#ff3d8130}
+.goal{background:#34d39920}
+
+.memoryBoard{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+}
+
+.memory{
+  height:75px;
+  border-radius:14px;
+  background:#191725;
+  border:1px solid var(--border);
+  color:transparent;
+  font-size:30px;
+}
+
+.memory.open{
+  color:white;
+  background:#ff3d8120;
+}
+
+.memory.done{
+  background:#34d39920;
+}
+
+.rhythm{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:10px;
+  padding:20px;
+}
+
+.rhythm button{
+  height:180px;
+  border-radius:20px;
+  background:#161422;
+  border:1px solid var(--border);
+  color:white;
+  font-size:30px;
+}
+
+.rhythm button.hit{
+  background:#ff3d8140;
+}
+
+#toast{
+  position:fixed;
+  bottom:25px;
+  left:50%;
+  transform:translateX(-50%) translateY(100px);
+  background:#171522;
+  border:1px solid var(--border);
+  padding:13px 20px;
+  border-radius:999px;
+  z-index:200;
+  transition:.3s;
+}
+
+#toast.show{
+  transform:translateX(-50%) translateY(0);
+}
+
+.footer{
+  border-top:1px solid var(--border);
+  padding:40px 0;
+  color:#777;
+  text-align:center;
+}
+
+.particle{
+  position:fixed;
+  pointer-events:none;
+  z-index:150;
+  animation:particle 1.5s forwards;
+}
+
+@keyframes particle{
+  to{
+    transform:translateY(-150px) rotate(500deg);
+    opacity:0;
+  }
+}
+
+@media(max-width:800px){
+  .grid,.gamesGrid{grid-template-columns:repeat(2,1fr)}
+  .choiceGrid{grid-template-columns:repeat(2,1fr)}
+  .navlinks button:nth-child(n+4){display:none}
+}
+
+@media(max-width:550px){
+  .grid,.gamesGrid{grid-template-columns:1fr}
+  .hero{min-height:570px}
+  .hero h1{letter-spacing:-3px}
+  .hero p{font-size:17px}
+  .section{padding:50px 0}
+  .card{padding:20px}
+  .memory{height:62px}
+  .rhythm button{height:130px}
+}
+</style>
+</head>
+
+<body>
+
+<div class="topbar">
+  <div class="nav">
+    <div class="logo">LOVE <span>UNIVERSE</span> ✦</div>
+
+    <div class="navlinks">
+      <button onclick="go('home')">الرئيسية</button>
+      <button onclick="go('create')">اصنع تجربة</button>
+      <button onclick="go('games')">الألعاب</button>
+      <button onclick="go('preview')">المعاينة</button>
+    </div>
+  </div>
+</div>
+
+<main class="app">
+
+<section id="home" class="hero">
+  <div class="orb a"></div>
+  <div class="orb b"></div>
+
+  <div class="heroContent">
+    <div class="badge">✦ عالم كامل داخل رابط واحد</div>
+
+    <h1>
+      اصنع<br>
+      <span class="gradient">لحظة لا تُنسى</span>
+    </h1>
+
+    <p>
+      أنشئ تجربة شخصية، أضف اسم الشخص وقصتك،
+      اختر عالمًا من الألعاب، ثم احصل على رابط جاهز للمشاركة.
+      بدون حساب، بدون خادم، وبدون قاعدة بيانات.
+    </p>
+
+    <button class="btn" onclick="go('create')">
+      ابدأ الآن ✨
+    </button>
+
+    <button class="btn secondary" onclick="go('games')">
+      اكتشف الألعاب 🎮
+    </button>
+  </div>
+</section>
+
+<section id="create" class="section">
+
+  <div class="sectionTitle">
+    <h2>اصنع عالمك ❤️</h2>
+    <p>كل ما تكتبه يتحول إلى تجربة قابلة للمشاركة.</p>
+  </div>
+
+  <div class="form">
+
+    <div class="card">
+
+      <div class="field">
+        <label>اسم الشخص</label>
+        <input id="name" placeholder="مثلاً: أمي، سارة، صديقي..." oninput="updatePreview()">
+      </div>
+
+      <div class="field">
+        <label>نوع العلاقة</label>
+
+        <div class="choiceGrid" id="relations">
+          <button class="choice active" data-value="حبيب" onclick="choose(this,'relation')">❤️ حبيب</button>
+          <button class="choice" data-value="أم" onclick="choose(this,'relation')">👩 أم</button>
+          <button class="choice" data-value="أب" onclick="choose(this,'relation')">👨 أب</button>
+          <button class="choice" data-value="صديق" onclick="choose(this,'relation')">👯 صديق</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>المناسبة</label>
+
+        <div class="choiceGrid" id="occasions">
+          <button class="choice active" data-value="حب" onclick="choose(this,'occasion')">💘 حب</button>
+          <button class="choice" data-value="عيد ميلاد" onclick="choose(this,'occasion')">🎂 عيد ميلاد</button>
+          <button class="choice" data-value="اعتذار" onclick="choose(this,'occasion')">🥺 اعتذار</button>
+          <button class="choice" data-value="صداقة" onclick="choose(this,'occasion')">👯 صداقة</button>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>عنوان التجربة</label>
+        <input id="title" placeholder="مثلاً: إلى أجمل إنسانة في العالم" oninput="updatePreview()">
+      </div>
+
+      <div class="field">
+        <label>قصتك أو رسالتك</label>
+        <textarea id="story" placeholder="اكتب ما تريد أن يظهر داخل التجربة..." oninput="updatePreview()"></textarea>
+      </div>
+
+      <div class="field">
+        <label>الرسالة السرية 🎁</label>
+        <textarea id="secret" placeholder="رسالة تظهر عند فتح الهدية..."></textarea>
+      </div>
+
+      <div class="field">
+        <label>اختر اللعبة الأساسية</label>
+
+        <select id="game">
+          <option value="catch">💎 صائد الجواهر</option>
+          <option value="dodge">☄️ الهروب من النيازك</option>
+          <option value="maze">🧭 المتاهة</option>
+          <option value="memory">🧠 الذاكرة</option>
+          <option value="rhythm">🥁 الإيقاع</option>
+          <option value="reaction">⚡ رد الفعل</option>
+        </select>
+      </div>
+
+      <button class="btn" onclick="createExperience()">
+        🚀 أنشئ الرابط
+      </button>
+
+      <div id="linkBox" class="linkBox">
+        <b>تم إنشاء تجربتك! 🎉</b>
+
+        <input id="shareLink" class="linkInput" readonly>
+
+        <button class="btn" onclick="copyLink()">نسخ الرابط</button>
+        <button class="btn secondary" onclick="openShare()">فتح التجربة</button>
+      </div>
+
+    </div>
+
+    <div class="preview">
+      <div>معاينة مباشرة</div>
+      <div id="previewName" class="previewName">شخص مميز ❤️</div>
+      <div id="previewStory" class="text">
+        اكتب رسالتك لترى شكلها هنا...
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="games" class="section">
+
+  <div class="sectionTitle">
+    <h2>🎮 ARCADE</h2>
+    <p>ألعاب حقيقية — وليست أسئلة متعددة الخيارات.</p>
+  </div>
+
+  <div class="gamesGrid">
+
+    <div class="card gameCard" onclick="openGame('catch')">
+      <span class="gameNumber">01</span>
+      <div class="icon">💎</div>
+      <h3>صائد الجواهر</h3>
+      <p>اجمع أكبر عدد من الجواهر خلال الوقت المحدد.</p>
+      <span class="gameTag">سرعة</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('dodge')">
+      <span class="gameNumber">02</span>
+      <div class="icon">☄️</div>
+      <h3>الهروب</h3>
+      <p>حرّك الشخصية واهرب من النيازك الساقطة.</p>
+      <span class="gameTag">مهارة</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('maze')">
+      <span class="gameNumber">03</span>
+      <div class="icon">🧭</div>
+      <h3>المتاهة</h3>
+      <p>اعثر على الطريق إلى القلب بدون لمس الجدران.</p>
+      <span class="gameTag">تفكير</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('memory')">
+      <span class="gameNumber">04</span>
+      <div class="icon">🧠</div>
+      <h3>ذاكرة القلوب</h3>
+      <p>طابق الرموز بأقل عدد ممكن من المحاولات.</p>
+      <span class="gameTag">ذاكرة</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('rhythm')">
+      <span class="gameNumber">05</span>
+      <div class="icon">🥁</div>
+      <h3>الإيقاع</h3>
+      <p>اضغط على المنطقة المضيئة في اللحظة الصحيحة.</p>
+      <span class="gameTag">إيقاع</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('reaction')">
+      <span class="gameNumber">06</span>
+      <div class="icon">⚡</div>
+      <h3>رد الفعل</h3>
+      <p>انتظر اللون الصحيح واضغط بأسرع ما تستطيع.</p>
+      <span class="gameTag">رد فعل</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('runner')">
+      <span class="gameNumber">07</span>
+      <div class="icon">🏃</div>
+      <h3>الجري</h3>
+      <p>اقفز فوق العقبات واستمر لأطول وقت.</p>
+      <span class="gameTag">Arcade</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('coins')">
+      <span class="gameNumber">08</span>
+      <div class="icon">🪙</div>
+      <h3>مطر العملات</h3>
+      <p>التقط العملات قبل أن تختفي.</p>
+      <span class="gameTag">سرعة</span>
+    </div>
+
+    <div class="card gameCard" onclick="openGame('click')">
+      <span class="gameNumber">09</span>
+      <div class="icon">🔥</div>
+      <h3>اضغط بلا توقف</h3>
+      <p>كم ضغطة تستطيع تحقيقها في عشر ثوانٍ؟</p>
+      <span class="gameTag">تحدي</span>
+    </div>
+
+  </div>
+</section>
+
+<section id="preview" class="section">
+
+  <div class="sectionTitle">
+    <h2>🌌 تجربتك</h2>
+    <p>إذا فتحت رابطًا تم إنشاؤه، ستظهر بياناته هنا.</p>
+  </div>
+
+  <div class="card" id="experiencePreview">
+    <div class="icon">💖</div>
+    <h2 id="expTitle">لا توجد تجربة محملة</h2>
+    <div id="expStory" class="text"></div>
+    <button class="btn" onclick="openSelectedGame()">
+      🎮 ابدأ اللعبة
+    </button>
+    <button class="btn secondary" onclick="showSecret()">
+      🎁 افتح السر
+    </button>
+  </div>
+
+</section>
+
+<footer class="footer">
+  LOVE UNIVERSE ✦
+  <br>
+  اصنع لحظة. شاركها. اترك ذكرى.
+</footer>
+
+</main>
+
+<div id="gameModal" class="gameModal">
+  <div class="modal">
+
+    <div class="modalHead">
+      <div>
+        <div id="modalIcon" class="icon">🎮</div>
+        <h2 id="modalTitle">اللعبة</h2>
+      </div>
+
+      <button class="close" onclick="closeGame()">×</button>
+    </div>
+
+    <div class="scoreBar">
+      <span id="gameStatus">جاهز؟</span>
+      <span id="gameScore">0</span>
+    </div>
+
+    <div id="playArea" class="playArea"></div>
+
+    <div style="text-align:center;margin-top:15px">
+      <button class="btn" onclick="restartCurrentGame()">إعادة اللعبة</button>
+    </div>
+
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+"use strict";
+
+const state={
+  name:"",
+  relation:"حبيب",
+  occasion:"حب",
+  title:"",
+  story:"",
+  secret:"",
+  game:"catch"
+};
+
+let currentGame="";
+let timer=null;
+let animation=null;
+let gameScore=0;
+let gameData={};
+
+function $(id){
+  return document.getElementById(id);
+}
+
+function go(id){
+  const el=$(id);
+  if(el){
+    el.scrollIntoView({behavior:"smooth"});
+  }
+}
+
+function toast(text){
+  const box=$("toast");
+  box.textContent=text;
+  box.classList.add("show");
+
+  setTimeout(function(){
+    box.classList.remove("show");
+  },2200);
+}
+
+function choose(button,type){
+
+  const parent=button.parentElement;
+
+  parent.querySelectorAll(".choice")
+    .forEach(function(x){
+      x.classList.remove("active");
+    });
+
+  button.classList.add("active");
+
+  state[type]=button.dataset.value;
+
+  updatePreview();
+}
+
+function updatePreview(){
+
+  state.name=$("name").value.trim();
+  state.title=$("title").value.trim();
+  state.story=$("story").value;
+
+  $("previewName").textContent=
+    state.title ||
+    state.name ||
+    "شخص مميز ❤️";
+
+  $("previewStory").textContent=
+    state.story ||
+    "اكتب رسالتك لترى شكلها هنا...";
+}
+
+function encodeData(data){
+
+  const json=JSON.stringify(data);
+
+  const bytes=new TextEncoder().encode(json);
+
+  let binary="";
+
+  bytes.forEach(function(byte){
+    binary+=String.fromCharCode(byte);
+  });
+
+  return btoa(binary)
+    .replace(/\+/g,"-")
+    .replace(/\//g,"_")
+    .replace(/=+$/,"");
+}
+
+function decodeData(value){
+
+  try{
+
+    value=value
+      .replace(/-/g,"+")
+      .replace(/_/g,"/");
+
+    while(value.length%4){
+      value+="=";
+    }
+
+    const binary=atob(value);
+
+    const bytes=Uint8Array.from(
+      binary,
+      function(char){
+        return char.charCodeAt(0);
+      }
+    );
+
+    return JSON.parse(
+      new TextDecoder().decode(bytes)
+    );
+
+  }catch(e){
+    return null;
+  }
+}
+
+function createExperience(){
+
+  updatePreview();
+
+  state.secret=$("secret").value;
+  state.game=$("game").value;
+
+  if(!state.name){
+    toast("اكتب اسم الشخص أولًا ❤️");
+    $("name").focus();
+    return;
+  }
+
+  if(!state.story){
+    toast("اكتب رسالة أو قصة أولًا ✍️");
+    $("story").focus();
+    return;
+  }
+
+  const encoded=encodeData(state);
+
+  const url=
+    location.origin+
+    location.pathname+
+    "#experience="+encoded;
+
+  $("shareLink").value=url;
+  $("linkBox").classList.add("show");
+
+  localStorage.setItem(
+    "loveUniverseLast",
+    JSON.stringify(state)
+  );
+
+  toast("تم إنشاء الرابط بنجاح 🎉");
+
+  setTimeout(function(){
+    $("linkBox").scrollIntoView({
+      behavior:"smooth",
+      block:"center"
+    });
+  },100);
+}
+
+function copyLink(){
+
+  const input=$("shareLink");
+
+  input.select();
+  input.setSelectionRange(0,99999);
+
+  navigator.clipboard
+    .writeText(input.value)
+    .then(function(){
+      toast("تم نسخ الرابط 📋");
+    })
+    .catch(function(){
+      document.execCommand("copy");
+      toast("تم نسخ الرابط 📋");
+    });
+}
+
+function openShare(){
+
+  const url=$("shareLink").value;
+
+  if(url){
+    location.href=url;
+    location.reload();
+  }
+}
+
+function loadExperience(){
+
+  const hash=location.hash;
+
+  if(!hash.startsWith("#experience=")){
+    return;
+  }
+
+  const encoded=hash.substring("#experience=".length);
+
+  const loaded=decodeData(encoded);
+
+  if(!loaded){
+    toast("الرابط غير صالح");
+    return;
+  }
+
+  Object.assign(state,loaded);
+
+  $("expTitle").textContent=
+    state.title ||
+    state.name ||
+    "تجربة خاصة ❤️";
+
+  $("expStory").textContent=
+    state.story ||
+    "";
+
+  $("name").value=state.name||"";
+  $("title").value=state.title||"";
+  $("story").value=state.story||"";
+  $("secret").value=state.secret||"";
+  $("game").value=state.game||"catch";
+
+  $("previewName").textContent=
+    state.title||state.name||"شخص مميز ❤️";
+
+  $("previewStory").textContent=
+    state.story||"";
+
+  go("preview");
+
+  toast("تم فتح التجربة ❤️");
+}
+
+function showSecret(){
+
+  const text=
+    state.secret||
+    "وجودك في حياتي هو أجمل هدية. ❤️";
+
+  alert("🎁 السر\n\n"+text);
+}
+
+function openSelectedGame(){
+
+  openGame(
+    state.game||"catch"
+  );
+}
+
+function openGame(type){
+
+  currentGame=type;
+
+  $("gameModal").classList.add("show");
+
+  stopGame();
+
+  const info={
+    catch:["💎","صائد الجواهر"],
+    dodge:["☄️","الهروب من النيازك"],
+    maze:["🧭","المتاهة"],
+    memory:["🧠","ذاكرة القلوب"],
+    rhythm:["🥁","الإيقاع"],
+    reaction:["⚡","رد الفعل"],
+    runner:["🏃","الجري"],
+    coins:["🪙","مطر العملات"],
+    click:["🔥","اضغط بلا توقف"]
+  };
+
+  $("modalIcon").textContent=info[type][0];
+  $("modalTitle").textContent=info[type][1];
+
+  restartCurrentGame();
+}
+
+function closeGame(){
+  stopGame();
+  $("gameModal").classList.remove("show");
+}
+
+function stopGame(){
+
+  if(timer){
+    clearInterval(timer);
+    timer=null;
+  }
+
+  if(animation){
+    cancelAnimationFrame(animation);
+    animation=null;
+  }
+}
+
+function restartCurrentGame(){
+
+  stopGame();
+
+  gameScore=0;
+  $("gameScore").textContent="0";
+
+  const area=$("playArea");
+  area.innerHTML="";
+
+  if(currentGame==="catch")gameCatch();
+  else if(currentGame==="dodge")gameDodge();
+  else if(currentGame==="maze")gameMaze();
+  else if(currentGame==="memory")gameMemory();
+  else if(currentGame==="rhythm")gameRhythm();
+  else if(currentGame==="reaction")gameReaction();
+  else if(currentGame==="runner")gameRunner();
+  else if(currentGame==="coins")gameCoins();
+  else if(currentGame==="click")gameClick();
+}
+
+/* =========================================================
+   01 صائد الجواهر
+========================================================= */
+
+function gameCatch(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="text-align:center;padding:20px">
+      <p>اجمع الجواهر لمدة 20 ثانية 💎</p>
+      <button class="btn" id="startCatch">ابدأ</button>
+    </div>
+  `;
+
+  $("startCatch").onclick=function(){
+
+    area.innerHTML="";
+
+    let time=20;
+
+    $("gameStatus").textContent="الوقت: 20";
+
+    function spawn(){
+
+      const item=document.createElement("div");
+
+      item.className="target";
+      item.textContent=
+        ["💎","💠","🔷","💙"][Math.floor(Math.random()*4)];
+
+      item.style.left=
+        Math.random()*82+5+"%";
+
+      item.style.top=
+        Math.random()*72+5+"%";
+
+      item.onclick=function(){
+
+        gameScore++;
+        $("gameScore").textContent=gameScore;
+
+        item.remove();
+
+        spawn();
+        particles(item.textContent);
+      };
+
+      area.appendChild(item);
+
+      setTimeout(function(){
+        if(item.parentNode){
+          item.remove();
+          spawn();
+        }
+      },1200);
+    }
+
+    spawn();
+
+    timer=setInterval(function(){
+
+      time--;
+
+      $("gameStatus").textContent=
+        "الوقت: "+time;
+
+      if(time<=0){
+
+        stopGame();
+
+        area.innerHTML=`
+          <div style="text-align:center;padding:80px 20px">
+            <div style="font-size:60px">🏆</div>
+            <h2>انتهى الوقت!</h2>
+            <p>جمعت ${gameScore} جوهرة.</p>
+          </div>
+        `;
+
+        particles("💎");
+      }
+
+    },1000);
+  };
+}
+
+/* =========================================================
+   02 الهروب من النيازك
+========================================================= */
+
+function gameDodge(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="padding:15px;text-align:center">
+      حرّك الشخصية بالسحب أو بأسهم لوحة المفاتيح.
+      <br>
+      ابقَ حيًا لأطول مدة.
+    </div>
+    <div class="dodgePlayer" id="dodgePlayer">🚀</div>
+  `;
+
+  const player=$("dodgePlayer");
+
+  let x=50;
+
+  function movePlayer(value){
+    x=Math.max(5,Math.min(90,value));
+    player.style.left=x+"%";
+  }
+
+  area.addEventListener("pointermove",function(e){
+
+    const rect=area.getBoundingClientRect();
+
+    const percent=
+      ((e.clientX-rect.left)/rect.width)*100;
+
+    movePlayer(percent);
+  });
+
+  document.onkeydown=function(e){
+
+    if(currentGame!=="dodge")return;
+
+    if(e.key==="ArrowLeft")movePlayer(x-6);
+    if(e.key==="ArrowRight")movePlayer(x+6);
+  };
+
+  let alive=true;
+  let seconds=0;
+
+  function meteor(){
+
+    if(!alive)return;
+
+    const m=document.createElement("div");
+
+    m.className="falling";
+    m.textContent=
+      ["☄️","🔥","🪨"][Math.floor(Math.random()*3)];
+
+    m.style.left=
+      Math.random()*92+"%";
+
+    area.appendChild(m);
+
+    const start=Date.now();
+
+    function fall(){
+
+      if(!m.parentNode || !alive)return;
+
+      const elapsed=Date.now()-start;
+      const top=elapsed*.25;
+
+      m.style.top=top+"px";
+
+      const pr=player.getBoundingClientRect();
+      const mr=m.getBoundingClientRect();
+
+      if(
+        mr.bottom>pr.top &&
+        mr.top<pr.bottom &&
+        mr.right>pr.left &&
+        mr.left<pr.right
+      ){
+
+        alive=false;
+        stopGame();
+
+        $("gameStatus").textContent="💥 اصطدمت!";
+
+        area.innerHTML=`
+          <div style="text-align:center;padding:80px 20px">
+            <div style="font-size:65px">💥</div>
+            <h2>انتهت الرحلة!</h2>
+            <p>صمدت ${seconds} ثانية.</p>
+          </div>
+        `;
+
+        particles("💥");
+        return;
+      }
+
+      if(top>area.clientHeight){
+        m.remove();
+        return;
+      }
+
+      animation=requestAnimationFrame(fall);
+    }
+
+    fall();
+  }
+
+  timer=setInterval(function(){
+
+    seconds++;
+
+    $("gameStatus").textContent=
+      "صمدت: "+seconds+" ث";
+
+    meteor();
+
+  },650);
+}
+
+/* =========================================================
+   03 المتاهة
+========================================================= */
+
+function gameMaze(){
+
+  const area=$("playArea");
+
+  const map=[
+    [0,0,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,1],
+    [1,1,1,1,1,0,0,1],
+    [1,0,0,0,0,0,0,1],
+    [1,0,1,1,1,1,1,1],
+    [1,0,0,0,0,0,0,0],
+    [1,1,1,1,1,1,1,0],
+    [1,1,1,1,1,1,1,0]
+  ];
+
+  let px=1;
+  let py=0;
+
+  function draw(){
+
+    area.innerHTML=`
+      <div style="text-align:center;padding:10px">
+        استخدم الأسهم أو الأزرار للوصول إلى ❤️
+      </div>
+    `;
+
+    const board=document.createElement("div");
+    board.className="maze";
+
+    map.forEach(function(row,y){
+
+      row.forEach(function(value,x){
+
+        const cell=document.createElement("div");
+        cell.className="cell";
+
+        if(value===1)cell.classList.add("wall");
+
+        if(x===px && y===py){
+          cell.classList.add("player");
+          cell.textContent="🧑";
+        }
+
+        if(x===7 && y===7){
+          cell.classList.add("goal");
+          cell.textContent="❤️";
+        }
+
+        board.appendChild(cell);
+      });
+    });
+
+    area.appendChild(board);
+
+    const controls=document.createElement("div");
+
+    controls.style.textAlign="center";
+    controls.innerHTML=`
+      <button class="btn" onclick="mazeMove(0,-1)">↑</button><br>
+      <button class="btn" onclick="mazeMove(-1,0)">←</button>
+      <button class="btn" onclick="mazeMove(0,1)">↓</button>
+      <button class="btn" onclick="mazeMove(1,0)">→</button>
+    `;
+
+    area.appendChild(controls);
+  }
+
+  window.mazeMove=function(dx,dy){
+
+    const nx=px+dx;
+    const ny=py+dy;
+
+    if(
+      nx<0 ||
+      ny<0 ||
+      ny>=map.length ||
+      nx>=map[0].length ||
+      map[ny][nx]===1
+    ){
+      return;
+    }
+
+    px=nx;
+    py=ny;
+
+    $("gameScore").textContent=
+      (px+py);
+
+    if(px===7 && py===7){
+
+      $("gameStatus").textContent="🎉 وصلت!";
+
+      area.innerHTML=`
+        <div style="text-align:center;padding:80px 20px">
+          <div style="font-size:70px">❤️</div>
+          <h2>وجدت القلب!</h2>
+          <p>وصلت إلى النهاية.</p>
+        </div>
+      `;
+
+      particles("❤️");
+      return;
+    }
+
+    draw();
+  };
+
+  document.onkeydown=function(e){
+
+    if(currentGame!=="maze")return;
+
+    if(e.key==="ArrowUp")mazeMove(0,-1);
+    if(e.key==="ArrowDown")mazeMove(0,1);
+    if(e.key==="ArrowLeft")mazeMove(-1,0);
+    if(e.key==="ArrowRight")mazeMove(1,0);
+  };
+
+  draw();
+}
+
+/* =========================================================
+   04 الذاكرة
+========================================================= */
+
+function gameMemory(){
+
+  const area=$("playArea");
+
+  const values=[
+    "❤️","❤️",
+    "💎","💎",
+    "🌙","🌙",
+    "⭐","⭐",
+    "🌹","🌹",
+    "🦋","🦋"
+  ];
+
+  values.sort(function(){
+    return Math.random()-.5;
+  });
+
+  let first=null;
+  let lock=false;
+  let matches=0;
+  let moves=0;
+
+  const board=document.createElement("div");
+  board.className="memoryBoard";
+
+  values.forEach(function(value){
+
+    const button=document.createElement("button");
+
+    button.className="memory";
+    button.textContent=value;
+
+    button.onclick=function(){
+
+      if(lock)return;
+      if(button===first)return;
+      if(button.classList.contains("done"))return;
+
+      button.classList.add("open");
+
+      if(!first){
+
+        first=button;
+        return;
+      }
+
+      moves++;
+      $("gameScore").textContent=moves;
+
+      if(first.textContent===button.textContent){
+
+        first.classList.add("done");
+        button.classList.add("done");
+
+        matches++;
+        first=null;
+
+        if(matches===6){
+
+          $("gameStatus").textContent="🏆 فزت!";
+
+          setTimeout(function(){
+            particles("🧠");
+          },100);
+        }
+
+      }else{
+
+        lock=true;
+
+        setTimeout(function(){
+
+          first.classList.remove("open");
+          button.classList.remove("open");
+
+          first=null;
+          lock=false;
+
+        },650);
+      }
+    };
+
+    board.appendChild(button);
+  });
+
+  area.appendChild(board);
+
+  $("gameStatus").textContent=
+    "طابق 6 أزواج";
+}
+
+/* =========================================================
+   05 الإيقاع
+========================================================= */
+
+function gameRhythm(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="text-align:center;padding:10px">
+      عندما تضيء المنطقة اضغط عليها.
+    </div>
+  `;
+
+  const board=document.createElement("div");
+  board.className="rhythm";
+
+  let active=-1;
+  let hits=0;
+  let rounds=0;
+
+  const buttons=[];
+
+  for(let i=0;i<4;i++){
+
+    const b=document.createElement("button");
+
+    b.textContent=["🥁","🎵","🎶","❤️"][i];
+
+    b.onclick=function(){
+
+      if(i!==active){
+        $("gameStatus").textContent="❌ مبكر جدًا!";
+        return;
+      }
+
+      hits++;
+      rounds++;
+      $("gameScore").textContent=hits;
+
+      b.classList.remove("hit");
+
+      if(rounds>=15){
+
+        stopGame();
+
+        $("gameStatus").textContent=
+          "🏆 "+hits+" / 15";
+
+        return;
+      }
+
+      next();
+    };
+
+    buttons.push(b);
+    board.appendChild(b);
+  }
+
+  area.appendChild(board);
+
+  function next(){
+
+    buttons.forEach(function(b){
+      b.classList.remove("hit");
+    });
+
+    active=Math.floor(Math.random()*4);
+
+    setTimeout(function(){
+
+      if(currentGame!=="rhythm")return;
+
+      buttons[active].classList.add("hit");
+
+    },350+Math.random()*700);
+  }
+
+  next();
+}
+
+/* =========================================================
+   06 رد الفعل
+========================================================= */
+
+function gameReaction(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <button id="reactionButton" class="bigButton">
+      انتظر...
+    </button>
+  `;
+
+  const button=$("reactionButton");
+
+  let started=false;
+  let startTime=0;
+
+  button.onclick=function(){
+
+    if(!started){
+
+      button.textContent="انتظر اللون الأخضر...";
+
+      const delay=
+        1200+Math.random()*3000;
+
+      timer=setTimeout(function(){
+
+        started=true;
+        startTime=performance.now();
+
+        button.textContent="🟢 اضغط الآن!";
+
+        button.style.background=
+          "#34d39930";
+
+      },delay);
+
+      return;
+    }
+
+    const result=
+      Math.round(
+        performance.now()-startTime
+      );
+
+    started=false;
+
+    button.textContent=
+      result+" ms";
+
+    $("gameScore").textContent=
+      result+" ms";
+
+    $("gameStatus").textContent=
+      result<300
+      ?"🔥 سرعة خارقة!"
+      :"👏 حاول تحطم رقمك!";
+
+    particles("⚡");
+  };
+}
+
+/* =========================================================
+   07 الجري
+========================================================= */
+
+function gameRunner(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="padding:10px;text-align:center">
+      اضغط للقفز عندما تقترب العقبة.
+    </div>
+  `;
+
+  const player=document.createElement("div");
+
+  player.className="runner";
+  player.textContent="🏃";
+  player.style.left="10%";
+  player.style.bottom="20px";
+
+  area.appendChild(player);
+
+  let jumping=false;
+  let distance=0;
+  let obstacle=null;
+
+  function jump(){
+
+    if(jumping)return;
+
+    jumping=true;
+
+    player.style.transform=
+      "translateY(-90px)";
+
+    setTimeout(function(){
+
+      player.style.transform="";
+      jumping=false;
+
+    },500);
+  }
+
+  area.onclick=jump;
+
+  function createObstacle(){
+
+    obstacle=document.createElement("div");
+
+    obstacle.className="runner";
+    obstacle.textContent="🪨";
+    obstacle.style.right="-40px";
+    obstacle.style.bottom="20px";
+
+    area.appendChild(obstacle);
+
+    let x=-40;
+
+    const move=setInterval(function(){
+
+      if(currentGame!=="runner"){
+        clearInterval(move);
+        return;
+      }
+
+      x+=5;
+
+      obstacle.style.right=x+"px";
+
+      const pr=player.getBoundingClientRect();
+      const or=obstacle.getBoundingClientRect();
+
+      if(
+        or.left<pr.right &&
+        or.right>pr.left &&
+        or.top<pr.bottom &&
+        or.bottom>pr.top &&
+        !jumping
+      ){
+
+        clearInterval(move);
+
+        $("gameStatus").textContent=
+          "💥 توقفت عند "+distance;
+
+        return;
+      }
+
+      if(x>area.clientWidth+50){
+
+        clearInterval(move);
+
+        obstacle.remove();
+
+        distance++;
+
+        $("gameScore").textContent=distance;
+
+        createObstacle();
+      }
+
+    },30);
+  }
+
+  createObstacle();
+}
+
+/* =========================================================
+   08 العملات
+========================================================= */
+
+function gameCoins(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="text-align:center;padding:15px">
+      التقط 20 عملة قبل انتهاء الوقت.
+    </div>
+  `;
+
+  let time=20;
+  let coins=0;
+
+  function spawn(){
+
+    if(time<=0)return;
+
+    const coin=document.createElement("div");
+
+    coin.className="coin";
+    coin.textContent="🪙";
+
+    coin.style.left=
+      Math.random()*90+"%";
+
+    coin.style.top=
+      Math.random()*80+"%";
+
+    coin.onclick=function(){
+
+      coins++;
+
+      $("gameScore").textContent=coins;
+
+      coin.remove();
+
+      particles("🪙");
+
+      if(coins>=20){
+
+        stopGame();
+
+        $("gameStatus").textContent=
+          "🏆 جمعت 20 عملة!";
+      }
+    };
+
+    area.appendChild(coin);
+
+    setTimeout(function(){
+      if(coin.parentNode)coin.remove();
+    },1000);
+  }
+
+  timer=setInterval(function(){
+
+    time--;
+
+    $("gameStatus").textContent=
+      "الوقت: "+time;
+
+    spawn();
+
+    if(time<=0){
+
+      stopGame();
+
+      $("gameStatus").textContent=
+        "انتهى الوقت — "+coins+" عملة";
+    }
+
+  },700);
+
+  spawn();
+}
+
+/* =========================================================
+   09 الضغط
+========================================================= */
+
+function gameClick(){
+
+  const area=$("playArea");
+
+  area.innerHTML=`
+    <div style="text-align:center;padding:25px">
+      <p>اضغط على الزر بأقصى سرعة خلال 10 ثوانٍ.</p>
+      <button id="clickButton" class="bigButton">
+        🔥 اضغط!
+      </button>
+    </div>
+  `;
+
+  const button=$("clickButton");
+
+  let started=false;
+  let clicks=0;
+  let time=10;
+
+  button.onclick=function(){
+
+    if(!started){
+
+      started=true;
+      clicks=0;
+      time=10;
+
+      $("gameStatus").textContent=
+        "الوقت: 10";
+
+      timer=setInterval(function(){
+
+        time--;
+
+        $("gameStatus").textContent=
+          "الوقت: "+time;
+
+        if(time<=0){
+
+          stopGame();
+
+          $("gameStatus").textContent=
+            "🏆 "+clicks+" ضغطة";
+
+          button.textContent=
+            "النتيجة: "+clicks;
+
+          particles("🔥");
+        }
+
+      },1000);
+    }
+
+    if(started){
+
+      clicks++;
+
+      $("gameScore").textContent=
+        clicks;
+    }
+  };
+}
+
+/* =========================================================
+   المؤثرات
+========================================================= */
+
+function particles(symbol){
+
+  for(let i=0;i<18;i++){
+
+    const p=document.createElement("div");
+
+    p.className="particle";
+    p.textContent=symbol;
+
+    p.style.left=
+      Math.random()*100+"vw";
+
+    p.style.top=
+      (40+Math.random()*40)+"vh";
+
+    p.style.fontSize=
+      (15+Math.random()*25)+"px";
+
+    document.body.appendChild(p);
+
+    setTimeout(function(){
+      p.remove();
+    },1500);
+  }
+}
+
+window.addEventListener("hashchange",function(){
+  loadExperience();
+});
+
+window.addEventListener("keydown",function(e){
+
+  if(e.key==="Escape"){
+    closeGame();
+  }
+
+});
+
+updatePreview();
+loadExperience();
+
+</script>
+
+</body>
+</html>
