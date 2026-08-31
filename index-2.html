@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMIGOS</title>
+<style>
+:root{--g:#d5b24a;--g2:#f3d982;--bg:#080808;--p:#101010;--w:#fff}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#080808;color:#fff;font-family:Arial,"Trebuchet MS",sans-serif}
+body{overflow-x:hidden}
+body:before,body:after{content:"";position:fixed;top:0;bottom:0;width:70px;pointer-events:none;z-index:0;opacity:.7}
+body:before{right:0;background:linear-gradient(90deg,transparent,rgba(213,178,74,.08)),repeating-linear-gradient(45deg,transparent 0 12px,rgba(213,178,74,.12) 13px 14px,transparent 15px 27px);border-left:1px solid rgba(213,178,74,.28)}
+body:after{left:0;background:linear-gradient(90deg,rgba(213,178,74,.08),transparent),repeating-linear-gradient(-45deg,transparent 0 12px,rgba(213,178,74,.12) 13px 14px,transparent 15px 27px);border-right:1px solid rgba(213,178,74,.28)}
+.frame{position:fixed;inset:9px;border:1px solid rgba(213,178,74,.55);z-index:30;pointer-events:none;box-shadow:inset 0 0 35px rgba(213,178,74,.04),0 0 18px rgba(213,178,74,.08)}
+.page{position:relative;z-index:1;max-width:1050px;margin:auto;padding:25px 20px 70px}
+.hero{text-align:center;padding:45px 10px 35px}
+.brand-ar{font-family:Georgia,serif;font-size:clamp(34px,8vw,66px);color:#eee;line-height:1.1;margin:0;text-shadow:0 0 15px rgba(255,255,255,.08)}
+.brand-en{font-family:Impact,"Arial Black",sans-serif;font-size:clamp(62px,16vw,130px);line-height:.9;letter-spacing:3px;color:#f5f5f5;margin:8px 0 25px;text-shadow:0 3px 0 #777,0 0 16px rgba(255,255,255,.08)}
+.tag{color:#ccc;line-height:1.8;font-size:17px}
+.actions{display:flex;justify-content:center;gap:13px;flex-wrap:wrap;margin-top:25px}
+.btn,button{border:1px solid rgba(213,178,74,.32);background:#070707;color:#fff;border-radius:11px;padding:13px 23px;font-size:17px;cursor:pointer;text-decoration:none;box-shadow:0 6px 18px rgba(213,178,74,.12),0 0 10px rgba(213,178,74,.06);transition:.22s}
+.btn:hover,button:hover{border-color:rgba(243,217,130,.65);box-shadow:0 8px 24px rgba(213,178,74,.2),0 0 15px rgba(213,178,74,.12);transform:translateY(-2px)}
+.title{text-align:center;color:var(--g2);font:32px Georgia,serif;margin:15px 0 25px}
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.category{min-height:72px;width:100%}
+.screen{display:none;margin-top:20px}.screen.active{display:block}
+.back{margin-bottom:15px}
+.menu-card{background:rgba(10,10,10,.9);border:1px solid rgba(213,178,74,.25);border-radius:16px;padding:20px;box-shadow:0 15px 35px rgba(0,0,0,.4)}
+.menu-card h2{text-align:center;color:var(--g2);font:27px Georgia,serif;margin:0 0 20px}
+.items{display:grid;gap:10px}.item{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px;border:1px solid #292929;border-radius:12px;background:#101010;cursor:pointer;box-shadow:0 4px 12px rgba(213,178,74,.06)}
+.item:hover{border-color:rgba(213,178,74,.5)}.item-name{line-height:1.5}.item-en{display:block;color:#8d8d8d;font-size:13px;direction:ltr;text-align:right}.price{color:var(--g2);font-weight:bold;white-space:nowrap}
+.cart{position:fixed;left:18px;bottom:18px;z-index:25}
+.cartbox{position:fixed;left:18px;bottom:75px;width:min(390px,calc(100vw - 36px));background:#0d0d0d;border:1px solid rgba(213,178,74,.45);border-radius:16px;padding:17px;z-index:24;display:none;box-shadow:0 15px 45px #000,0 0 18px rgba(213,178,74,.08)}
+.cartbox.open{display:block}.cartbox h3{margin:0 0 12px;color:var(--g2);font:24px Georgia,serif}.rows{max-height:270px;overflow:auto}.row{display:grid;grid-template-columns:1fr auto auto;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid #292929}.remove{padding:5px 9px;font-size:13px}.total{display:flex;justify-content:space-between;color:var(--g2);font-size:19px;font-weight:bold;margin:14px 0}.note{text-align:center;color:#999;font-size:12px;margin-bottom:10px}.empty{text-align:center;color:#999;padding:20px}
+.tap-emoji{position:fixed;pointer-events:none;z-index:100;font-size:35px;animation:pop 1.7s ease-out forwards}
+@keyframes pop{0%{opacity:0;transform:translate(-50%,-20%) scale(.5) rotate(-12deg)}12%{opacity:1;transform:translate(-50%,-50%) scale(1.15) rotate(8deg)}70%{opacity:.8;transform:translate(-50%,-115%) scale(1) rotate(-5deg)}100%{opacity:0;transform:translate(-50%,-170%) scale(.75) rotate(12deg)}}
+footer{text-align:center;color:#666;border-top:1px solid rgba(213,178,74,.14);padding-top:25px;margin-top:30px}
+@media(max-width:520px){.page{padding-left:28px;padding-right:28px}.row{grid-template-columns:1fr auto}.row .remove{grid-column:2;grid-row:1}.item{align-items:flex-start}}
+</style>
+</head>
+<body>
+<div class="frame"></div>
+<div class="page">
+<section class="hero">
+  <div class="brand-ar">أمــيــغــوس</div>
+  <div class="brand-en">AMIGOS</div>
+  <div class="tag">أهلاً وسهلاً بكم ✨<br>نكهة لبنانية أصيلة، ومحضّرة بحب.</div>
+  <div class="actions"><a class="btn" href="#menu">المنيو | Menu</a><a class="btn" id="contact" target="_blank" rel="noopener">تواصل معنا | Contact</a></div>
+</section>
+<section id="menu" class="screen active">
+  <h1 class="title">القائمة | Menu</h1>
+  <div id="categories" class="categories"></div>
+</section>
+<section id="category" class="screen">
+  <button class="back" id="back">← العودة للقوائم</button>
+  <div class="menu-card"><h2 id="heading"></h2><div id="items" class="items"></div></div>
+</section>
+</div>
+<div id="cartbox" class="cartbox"><h3>سلة الطلب</h3><div id="rows" class="rows"></div><div class="total"><span>المجموع</span><span id="total">0</span></div><div class="note">السعر الظاهر للزبون لا يشمل خدمة الدليفري.</div><button id="send" style="width:100%">إتمام الطلب</button></div>
+<button id="cart" class="cart">السلة 🛒 <span id="count">(0)</span></button>
+<footer>© 2026 AMIGOS — جميع الحقوق محفوظة</footer>
+<script>
+const WHATSAPP_NUMBER="961XXXXXXXXX";
+const MENU_DATA=[{"ar": "مناقيش عادية", "en": "Manakish 3adiye", "items": [{"ar": "جبنة", "en": "Jibne", "price": 200}, {"ar": "جبنة 3 أنواع", "en": "Jibne 3 Anwe3", "price": 350}, {"ar": "جبنة مع جونبون", "en": "Jibne ma3 Jambon", "price": 350}, {"ar": "جبنة مع حبش", "en": "Jibne ma3 Habash", "price": 350}, {"ar": "جبنة مع سجق", "en": "Jibne ma3 Sjou2", "price": 350}, {"ar": "جبنة مع ببروني", "en": "Jibne ma3 Pepperoni", "price": 350}, {"ar": "ڤيتا بندورة وبصل", "en": "Veta Banadoura w Bassal", "price": 250}, {"ar": "لحمة", "en": "Lahme", "price": 200}, {"ar": "لحمة مع جبنة", "en": "Lahme ma3 Jibne", "price": 300}, {"ar": "نصف لحمة و نصف جبنة", "en": "Nos Lahme w Nos Jibne", "price": 200}, {"ar": "كوكتيل (نصف زعتر + نصف جبنة)", "en": "Cocktail (Nos Za3tar + Nos Jibne)", "price": 150}, {"ar": "لبنة مع خضرة", "en": "Labne ma3 Khodra", "price": 150}, {"ar": "منقوشة خضرة (بندورة + بصل + فليفلة)", "en": "Man2oushe Khodra", "price": 100}, {"ar": "منقوشة خضرة مع جبنة", "en": "Man2oushe Khodra ma3 Jibne", "price": 250}, {"ar": "كشك", "en": "Kishk", "price": 150}, {"ar": "كشك + جبنة", "en": "Kishk + Jibne", "price": 250}, {"ar": "سبانخ", "en": "Sbanekh", "price": 150}, {"ar": "زعتر", "en": "Za3tar", "price": 100}, {"ar": "زعتر اكسترا (مع خضرة)", "en": "Za3tar Extra (ma3 Khodra)", "price": 130}, {"ar": "دو بليكس", "en": "Double X", "price": 350}]}];
+let cart=[];
+const $=id=>document.getElementById(id);
+$("contact").href="https://wa.me/"+WHATSAPP_NUMBER;
+function money(n){return Number(n).toLocaleString("en-US")}
+function renderCats(){let b=$("categories");b.innerHTML="";MENU_DATA.forEach((c,i)=>{let x=document.createElement("button");x.className="category";x.innerHTML=c.ar+"<br><small style='color:#999'>"+c.en+"</small>";x.onclick=()=>showCat(i);b.appendChild(x)})}
+function showCat(i){let c=MENU_DATA[i];$("menu").classList.remove("active");$("category").classList.add("active");$("heading").textContent=c.ar+" | "+c.en;let b=$("items");b.innerHTML="";c.items.forEach(it=>{let x=document.createElement("div");x.className="item";x.innerHTML="<div class='item-name'>"+it.ar+"<span class='item-en'>"+it.en+"</span></div><div class='price'>"+money(it.price)+"</div>";x.onclick=()=>add(it);b.appendChild(x)});scrollTo(0,0)}
+$("back").onclick=()=>{ $("category").classList.remove("active");$("menu").classList.add("active");scrollTo(0,0)}
+function add(it){let f=cart.find(x=>x.ar===it.ar);if(f)f.qty++;else cart.push({...it,qty:1});renderCart();$("cartbox").classList.add("open")}
+function renderCart(){let b=$("rows"),t=0,c=0;b.innerHTML="";if(!cart.length)b.innerHTML="<div class='empty'>السلة فارغة</div>";cart.forEach((it,i)=>{let sub=it.price*it.qty;t+=sub;c+=it.qty;let r=document.createElement("div");r.className="row";r.innerHTML="<div>"+it.ar+" × "+it.qty+"</div><div>"+money(sub)+"</div><button class='remove'>حذف</button>";r.querySelector(".remove").onclick=()=>{cart.splice(i,1);renderCart()};b.appendChild(r)});$("total").textContent=money(t);$("count").textContent="("+c+")"}
+$("cart").onclick=()=> $("cartbox").classList.toggle("open");
+$("send").onclick=()=>{if(!cart.length)return alert("السلة فارغة. أضف طلباً أولاً.");let lines=["مرحباً، أود طلب:",""];cart.forEach(it=>lines.push(it.ar+" × "+it.qty));window.open("https://wa.me/"+WHATSAPP_NUMBER+"?text="+encodeURIComponent(lines.join("\n")),"_blank")}
+document.addEventListener("click",e=>{if(e.target.closest("button,a,.item"))return;let em=document.createElement("div");em.className="tap-emoji";em.textContent=["🍕","🍕","🫓","🍕"][Math.floor(Math.random()*4)];em.style.left=e.clientX+"px";em.style.top=e.clientY+"px";document.body.appendChild(em);setTimeout(()=>em.remove(),1750)});
+renderCats();renderCart();
+</script>
+</body></html>
