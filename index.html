@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SiteForge - محرر المواقع</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- الشريط العلوي -->
+    <header class="toolbar">
+        <div class="logo">⚡ SiteForge</div>
+        <div class="actions">
+            <button onclick="previewSite()">👁️ معاينة</button>
+            <button onclick="exportHTML()">📥 تحميل</button>
+            <button onclick="publishToGitHub()" class="publish">🚀 نشر</button>
+        </div>
+    </header>
+
+    <!-- المحرر -->
+    <div class="editor">
+        <!-- لوحة العناصر -->
+        <aside class="sidebar">
+            <h3>🧩 العناصر</h3>
+            <div class="elements">
+                <div draggable="true" data-type="text" onclick="addElement('text')">📝 نص</div>
+                <div draggable="true" data-type="image" onclick="addElement('image')">🖼️ صورة</div>
+                <div draggable="true" data-type="button" onclick="addElement('button')">🔘 زر</div>
+                <div draggable="true" data-type="video" onclick="addElement('video')">🎬 فيديو</div>
+                <div draggable="true" data-type="section" onclick="addElement('section')">📦 قسم</div>
+                <div draggable="true" data-type="menu" onclick="addElement('menu')">📋 قائمة</div>
+            </div>
+
+            <h3>🎨 القوالب</h3>
+            <div class="templates">
+                <div onclick="loadTemplate('personal')">👤 شخصي</div>
+                <div onclick="loadTemplate('store')">🛍️ متجر</div>
+                <div onclick="loadTemplate('blog')">📰 مدونة</div>
+                <div onclick="loadTemplate('portfolio')">🎨 أعمال</div>
+            </div>
+        </aside>
+
+        <!-- منطقة العمل -->
+        <main class="canvas" id="canvas">
+            <div class="empty-state">
+                <h2>✨ ابدأ بإنشاء موقعك</h2>
+                <p>اسحب العناصر من اليمين أو اختر قالبًا</p>
+            </div>
+        </main>
+
+        <!-- خصائص العنصر -->
+        <aside class="properties" id="properties">
+            <h3>⚙️ خصائص</h3>
+            <div id="propertyPanel">
+                <p>اختر عنصرًا لتعديل خصائصه</p>
+            </div>
+        </aside>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background: #0d1117;
+    color: #e6edf3;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* الشريط العلوي */
+.toolbar {
+    background: #161b22;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #30363d;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+    color: #58a6ff;
+}
+
+.actions button {
+    background: #21262d;
+    border: 1px solid #30363d;
+    color: #c9d1d9;
+    padding: 8px 18px;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 8px;
+    transition: 0.3s;
+}
+
+.actions button:hover {
+    background: #30363d;
+}
+
+.actions .publish {
+    background: #238636;
+    border-color: #2ea043;
+    color: white;
+}
+
+.actions .publish:hover {
+    background: #2ea043;
+}
+
+/* المحرر */
+.editor {
+    display: flex;
+    height: calc(100vh - 65px);
+}
+
+/* الشريط الجانبي */
+.sidebar {
+    width: 220px;
+    background: #161b22;
+    padding: 16px;
+    border-left: 1px solid #30363d;
+    overflow-y: auto;
+}
+
+.sidebar h3 {
+    font-size: 14px;
+    color: #8b949e;
+    margin: 16px 0 8px;
+    text-transform: uppercase;
+}
+
+.elements div, .templates div {
+    background: #21262d;
+    padding: 10px 14px;
+    margin-bottom: 6px;
+    border-radius: 6px;
+    cursor: grab;
+    transition: 0.2s;
+    border: 1px solid transparent;
+    user-select: none;
+}
+
+.elements div:hover, .templates div:hover {
+    background: #30363d;
+    border-color: #58a6ff;
+}
+
+/* منطقة العمل */
+.canvas {
+    flex: 1;
+    background: #0d1117;
+    padding: 24px;
+    overflow-y: auto;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.empty-state {
+    text-align: center;
+    color: #8b949e;
+    margin-top: 80px;
+}
+
+.empty-state h2 {
+    color: #e6edf3;
+    margin-bottom: 8px;
+}
+
+/* خصائص العنصر */
+.properties {
+    width: 260px;
+    background: #161b22;
+    padding: 16px;
+    border-right: 1px solid #30363d;
+    overflow-y: auto;
+}
+
+.properties h3 {
+    font-size: 14px;
+    color: #8b949e;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+}
+
+#propertyPanel input,
+#propertyPanel select,
+#propertyPanel textarea {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 8px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 4px;
+}
+
+/* العناصر المضافة في الكانفاس */
+.element-item {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+
+.element-item:hover {
+    border-color: #58a6ff;
+}
+
+.element-item.selected {
+    border-color: #58a6ff;
+    box-shadow: 0 0 0 2px rgba(88, 166, 255, 0.3);
+}
+
+.element-item .delete-btn {
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    background: #da3633;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
+    font-size: 12px;
+    display: none;
+}
+
+.element-item:hover .delete-btn {
+    display: block;
+}
