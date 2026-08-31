@@ -2,8 +2,10 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SiteForge - محرر المواقع</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <meta name="theme-color" content="#0d1117" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <title>SiteForge - محرر المواقع الذكي</title>
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -15,6 +17,7 @@
             <button onclick="previewSite()">👁️ معاينة</button>
             <button onclick="exportHTML()">📥 تحميل</button>
             <button onclick="publishToGitHub()" class="publish">🚀 نشر</button>
+            <button onclick="showAIBuilder()" class="ai-btn">🤖 AI</button>
         </div>
     </header>
 
@@ -30,6 +33,12 @@
                 <div draggable="true" data-type="video" onclick="addElement('video')">🎬 فيديو</div>
                 <div draggable="true" data-type="section" onclick="addElement('section')">📦 قسم</div>
                 <div draggable="true" data-type="menu" onclick="addElement('menu')">📋 قائمة</div>
+                <div draggable="true" data-type="map" onclick="addElement('map')">🗺️ خريطة</div>
+                <div draggable="true" data-type="contact" onclick="addElement('contact')">📧 نموذج تواصل</div>
+                <div draggable="true" data-type="social" onclick="addElement('social')">📱 روابط اجتماعية</div>
+                <div draggable="true" data-type="counter" onclick="addElement('counter')">🔢 عداد</div>
+                <div draggable="true" data-type="testimonial" onclick="addElement('testimonial')">💬 شهادة</div>
+                <div draggable="true" data-type="pricing" onclick="addElement('pricing')">💰 بطاقة أسعار</div>
             </div>
 
             <h3>🎨 القوالب</h3>
@@ -38,6 +47,15 @@
                 <div onclick="loadTemplate('store')">🛍️ متجر</div>
                 <div onclick="loadTemplate('blog')">📰 مدونة</div>
                 <div onclick="loadTemplate('portfolio')">🎨 أعمال</div>
+                <div onclick="loadTemplate('restaurant')">🍽️ مطعم</div>
+                <div onclick="loadTemplate('landing')">🚀 صفحة هبوط</div>
+            </div>
+
+            <h3>💾 المشاريع</h3>
+            <div class="projects">
+                <button onclick="saveProject()" class="save-btn">💾 حفظ المشروع</button>
+                <button onclick="loadProject()" class="load-btn">📂 تحميل مشروع</button>
+                <button onclick="showAllProjects()" class="list-btn">📋 قائمة المشاريع</button>
             </div>
         </aside>
 
@@ -56,6 +74,30 @@
                 <p>اختر عنصرًا لتعديل خصائصه</p>
             </div>
         </aside>
+    </div>
+
+    <!-- نافذة AI Builder -->
+    <div id="aiModal" class="modal" style="display:none;">
+        <div class="modal-content">
+            <span class="close" onclick="closeAIModal()">&times;</span>
+            <h2>🤖 منشئ المواقع بالذكاء الاصطناعي</h2>
+            <p>اكتب وصفاً للموقع الذي تريد إنشاءه:</p>
+            <textarea id="aiPrompt" rows="5" placeholder="مثال: أريد موقعاً لمطعم سوري، ألوانه أسود وذهبي، وفيه قائمة طعام وزر واتساب، وصور للأكلات"></textarea>
+            <div class="ai-options">
+                <label>اختر نوع الموقع:</label>
+                <select id="aiSiteType">
+                    <option value="personal">شخصي</option>
+                    <option value="business">تجاري</option>
+                    <option value="restaurant">مطعم</option>
+                    <option value="portfolio">معرض أعمال</option>
+                    <option value="blog">مدونة</option>
+                    <option value="landing">صفحة هبوط</option>
+                    <option value="store">متجر</option>
+                </select>
+            </div>
+            <button onclick="generateWithAI()" class="generate-btn">🚀 إنشاء الموقع</button>
+            <div id="aiResult" style="margin-top:20px;"></div>
+        </div>
     </div>
 
     <script src="script.js"></script>
