@@ -1,46 +1,797 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="ar">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>NEBULA — عالمك التفاعلي</title>
-<link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ECHO//WORLD - معاينة</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a12;
+            color: #e0e0ff;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            overflow: hidden;
+            height: 100vh;
+            user-select: none;
+        }
+        #app {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            background: radial-gradient(ellipse at center, #0d0d1a 0%, #000000 100%);
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+        #world-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: none;
+        }
+        #island {
+            width: 200px;
+            height: 120px;
+            background: radial-gradient(ellipse at 30% 30%, #2a1f3d, #1a1028);
+            border-radius: 50% 50% 40% 40% / 30% 30% 60% 60%;
+            box-shadow: 0 0 40px rgba(100, 70, 200, 0.3), inset 0 -20px 40px rgba(0,0,0,0.8);
+            position: relative;
+            cursor: grab;
+            pointer-events: all;
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        #island:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 80px rgba(150, 100, 255, 0.4);
+        }
+        .island-label {
+            color: rgba(200, 180, 255, 0.6);
+            font-size: 0.9rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            text-shadow: 0 0 20px rgba(150, 100, 255, 0.3);
+        }
+        .island-emoji {
+            font-size: 2rem;
+            margin-bottom: 4px;
+        }
+        #island .glow {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, rgba(200, 180, 255, 0.2), transparent);
+            border-radius: 50%;
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scale(0.8); }
+            50% { opacity: 0.8; transform: translateX(-50%) scale(1.2); }
+        }
+        #echo-counter {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            background: rgba(20, 15, 40, 0.8);
+            backdrop-filter: blur(12px);
+            padding: 12px 24px;
+            border-radius: 30px;
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+            z-index: 10;
+            font-family: 'Courier New', monospace;
+        }
+        #echo-count { color: #b8a0ff; font-weight: bold; font-size: 1.4rem; }
+        #world-clock {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            font-size: 1.2rem;
+            font-family: 'Courier New', monospace;
+            color: rgba(200, 180, 255, 0.6);
+            background: rgba(10, 10, 30, 0.6);
+            backdrop-filter: blur(8px);
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid rgba(150, 100, 255, 0.1);
+            z-index: 10;
+        }
+        #system-messages {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            color: rgba(200, 180, 255, 0.5);
+            font-size: 0.8rem;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+            opacity: 0;
+            transition: opacity 1s ease;
+            z-index: 5;
+            background: rgba(0,0,0,0.5);
+            padding: 10px 20px;
+            border-radius: 10px;
+            pointer-events: none;
+        }
+        #system-messages.visible { opacity: 1; }
+        #control-panel {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        #reset-world, #games-trigger {
+            background: rgba(30, 20, 60, 0.8);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            color: #a090d0;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-size: 0.8rem;
+            transition: all 0.3s ease;
+        }
+        #reset-world:hover, #games-trigger:hover {
+            background: rgba(80, 50, 150, 0.4);
+            border-color: rgba(200, 150, 255, 0.4);
+            transform: scale(1.05);
+        }
+        .island-item {
+            position: absolute;
+            width: 120px;
+            height: 80px;
+            border-radius: 40% 40% 30% 30% / 20% 20% 50% 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            transition: all 0.3s ease;
+            pointer-events: all;
+            font-size: 0.7rem;
+            text-shadow: 0 0 20px currentColor33;
+            box-shadow: 0 0 30px currentColor11;
+            opacity: 0;
+            transform: scale(0) rotate(360deg);
+            animation: islandAppear 0.8s ease forwards;
+        }
+        .island-item:hover {
+            transform: scale(1.1) !important;
+            box-shadow: 0 0 60px currentColor55 !important;
+        }
+        @keyframes islandAppear {
+            0% { opacity: 0; transform: scale(0) rotate(360deg); }
+            100% { opacity: 1; transform: scale(1) rotate(0deg); }
+        }
+        .island-icon { font-size: 1.8rem; margin-bottom: 4px; }
+        .island-name { font-size: 0.6rem; opacity: 0.8; letter-spacing: 1px; }
+        #games-panel {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: rgba(10, 10, 30, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(150, 100, 255, 0.3);
+            border-radius: 20px;
+            padding: 30px;
+            z-index: 1000;
+            max-width: 500px;
+            width: 90%;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            pointer-events: none;
+            font-family: 'Courier New', monospace;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        #games-panel.open {
+            transform: translate(-50%, -50%) scale(1);
+            pointer-events: all;
+        }
+        #games-panel h2 {
+            color: #b8a0ff;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .game-btn {
+            background: rgba(30, 20, 60, 0.6);
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            border-radius: 12px;
+            padding: 15px;
+            color: #d0c0ff;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            font-family: 'Courier New', monospace;
+            width: 100%;
+            margin-bottom: 10px;
+        }
+        .game-btn:hover {
+            background: rgba(80, 50, 150, 0.4);
+            border-color: rgba(200, 150, 255, 0.4);
+            transform: scale(1.02);
+        }
+        .game-btn .row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .game-btn .icon { font-size: 1.8rem; }
+        .game-btn .name { font-weight: bold; }
+        .game-btn .desc { font-size: 0.8rem; opacity: 0.6; }
+        .game-btn .reward { font-size: 0.7rem; opacity: 0.4; margin-top: 4px; }
+        #close-games {
+            margin-top: 20px;
+            width: 100%;
+            padding: 12px;
+            background: rgba(60, 40, 120, 0.3);
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            border-radius: 10px;
+            color: #a090d0;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+        #close-games:hover {
+            background: rgba(60, 40, 120, 0.5);
+        }
+        #programming-blocks {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            background: rgba(10, 10, 30, 0.9);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid rgba(150, 100, 255, 0.2);
+            z-index: 100;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 90%;
+        }
+        .block-btn {
+            background: rgba(60, 40, 120, 0.5);
+            border: 1px solid rgba(150, 100, 255, 0.3);
+            padding: 10px 20px;
+            border-radius: 8px;
+            color: #d0c0ff;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            transition: all 0.3s ease;
+        }
+        .block-btn:hover {
+            background: rgba(100, 80, 200, 0.6);
+            transform: scale(1.05);
+        }
+        @media (max-width: 768px) {
+            #island { width: 140px; height: 90px; }
+            #echo-counter { font-size: 0.7rem; padding: 8px 16px; }
+            #world-clock { font-size: 0.9rem; padding: 6px 12px; }
+            .island-item { width: 80px; height: 60px; }
+            .island-icon { font-size: 1.2rem; }
+        }
+    </style>
 </head>
 <body>
-<div id="stars"></div>
-<header class="topbar">
-  <a class="logo" href="#home">NEBULA<span>∞</span></a>
-  <nav><a href="#home">الرئيسية</a><a href="#forge">المختبر</a><a href="#arcade">الألعاب</a><a href="#vault">الخزنة</a></nav>
-  <button id="themeBtn" class="iconBtn" title="تبديل المظهر">☀️</button>
-</header>
-<main>
-<section id="home" class="hero">
-  <div class="heroGlow"></div><div class="heroText">
-    <span class="eyebrow">YOUR PRIVATE DIGITAL UNIVERSE</span>
-    <h1>حوّل اللحظة إلى <em>عالم</em>.</h1>
-    <p>منصة تفاعلية تعمل بالكامل من المتصفح: ابنِ عالماً، اكتشف ألعاباً، اجمع الذكريات، وشاهد عالمك يتغير مع كل تفاعل.</p>
-    <div class="actions"><a class="btn primary" href="#forge">ابدأ البناء ✦</a><a class="btn ghost" href="#arcade">ادخل الألعاب →</a></div>
-  </div>
-  <div class="orbital"><div class="planet">✦</div><i></i><i></i><i></i><div class="sat">♡</div></div>
-</section>
-<section class="stats"><div><b id="xp">0</b><span>طاقة العالم</span></div><div><b id="memCount">0</b><span>ذكريات</span></div><div><b id="gameCount">0</b><span>انتصارات</span></div><div><b id="streak">1</b><span>سلسلة الأيام</span></div></section>
-<section id="forge" class="section"><div class="sectionHead"><span>01 / FORGE</span><h2>المختبر الذي يصنع عالمك</h2><p>لا حسابات ولا قاعدة بيانات. كل شيء يُحفظ في جهازك تلقائياً.</p></div>
-<div class="forgeGrid"><div class="panel creator"><h3>هوية العالم</h3><label>اسم العالم<input id="worldName" placeholder="مثلاً: عالمنا الصغير"></label><label>وصف قصير<textarea id="worldDesc" placeholder="اكتب الجملة التي تمثل عالمك..."></textarea></label><label>الطابع<select id="mood"><option value="dream">حالم</option><option value="neon">نيون</option><option value="midnight">ليلي</option><option value="sunset">غروب</option></select></label><button id="saveWorld" class="btn primary full">حفظ العالم ✦</button></div>
-<div class="panel preview"><div class="miniPlanet"><span id="planetIcon">✦</span></div><span class="eyebrow">LIVE PREVIEW</span><h3 id="previewName">عالم بلا اسم</h3><p id="previewDesc">اكتب شيئاً في المختبر لترى عالمك يولد.</p><div class="meter"><span id="meterBar"></span></div><small id="meterText">0% مكتمل</small></div></div>
-<div class="panel memoryComposer"><div><span class="eyebrow">MEMORY ENGINE</span><h3>ازرع ذكرى</h3><p>كل ذكرى تصبح نجمة في خريطتك.</p></div><input id="memoryInput" placeholder="مثلاً: أول ضحكة لنا..."><button id="addMemory" class="btn primary">إضافة نجمة</button></div>
-<div id="memoryList" class="memoryList"></div>
-</section>
-<section id="arcade" class="section"><div class="sectionHead"><span>02 / ARCADE</span><h2>ألعاب لا تعتمد على الأسئلة</h2><p>ألعاب مهارة، سرعة، ذاكرة، توازن وحظ. كل لعبة تمنح طاقة للعالم.</p></div>
-<div class="gamesGrid">
-<article class="gameCard"><div class="gameIcon">⚡</div><h3>صائد البرق</h3><p>اضغط على البرق المتحرك 15 مرة قبل انتهاء الوقت.</p><button class="btn primary gameBtn" data-game="lightning">تشغيل</button></article>
-<article class="gameCard"><div class="gameIcon">🧩</div><h3>متاهة الضوء</h3><p>حرّك الكرة إلى البوابة دون لمس الجدران.</p><button class="btn primary gameBtn" data-game="maze">تشغيل</button></article>
-<article class="gameCard"><div class="gameIcon">🪐</div><h3>مدار مستقر</h3><p>حافظ على الكوكب داخل المدار لأطول وقت.</p><button class="btn primary gameBtn" data-game="orbit">تشغيل</button></article>
-<article class="gameCard"><div class="gameIcon">🎯</div><h3>نبضة الهدف</h3><p>أوقف المؤشر عندما يدخل المنطقة الذهبية.</p><button class="btn primary gameBtn" data-game="pulse">تشغيل</button></article>
-</div></section>
-<section id="vault" class="section"><div class="sectionHead"><span>03 / VAULT</span><h2>خزنة العالم</h2><p>إنجازاتك وذكرياتك وتقدمك محفوظة محلياً.</p></div><div class="vaultGrid"><div class="panel"><h3>الإنجازات</h3><div id="achievements" class="achievements"></div></div><div class="panel"><h3>بوابة البيانات</h3><p>نزّل نسخة من عالمك أو استعد نسخة سابقة.</p><div class="actions"><button id="exportBtn" class="btn primary">تصدير العالم</button><label class="btn ghost fileBtn">استيراد عالم<input id="importFile" type="file" accept="application/json"></label><button id="resetBtn" class="btn danger">حذف كل شيء</button></div></div></div></section>
-<section class="final"><div class="finalOrb">∞</div><h2 id="finalTitle">عالمك لم يكتمل بعد.</h2><p>أضف ذكرى، العب لعبة، وارفع طاقة العالم. لا يوجد مسار واحد.</p><a href="#forge" class="btn primary">ارجع إلى المختبر ↑</a></section>
-</main>
-<div id="modal" class="modal"><div class="modalBox"><button id="closeModal" class="close">×</button><div id="gameMount"></div></div></div>
-<div id="toast" class="toast"></div>
-<footer>NEBULA ∞ — مشروع ويب مستقل يعمل دون خادم</footer>
-<script src="app.js"></script>
-</body></html>
+    <div id="app">
+        <canvas id="universe"></canvas>
+        
+        <div id="world-container">
+            <div id="island">
+                <div class="glow"></div>
+                <div class="island-emoji">✨</div>
+                <div class="island-label">المسني</div>
+            </div>
+            
+            <div id="echo-counter">
+                <span id="echo-count">0</span> أثر
+            </div>
+            
+            <div id="world-clock">🌙 00:00</div>
+            
+            <div id="system-messages">🌌 الكون ينتظر بصمت...</div>
+        </div>
+        
+        <div id="control-panel">
+            <button id="reset-world">⟳ إعادة التشكيل</button>
+            <button id="games-trigger">🎮 الألعاب</button>
+        </div>
+        
+        <div id="games-panel">
+            <h2>🎮 بوابة الألعاب</h2>
+            <div id="games-grid"></div>
+            <button id="close-games">✕ إغلاق البوابة</button>
+        </div>
+    </div>
+
+    <script>
+        // ==================== البيانات ====================
+        const GAMES = {
+            gravity: { name: 'الجاذبية', icon: '🌌', desc: 'حرك الكوكب للوصول للبوابة', reward: 3 },
+            shadows: { name: 'الظلال', icon: '🌓', desc: 'حرك الضوء لكشف الطريق', reward: 2 },
+            escape: { name: 'الهروب', icon: '🚪', desc: 'الغرفة تتغير كل ثانية', reward: 4 },
+            memory: { name: 'الذاكرة', icon: '🧠', desc: 'أعد ترتيب العالم المخفي', reward: 3 },
+            programming: { name: 'البرمجة', icon: '⚙️', desc: 'ابني المسار بالقطع المنطقية', reward: 5 }
+        };
+
+        const ISLAND_TYPES = [
+            { name: 'جزيرة الضوء', icon: '✨', color: '#ffd700' },
+            { name: 'مدينة الأشباح', icon: '👻', color: '#7b68ee' },
+            { name: 'الغابة', icon: '🌲', color: '#2e8b57' },
+            { name: 'المحيط', icon: '🌊', color: '#1e90ff' },
+            { name: 'القمر', icon: '🌙', color: '#f0e68c' },
+            { name: 'المختبر', icon: '🧪', color: '#9370db' },
+            { name: 'المنطقة السرية', icon: '🌀', color: '#ff4500' }
+        ];
+
+        // ==================== العالم ====================
+        class EchoWorld {
+            constructor() {
+                this.echoCount = 0;
+                this.discovered = new Set();
+                this.clock = document.getElementById('world-clock');
+                this.echoDisplay = document.getElementById('echo-count');
+                this.messages = document.getElementById('system-messages');
+                this.island = document.getElementById('island');
+                this.canvas = document.getElementById('universe');
+                this.ctx = this.canvas.getContext('2d');
+                this.mouseX = 0.5;
+                this.mouseY = 0.5;
+                this.islands = [];
+                this.gamesPanel = document.getElementById('games-panel');
+                
+                this.init();
+            }
+            
+            init() {
+                this.resizeCanvas();
+                window.addEventListener('resize', () => this.resizeCanvas());
+                this.setupEvents();
+                this.startClock();
+                this.generateStars();
+                this.animate();
+                this.loadEchoes();
+                this.spawnIslands();
+                this.setupGames();
+                
+                setTimeout(() => {
+                    this.showMessage('🌌 الكون ينتظر بصمت...');
+                }, 500);
+            }
+            
+            resizeCanvas() {
+                this.canvas.width = window.innerWidth;
+                this.canvas.height = window.innerHeight;
+                if (this.stars) this.generateStars();
+            }
+            
+            setupEvents() {
+                this.island.addEventListener('click', () => {
+                    if (!this.discovered.has('first_island')) {
+                        this.discovered.add('first_island');
+                        this.addEcho();
+                        this.showMessage('🌴 اكتشفت الجزيرة الأولى!');
+                        this.island.style.transform = 'scale(1.3)';
+                        setTimeout(() => {
+                            this.island.style.transform = '';
+                        }, 600);
+                        
+                        // إظهار الجزر
+                        document.querySelectorAll('.island-item').forEach((el, i) => {
+                            setTimeout(() => {
+                                el.style.opacity = '1';
+                                el.style.transform = 'scale(1) rotate(0deg)';
+                            }, 500 + i * 300);
+                        });
+                    }
+                });
+                
+                document.getElementById('reset-world').addEventListener('click', () => {
+                    this.resetWorld();
+                });
+                
+                document.getElementById('games-trigger').addEventListener('click', () => {
+                    this.toggleGames();
+                });
+                
+                document.getElementById('close-games').addEventListener('click', () => {
+                    this.closeGames();
+                });
+                
+                document.addEventListener('mousemove', (e) => {
+                    this.mouseX = e.clientX / window.innerWidth;
+                    this.mouseY = e.clientY / window.innerHeight;
+                });
+            }
+            
+            generateStars() {
+                this.stars = [];
+                const count = Math.min(Math.floor((window.innerWidth * window.innerHeight) / 2000), 300);
+                for (let i = 0; i < count; i++) {
+                    this.stars.push({
+                        x: Math.random() * this.canvas.width,
+                        y: Math.random() * this.canvas.height,
+                        radius: Math.random() * 1.5 + 0.5,
+                        speed: Math.random() * 0.3 + 0.1,
+                        phase: Math.random() * Math.PI * 2
+                    });
+                }
+            }
+            
+            startClock() {
+                this.updateClock();
+                setInterval(() => this.updateClock(), 1000);
+            }
+            
+            updateClock() {
+                const now = new Date();
+                const h = String(now.getHours()).padStart(2, '0');
+                const m = String(now.getMinutes()).padStart(2, '0');
+                const time = `${h}:${m}`;
+                
+                let icon = '🌙';
+                const hour = parseInt(h);
+                if (hour >= 6 && hour < 12) icon = '☀️';
+                else if (hour >= 12 && hour < 18) icon = '🌆';
+                else if (hour >= 18 && hour < 23) icon = '🌅';
+                else icon = '🌙';
+                
+                this.clock.textContent = `${icon} ${time}`;
+                
+                // أحداث زمنية
+                if (time === '23:00' || time === '23:01') {
+                    this.showMessage('🌕 القمر الأحمر يظهر...');
+                    this.addEcho();
+                }
+                if (time === '03:00' || time === '03:01') {
+                    this.showMessage('🌀 المنطقة السرية تفتح...');
+                    this.addEcho();
+                }
+            }
+            
+            spawnIslands() {
+                const container = document.getElementById('world-container');
+                
+                ISLAND_TYPES.forEach((type, index) => {
+                    const el = document.createElement('div');
+                    el.className = 'island-item';
+                    el.dataset.index = index;
+                    el.dataset.revealed = 'false';
+                    el.innerHTML = `
+                        <span class="island-icon">${type.icon}</span>
+                        <span class="island-name">${type.name}</span>
+                    `;
+                    
+                    const x = 15 + Math.random() * 70;
+                    const y = 15 + Math.random() * 70;
+                    
+                    el.style.cssText = `
+                        position: absolute;
+                        width: 120px;
+                        height: 80px;
+                        background: radial-gradient(ellipse at 30% 30%, ${type.color}33, rgba(20,15,40,0.9));
+                        border-radius: 40% 40% 30% 30% / 20% 20% 50% 50%;
+                        border: 1px solid ${type.color}44;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        cursor: grab;
+                        transition: all 0.3s ease;
+                        pointer-events: all;
+                        font-size: 0.7rem;
+                        color: ${type.color};
+                        text-shadow: 0 0 20px ${type.color}33;
+                        box-shadow: 0 0 30px ${type.color}11;
+                        left: ${x}%;
+                        top: ${y}%;
+                        opacity: 0;
+                        transform: scale(0) rotate(${Math.random() * 360}deg);
+                        animation-delay: ${2000 + index * 400}ms;
+                    `;
+                    
+                    el.addEventListener('click', () => {
+                        if (el.dataset.revealed === 'true') return;
+                        el.dataset.revealed = 'true';
+                        this.addEcho();
+                        this.showMessage(`🗺️ اكتشفت ${type.name} ${type.icon}`);
+                        el.style.transform = 'scale(1.3)';
+                        el.style.boxShadow = `0 0 80px ${type.color}66`;
+                        setTimeout(() => {
+                            el.style.transform = 'scale(1)';
+                        }, 600);
+                    });
+                    
+                    // سحب الجزر
+                    let dragged = false;
+                    let offsetX, offsetY;
+                    
+                    el.addEventListener('mousedown', (e) => {
+                        dragged = true;
+                        const rect = el.getBoundingClientRect();
+                        offsetX = e.clientX - rect.left;
+                        offsetY = e.clientY - rect.top;
+                        el.style.cursor = 'grabbing';
+                        el.style.zIndex = '100';
+                        el.style.position = 'fixed';
+                    });
+                    
+                    document.addEventListener('mousemove', (e) => {
+                        if (!dragged) return;
+                        el.style.left = `${e.clientX - offsetX}px`;
+                        el.style.top = `${e.clientY - offsetY}px`;
+                    });
+                    
+                    document.addEventListener('mouseup', () => {
+                        if (dragged) {
+                            dragged = false;
+                            el.style.cursor = 'grab';
+                            el.style.zIndex = '1';
+                        }
+                    });
+                    
+                    container.appendChild(el);
+                    this.islands.push(el);
+                });
+            }
+            
+            setupGames() {
+                const grid = document.getElementById('games-grid');
+                grid.innerHTML = '';
+                
+                Object.entries(GAMES).forEach(([key, game]) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'game-btn';
+                    btn.innerHTML = `
+                        <div class="row">
+                            <span class="icon">${game.icon}</span>
+                            <div>
+                                <div class="name">${game.name}</div>
+                                <div class="desc">${game.desc}</div>
+                                <div class="reward">+${game.reward} آثار</div>
+                            </div>
+                        </div>
+                    `;
+                    btn.addEventListener('click', () => this.startGame(key, game));
+                    grid.appendChild(btn);
+                });
+            }
+            
+            toggleGames() {
+                this.gamesPanel.classList.toggle('open');
+                if (this.gamesPanel.classList.contains('open')) {
+                    this.showMessage('🎮 فتحت بوابة الألعاب...');
+                }
+            }
+            
+            closeGames() {
+                this.gamesPanel.classList.remove('open');
+            }
+            
+            startGame(gameId, game) {
+                this.closeGames();
+                this.showMessage(`🎯 بدأت لعبة ${game.name}...`);
+                this.addEcho();
+                
+                // شريط تقدم
+                const container = document.createElement('div');
+                container.style.cssText = `
+                    position: fixed; bottom: 180px; left: 50%;
+                    transform: translateX(-50%);
+                    width: 300px; max-width: 80%;
+                    background: rgba(30,20,60,0.8);
+                    border-radius: 20px; padding: 4px;
+                    border: 1px solid rgba(150,100,255,0.2);
+                    z-index: 100;
+                `;
+                const bar = document.createElement('div');
+                bar.style.cssText = `
+                    height: 8px;
+                    background: linear-gradient(90deg, #7b68ee, #b8a0ff);
+                    border-radius: 20px;
+                    width: 0%;
+                    transition: width 0.1s ease;
+                `;
+                container.appendChild(bar);
+                document.body.appendChild(container);
+                
+                let progress = 0;
+                const duration = 2000 + Math.random() * 2000;
+                const interval = setInterval(() => {
+                    progress += 5;
+                    bar.style.width = `${Math.min(progress, 100)}%`;
+                }, duration / 20);
+                
+                setTimeout(() => {
+                    clearInterval(interval);
+                    const win = Math.random() > 0.3;
+                    if (win) {
+                        const reward = game.reward + Math.floor(Math.random() * 2);
+                        this.showMessage(`🏆 فزت! +${reward} آثار`);
+                        for (let i = 0; i < reward; i++) this.addEcho();
+                    } else {
+                        this.showMessage(`💪 قريب... حاول مجددًا`);
+                        this.addEcho();
+                    }
+                    container.remove();
+                    
+                    // لعبة البرمجة
+                    if (gameId === 'programming' && win) {
+                        this.showProgrammingGame();
+                    }
+                    
+                    setTimeout(() => this.toggleGames(), 1000);
+                }, duration + 500);
+            }
+            
+            showProgrammingGame() {
+                const blocks = ['START', 'MOVE', 'TURN', 'JUMP', 'GOAL'];
+                const container = document.createElement('div');
+                container.id = 'programming-blocks';
+                container.innerHTML = `
+                    <div style="width:100%;text-align:center;color:rgba(200,180,255,0.6);font-size:0.8rem;margin-bottom:8px;">
+                        ⚙️ ابني المسار: START → MOVE → MOVE → TURN → MOVE → GOAL
+                    </div>
+                `;
+                
+                blocks.forEach(block => {
+                    const btn = document.createElement('button');
+                    btn.className = 'block-btn';
+                    btn.textContent = block;
+                    btn.addEventListener('click', () => {
+                        btn.style.background = 'rgba(100,80,200,0.6)';
+                        this.showMessage(`📦 وضعت: ${block}`);
+                        this.addEcho();
+                        setTimeout(() => {
+                            btn.style.background = '';
+                        }, 500);
+                    });
+                    container.appendChild(btn);
+                });
+                
+                const close = document.createElement('button');
+                close.className = 'block-btn';
+                close.textContent = '✕ إغلاق';
+                close.style.background = 'rgba(60,40,120,0.3)';
+                close.addEventListener('click', () => container.remove());
+                container.appendChild(close);
+                
+                document.body.appendChild(container);
+            }
+            
+            addEcho() {
+                this.echoCount++;
+                this.echoDisplay.textContent = this.echoCount;
+                this.saveEchoes();
+            }
+            
+            saveEchoes() {
+                try {
+                    localStorage.setItem('echo_world_data', JSON.stringify({
+                        count: this.echoCount,
+                        discovered: Array.from(this.discovered)
+                    }));
+                } catch(e) {}
+            }
+            
+            loadEchoes() {
+                try {
+                    const data = JSON.parse(localStorage.getItem('echo_world_data'));
+                    if (data) {
+                        this.echoCount = data.count || 0;
+                        this.discovered = new Set(data.discovered || []);
+                        this.echoDisplay.textContent = this.echoCount;
+                        if (this.discovered.size > 0) {
+                            this.showMessage(`👣 مرحبًا بعودتك... لديك ${this.echoCount} أثر`);
+                        }
+                    }
+                } catch(e) {}
+            }
+            
+            resetWorld() {
+                this.echoCount = 0;
+                this.discovered.clear();
+                this.echoDisplay.textContent = '0';
+                localStorage.removeItem('echo_world_data');
+                this.showMessage('🌀 أعيد تشكيل العالم...');
+                
+                this.islands.forEach(el => {
+                    el.dataset.revealed = 'false';
+                    el.style.transform = 'scale(1)';
+                    el.style.boxShadow = '';
+                    const x = 15 + Math.random() * 70;
+                    const y = 15 + Math.random() * 70;
+                    el.style.left = `${x}%`;
+                    el.style.top = `${y}%`;
+                });
+            }
+            
+            showMessage(text) {
+                this.messages.textContent = text;
+                this.messages.classList.add('visible');
+                clearTimeout(this.msgTimeout);
+                this.msgTimeout = setTimeout(() => {
+                    this.messages.classList.remove('visible');
+                }, 3000);
+            }
+            
+            animate() {
+                this.draw();
+                requestAnimationFrame(() => this.animate());
+            }
+            
+            draw() {
+                const ctx = this.ctx;
+                const w = this.canvas.width;
+                const h = this.canvas.height;
+                
+                ctx.clearRect(0, 0, w, h);
+                
+                this.stars.forEach(star => {
+                    const opacity = 0.5 + 0.5 * Math.sin(Date.now() / 1000 * star.speed + star.phase);
+                    ctx.beginPath();
+                    ctx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(200, 180, 255, ${opacity * 0.6})`;
+                    ctx.fill();
+                    
+                    if (star.radius > 1.2) {
+                        ctx.shadowColor = 'rgba(150, 100, 255, 0.2)';
+                        ctx.shadowBlur = 10;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                    }
+                });
+                
+                const grad = ctx.createRadialGradient(
+                    w * this.mouseX, h * this.mouseY, 0,
+                    w * this.mouseX, h * this.mouseY, w * 0.6
+                );
+                grad.addColorStop(0, `rgba(100, 50, 150, ${0.02 + 0.02 * Math.sin(Date.now() / 5000)})`);
+                grad.addColorStop(1, 'rgba(0,0,0,0)');
+                ctx.fillStyle = grad;
+                ctx.fillRect(0, 0, w, h);
+            }
+        }
+
+        // ==================== التشغيل ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            const world = new EchoWorld();
+            window.world = world;
+            
+            // محاكاة زوار سابقين
+            setTimeout(() => {
+                if (world.echoCount === 0) {
+                    const visitors = Math.floor(Math.random() * 3) + 1;
+                    if (visitors > 1) {
+                        world.showMessage(`👥 ${visitors} زوار سبقوك...`);
+                        for (let i = 0; i < visitors; i++) world.addEcho();
+                    }
+                }
+            }, 2000);
+        });
+    </script>
+</body>
+</html>
