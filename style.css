@@ -53,6 +53,16 @@ body {
     background: #2ea043;
 }
 
+.actions .ai-btn {
+    background: #6f42c1;
+    border-color: #8b5cf6;
+    color: white;
+}
+
+.actions .ai-btn:hover {
+    background: #8b5cf6;
+}
+
 /* المحرر */
 .editor {
     display: flex;
@@ -89,6 +99,53 @@ body {
 .elements div:hover, .templates div:hover {
     background: #30363d;
     border-color: #58a6ff;
+}
+
+/* أزرار المشاريع */
+.projects {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.projects button {
+    padding: 8px 14px;
+    border-radius: 6px;
+    border: 1px solid #30363d;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 13px;
+}
+
+.save-btn {
+    background: #238636;
+    color: white;
+    border-color: #2ea043;
+}
+
+.save-btn:hover {
+    background: #2ea043;
+}
+
+.load-btn {
+    background: #1f6feb;
+    color: white;
+    border-color: #388bfd;
+}
+
+.load-btn:hover {
+    background: #388bfd;
+}
+
+.list-btn {
+    background: #6f42c1;
+    color: white;
+    border-color: #8b5cf6;
+}
+
+.list-btn:hover {
+    background: #8b5cf6;
 }
 
 /* منطقة العمل */
@@ -151,6 +208,7 @@ body {
     cursor: pointer;
     transition: 0.2s;
     position: relative;
+    width: 100%;
 }
 
 .element-item:hover {
@@ -179,4 +237,269 @@ body {
 
 .element-item:hover .delete-btn {
     display: block;
+}
+
+/* ===== نافذة AI ===== */
+.modal {
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background: #161b22;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    padding: 30px;
+    max-width: 600px;
+    width: 90%;
+    max-height: 90vh;
+    overflow-y: auto;
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    font-size: 28px;
+    cursor: pointer;
+    color: #8b949e;
+}
+
+.close:hover {
+    color: #e6edf3;
+}
+
+.modal-content h2 {
+    color: #58a6ff;
+    margin-bottom: 16px;
+}
+
+.modal-content textarea {
+    width: 100%;
+    padding: 12px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 6px;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.ai-options {
+    margin: 16px 0;
+}
+
+.ai-options label {
+    display: block;
+    margin-bottom: 6px;
+    color: #8b949e;
+}
+
+.ai-options select {
+    width: 100%;
+    padding: 10px;
+    background: #0d1117;
+    border: 1px solid #30363d;
+    color: #e6edf3;
+    border-radius: 6px;
+}
+
+.generate-btn {
+    width: 100%;
+    padding: 12px;
+    background: #6f42c1;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.generate-btn:hover {
+    background: #8b5cf6;
+}
+
+#aiResult {
+    margin-top: 20px;
+    padding: 16px;
+    background: #0d1117;
+    border-radius: 6px;
+    border: 1px solid #30363d;
+}
+
+.ai-loading {
+    text-align: center;
+    color: #58a6ff;
+}
+
+.ai-loading::after {
+    content: '...';
+    animation: dots 1.5s steps(4) infinite;
+}
+
+@keyframes dots {
+    0% { content: ''; }
+    25% { content: '.'; }
+    50% { content: '..'; }
+    75% { content: '...'; }
+}
+
+/* ========== تصميم متجاوب للجوال ========== */
+
+@media (max-width: 1024px) {
+    .editor {
+        flex-direction: column;
+        height: auto;
+    }
+
+    .sidebar {
+        width: 100%;
+        border-left: none;
+        border-bottom: 1px solid #30363d;
+        display: flex;
+        flex-wrap: wrap;
+        padding: 10px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+
+    .sidebar h3 {
+        width: 100%;
+        margin: 8px 0 4px;
+        font-size: 12px;
+    }
+
+    .elements, .templates, .projects {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .elements div, .templates div, .projects button {
+        flex: 1;
+        min-width: 60px;
+        text-align: center;
+        font-size: 13px;
+        padding: 8px 10px;
+        margin-bottom: 0;
+    }
+
+    .canvas {
+        min-height: 400px;
+        padding: 12px;
+    }
+
+    .properties {
+        width: 100%;
+        border-right: none;
+        border-top: 1px solid #30363d;
+        max-height: 250px;
+        overflow-y: auto;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 8px;
+        padding: 10px 16px;
+    }
+
+    .logo {
+        font-size: 18px;
+    }
+
+    .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        width: 100%;
+    }
+
+    .actions button {
+        flex: 1;
+        min-width: 60px;
+        font-size: 12px;
+        padding: 6px 12px;
+        margin-right: 0;
+    }
+
+    .element-item {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+
+    .modal-content {
+        padding: 20px;
+        margin: 10px;
+        width: 95%;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        max-height: 150px;
+        padding: 8px;
+    }
+
+    .elements div, .templates div, .projects button {
+        font-size: 11px;
+        padding: 6px 8px;
+        min-width: 50px;
+    }
+
+    .canvas {
+        min-height: 300px;
+        padding: 8px;
+    }
+
+    .properties {
+        max-height: 200px;
+        padding: 10px;
+    }
+
+    .modal-content {
+        padding: 16px;
+    }
+
+    .modal-content h2 {
+        font-size: 18px;
+    }
+
+    .element-item .delete-btn {
+        display: block;
+        width: 28px;
+        height: 28px;
+        font-size: 14px;
+        top: -10px;
+        left: -10px;
+    }
+}
+
+/* تحسينات للشاشات التي تعمل باللمس */
+@media (hover: none) {
+    .element-item:hover {
+        border-color: #30363d;
+    }
+
+    .element-item.selected {
+        border-color: #58a6ff;
+    }
+
+    .element-item .delete-btn {
+        display: block;
+        width: 30px;
+        height: 30px;
+        top: -12px;
+        left: -12px;
+    }
 }
